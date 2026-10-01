@@ -2,24 +2,192 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Amrit Chana</title>
-<meta name="description" content="Amrit Chana. Email amrit@amritchana.com.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amrit Chana, AI for owner-led Chicago firms</title>
+<meta name="description" content="I find where AI saves your firm time or money, then build and maintain the fixes worth building. For owner-led Chicago firms of 50 to 250 people.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{color-scheme:light dark}
-  body{margin:0;min-height:100vh;display:grid;place-items:center;font:17px/1.6 ui-sans-serif,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;background:#fafaf8;color:#1b1b1a}
-  main{padding:2rem;max-width:32rem}
-  h1{font-size:1.9rem;letter-spacing:-.01em;margin:0 0 .4rem}
-  p{margin:.25rem 0;color:#55554f}
-  a{color:#1b1b1a;text-underline-offset:3px}
-  @media (prefers-color-scheme:dark){body{background:#141413;color:#ececea}p{color:#a8a8a2}a{color:#ececea}}
+  :root{
+    --paper:#EEF1EC;   /* ledger paper, cool green-grey */
+    --sheet:#FBFCFA;   /* the timesheet itself */
+    --ink:#1B2433;     /* navy ink */
+    --soft:#56606F;    /* secondary text */
+    --rule:#C9D4CB;    /* ledger rule */
+    --pencil:#C2362B;  /* auditor's red pencil */
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 18px/1.6 "Schibsted Grotesk",system-ui,sans-serif;font-feature-settings:"tnum" 0}
+  a{color:var(--ink);text-decoration-thickness:1px;text-underline-offset:3px}
+  a:focus-visible,.cta:focus-visible{outline:3px solid var(--pencil);outline-offset:3px}
+  .page{max-width:1120px;margin:0 auto;padding:0 28px}
+
+  .top{display:flex;justify-content:space-between;align-items:baseline;padding:26px 0}
+  .top strong{font-weight:700;font-size:17px}
+  .top a{font-size:15px;color:var(--soft)}
+
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;padding:56px 0 96px}
+  h1{font-weight:800;font-size:clamp(40px,5.6vw,68px);line-height:1.02;letter-spacing:-.035em;margin:0 0 28px;max-width:12ch}
+  .lede{font-size:20px;line-height:1.55;color:var(--soft);max-width:34em;margin:0 0 34px}
+  .cta{display:inline-block;background:var(--ink);color:var(--sheet);text-decoration:none;font-weight:600;padding:15px 24px;border-radius:4px}
+  .cta:hover{background:#000}
+  .after{font-size:15px;color:var(--soft);margin:14px 0 0}
+
+  /* the timesheet: the one memorable thing */
+  .sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:3px;padding:22px 24px 18px;box-shadow:0 1px 0 var(--rule),0 18px 40px -24px rgba(27,36,51,.35);transform:rotate(.6deg)}
+  .sheet h2{font-size:15px;font-weight:600;margin:0 0 10px;letter-spacing:0}
+  .sheet table{width:100%;border-collapse:collapse;font-size:15.5px}
+  .sheet td{padding:9px 0;border-top:1px solid var(--rule);vertical-align:top}
+  .sheet td.h{text-align:right;font-variant-numeric:tabular-nums;width:3.5em;color:var(--soft)}
+  .sheet tr.leak td:first-child span{background-image:linear-gradient(var(--pencil),var(--pencil));background-repeat:no-repeat;background-position:0 100%;background-size:100% 2px;padding-bottom:3px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .sheet tr.leak td.h{color:var(--pencil);font-weight:600}
+  .sheet .total td{border-top:2px solid var(--ink);font-weight:600;padding-top:11px}
+  .sheet .total td.h{color:var(--pencil)}
+  .sheet .note{font-size:13.5px;color:var(--soft);margin:12px 0 0;line-height:1.45}
+  @media (prefers-reduced-motion:no-preference){
+    .sheet tr.leak td:first-child span{animation:mark .7s cubic-bezier(.6,.05,.3,1) both}
+    .sheet tr.leak:nth-child(2) span{animation-delay:.4s}
+    .sheet tr.leak:nth-child(3) span{animation-delay:.7s}
+    .sheet tr.leak:nth-child(5) span{animation-delay:1s}
+    .sheet tr.leak:nth-child(6) span{animation-delay:1.3s}
+    @keyframes mark{from{background-size:0 2px}to{background-size:100% 2px}}
+  }
+
+  .band{border-top:1px solid var(--rule);padding:72px 0}
+  .band .inner{display:grid;grid-template-columns:280px 1fr;gap:48px}
+  .band h2{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin:0}
+  .band p{margin:0 0 16px;max-width:36em}
+  .band p:last-child{margin-bottom:0}
+
+  .marks{list-style:none;margin:0;padding:0;max-width:36em}
+  .marks li{position:relative;padding:0 0 18px 34px}
+  .marks li::before{content:"";position:absolute;left:0;top:.62em;width:18px;height:2px;background:var(--pencil);border-radius:2px}
+
+  .steps{margin:0;padding:0;list-style:none;counter-reset:s;max-width:36em}
+  .steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;padding:0 0 26px}
+  .steps li::before{content:counter(s);font-weight:800;font-size:26px;line-height:1.1;color:var(--pencil);font-variant-numeric:tabular-nums}
+  .steps b{display:block;font-weight:700}
+
+  .close{padding:88px 0 96px;border-top:1px solid var(--rule)}
+  .close h2{font-weight:800;font-size:clamp(32px,4vw,48px);letter-spacing:-.03em;line-height:1.05;margin:0 0 18px;max-width:16ch}
+  .close p{color:var(--soft);max-width:34em;margin:0 0 30px}
+
+  footer{border-top:1px solid var(--rule);padding:26px 0 40px;font-size:15px;color:var(--soft);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer a{color:var(--soft)}
+
+  @media (max-width:880px){
+    .hero{grid-template-columns:1fr;gap:44px;padding:28px 0 64px}
+    .sheet{transform:none}
+    .band{padding:52px 0}
+    .band .inner{grid-template-columns:1fr;gap:20px}
+    .close{padding:60px 0 68px}
+  }
+  @media (max-width:480px){
+    body{font-size:17px}
+    .page{padding:0 20px}
+    .lede{font-size:18px}
+    .sheet{padding:18px 16px 14px}
+    .sheet table{font-size:14px}
+    .sheet td{padding:6px 0}
+    .sheet h2{font-size:14px}
+    .hero{gap:32px}
+  }
+
+  .who{display:flex;gap:14px;align-items:center;margin:26px 0 0}
+  .who img{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:50% 30%;flex:none}
+  .who span{font-size:15px;color:var(--soft);line-height:1.4}
+  .who b{color:var(--ink);font-weight:600;display:block}
+  .portrait{width:100%;max-width:220px;aspect-ratio:4/5;object-fit:cover;border-radius:3px;display:block;margin-top:22px;filter:saturate(.9)}
+  @media (max-width:880px){.portrait{max-width:160px}}
 </style>
 </head>
 <body>
-<main>
-  <h1>Amrit Chana</h1>
-  <p>The full site is on its way.</p>
-  <p>Email: <a href="mailto:amrit@amritchana.com">amrit@amritchana.com</a></p>
-</main>
+<div class="page">
+  <header class="top">
+    <strong>Amrit Chana</strong>
+    <a href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Where could AI save your firm time?</h1>
+        <p class="lede">I find the work in your firm that AI can take off people's plates, build the few fixes worth building, and keep them running. For owners and managing partners of Chicago firms with 50–249 people.</p>
+        <a class="cta" href="mailto:amrit@amritchana.com?subject=Free%20preview%20for%20my%20firm">Email me for a free preview</a>
+        <p class="after" style="max-width:34em">Send your firm's name or website. I'll reply with a short note on where AI might save time, what I'd investigate first, and what I can't tell from the outside. No call or access to your systems needed.</p>
+        <div class="who"><img src="assets/amrit-b.jpg" alt="Amrit Chana"><span><b>Amrit Chana</b>Independent AI consultant in Chicago</span></div>
+      </div>
+
+      <figure class="sheet" aria-label="Example timesheet">
+        <h2>Illustrative example: an accounting firm's morning</h2>
+        <table>
+          <tr><td>Client call about a tax notice</td><td class="h">0.8</td></tr>
+          <tr class="leak"><td><span>Re-key client documents into the tax software</span></td><td class="h">0.4</td></tr>
+          <tr class="leak"><td><span>Find last year's workpapers on the shared drive</span></td><td class="h">0.3</td></tr>
+          <tr><td>Review a return before sign-off</td><td class="h">0.6</td></tr>
+          <tr class="leak"><td><span>Copy invoice totals into the billing tracker</span></td><td class="h">0.5</td></tr>
+          <tr class="leak"><td><span>Answer three “where is this at?” emails</span></td><td class="h">0.4</td></tr>
+          <tr class="total"><td>Time worth investigating</td><td class="h">1.6</td></tr>
+        </table>
+        <p class="note">Red marks show tasks to investigate. Actual savings would need to be measured.</p>
+      </figure>
+    </section>
+
+    <section class="band">
+      <div class="inner">
+        <h2>Sound familiar?</h2>
+        <ul class="marks">
+          <li>The work that keeps the firm running lives in one or two people's heads.</li>
+          <li>Your best people spend hours a week copying things from one system into another.</li>
+          <li>Someone bought an AI tool last year. Nobody is sure what it does now.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="inner">
+        <h2>Who this is for</h2>
+        <div>
+          <p>Owner-, founder- or family-led firms in the Chicago area with 50 to 249 people: law, accounting, engineering, architecture, distribution and similar.</p>
+          <p>You make the decision yourself, without a procurement department.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="inner">
+        <h2>How it works</h2>
+        <ol class="steps">
+          <li><div><b>Free preview</b>Send me your firm's name or website. I'll reply with a short note on where AI might save time, what I'd investigate first, and what I can't tell from the outside. No call or access to your systems needed.</div></li>
+          <li><div><b>Paid audit</b>If the preview is useful, I interview your leadership and staff, map where time and accuracy are lost, and give you a ranked plan. I measure how much time the work takes, rank the opportunities, and test whether a fix saves time.</div></li>
+          <li><div><b>Build and maintain</b>We build the top fix first. It comes with upkeep, so it keeps working as the tools change.</div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="inner">
+        <div><h2>Why trust me</h2><img class="portrait" src="assets/amrit-b.jpg" alt="Amrit Chana"></div>
+        <div>
+          <p>I run my own business on the same kind of system I would build for you. It finds and researches prospects, drafts and follows up on my outreach, and answers questions from my own records with the sources shown.</p>
+          <p>I don't have client case studies yet. I can show you the system I use to run my own business, including how it answers questions from my records with sources attached.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="close">
+      <h2>Find out where your firm's hours go.</h2>
+      <p>Email me your firm's name or website and I'll send your free preview.</p>
+      <a class="cta" href="mailto:amrit@amritchana.com?subject=Free%20preview%20for%20my%20firm">Email me for a free preview</a>
+    </section>
+  </main>
+
+  <footer>
+    <span>Amrit Chana, Chicago</span>
+    <a href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
+  </footer>
+</div>
 </body>
 </html>
