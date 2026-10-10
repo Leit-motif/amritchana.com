@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amrit Chana, AI consulting in Chicago</title>
+<meta name="description" content="Amrit Chana, independent AI consultant in Chicago. I find the routine work AI or a plain automation can take off your team, then build the fix and keep it working.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0D0E10">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="frames/d/f000.webp" media="(min-aspect-ratio: 9/10)">
+<link rel="preload" as="image" href="frames/m/f000.webp" media="(max-aspect-ratio: 9/10)">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  /* Direction: "After hours". Dark, one accent (the lamp), one scroll moment. */
+  :root{
+    --canvas:#0D0E10;      /* the office before dawn, not pure black */
+    --ink:#ECE8E1;         /* warm paper white */
+    --ink-soft:#A8A39A;    /* tinted secondary */
+    --ink-dim:rgba(236,232,225,.78);
+    --rule:rgba(236,232,225,.12);
+    --accent:#F2A65A;      /* the desk lamp */
+    --accent-hi:#F7BC7E;
+    --accent-ink:#1A1208;
+    --ease-out:cubic-bezier(.23,1,.32,1);
+    --font:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --gutter:clamp(20px,5.2vw,80px);
+    --maxw:1320px;
+    --hero-h:270svh;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--canvas);color-scheme:dark;-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--canvas);color:var(--ink);font:400 18px/1.65 var(--font);letter-spacing:.004em;overflow-x:clip}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration-thickness:1px;text-underline-offset:4px;text-decoration-color:rgba(236,232,225,.35);transition:text-decoration-color .16s var(--ease-out),color .16s var(--ease-out)}
+  a:hover{text-decoration-color:currentColor}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:3px}
+  ::selection{background:var(--accent);color:var(--accent-ink)}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
+
+  /* header: a static line over the scene, not fixed chrome */
+  .top{position:absolute;inset:0 0 auto 0;z-index:5}
+  .top .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-top:28px;padding-bottom:28px}
+  .top strong{font-weight:600;font-size:16px;letter-spacing:-.005em}
+  .top a{font-size:15px;color:var(--ink-dim);text-decoration:none}
+  .top a:hover{color:var(--ink)}
+
+  /* hero: one sticky scene, the copy scrolls over it at 1x */
+  .hero{position:relative;min-height:100svh}
+  .motion .hero{height:var(--hero-h)}
+  .hero__stage{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--canvas)}
+  .hero__stage img,.hero__canvas{position:absolute;inset:0;width:100%;height:100%}
+  .hero__stage img{object-fit:cover;object-position:50% 42%;max-width:none}
+  .hero__canvas{opacity:0;transition:opacity .35s linear}
+  .hero.is-live .hero__canvas{opacity:1}
+  .hero__shade{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 95% at 55% 42%,rgba(13,14,16,0) 58%,rgba(13,14,16,.5) 100%)}
+  .hero__scrim{position:absolute;inset:0;pointer-events:none;background:
+      linear-gradient(90deg,rgba(13,14,16,.72) 0%,rgba(13,14,16,.46) 32%,rgba(13,14,16,0) 58%),
+      linear-gradient(0deg,rgba(13,14,16,.6) 0%,rgba(13,14,16,0) 46%)}
+  .hero__top{position:absolute;left:0;right:0;top:0;height:22%;pointer-events:none;background:linear-gradient(180deg,rgba(13,14,16,.6) 0%,rgba(13,14,16,0) 100%)}
+  .hero__fade{position:absolute;left:0;right:0;bottom:0;height:24%;pointer-events:none;background:linear-gradient(0deg,var(--canvas) 0%,rgba(13,14,16,.6) 45%,rgba(13,14,16,0) 100%)}
+  .hero__copy{position:absolute;inset:0 0 auto 0;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px 0 clamp(44px,9vh,104px);z-index:2}
+  .hero h1{font-weight:600;font-size:clamp(40px,4.9vw,74px);line-height:1.01;letter-spacing:-.036em;margin:0 0 26px;max-width:14.5ch;text-wrap:balance}
+  .lede{font-size:clamp(18px,1.42vw,20px);line-height:1.6;color:var(--ink-dim);max-width:34em;margin:0 0 32px;text-wrap:pretty}
+  .actions{display:flex;align-items:center;gap:14px 26px;flex-wrap:wrap}
+  .cta{display:inline-flex;align-items:center;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:600;font-size:16px;letter-spacing:.004em;line-height:1;padding:17px 24px;border-radius:6px;white-space:nowrap;box-shadow:0 12px 28px -14px rgba(242,166,90,.5);transition:background-color .16s var(--ease-out),transform .12s var(--ease-out)}
+  .cta:hover{background:var(--accent-hi)}
+  .cta:active{transform:translateY(1px)}
+  .cta:focus-visible{outline-color:var(--ink)}
+  .after{font-size:15px;line-height:1.5;color:rgba(236,232,225,.7);max-width:37ch;margin:0;text-wrap:pretty}
+  .who{display:flex;gap:14px;align-items:center;margin:32px 0 0}
+  .who img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:50% 30%;flex:none}
+  .who span{font-size:15px;line-height:1.45;color:rgba(236,232,225,.7)}
+  .who b{display:block;color:var(--ink);font-weight:500}
+
+  /* the morning on that desk */
+  .morning{position:relative;padding:clamp(28px,7vh,80px) 0 clamp(96px,15vh,170px)}
+  .morning h2{font-size:15px;font-weight:500;color:var(--ink-soft);letter-spacing:.01em;margin:0 0 22px}
+  .ledger{list-style:none;margin:0;padding:0;max-width:1000px;border-top:1px solid var(--rule)}
+  .ledger li{padding:20px 0 22px;border-bottom:1px solid var(--rule);font-size:clamp(21px,2.25vw,31px);line-height:1.28;letter-spacing:-.016em;color:rgba(236,232,225,.58)}
+  .ledger li.leak{color:var(--ink)}
+  .ledger li.leak span{background-image:linear-gradient(var(--accent),var(--accent));background-repeat:no-repeat;background-position:0 100%;background-size:100% 2px;padding-bottom:5px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+  /* calm editorial bands */
+  .band{border-top:1px solid var(--rule);padding:clamp(80px,13vh,150px) 0}
+  .split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,6vw,96px)}
+  .band h2{font-weight:600;font-size:clamp(28px,2.9vw,42px);line-height:1.08;letter-spacing:-.028em;margin:0;max-width:13ch;text-wrap:balance}
+  .band p{margin:0 0 18px;max-width:36em;color:var(--ink-dim);text-wrap:pretty}
+  .band p:last-child{margin-bottom:0}
+  .band .statement{font-size:clamp(25px,2.7vw,38px);line-height:1.24;letter-spacing:-.02em;color:var(--ink);max-width:24em}
+
+  /* close: the lamp's light, out of focus, holding one action */
+  .close{position:relative;overflow:hidden;border-top:1px solid var(--rule);padding:clamp(120px,21vh,230px) 0 clamp(120px,19vh,210px)}
+  .close__glow{position:absolute;right:-6%;top:50%;width:min(1180px,100vw);aspect-ratio:344/208;transform:translateY(-50%);background:url(img/lamp-glow.webp) center/cover no-repeat;opacity:.62;pointer-events:none;-webkit-mask-image:radial-gradient(closest-side,#000 40%,transparent 100%);mask-image:radial-gradient(closest-side,#000 40%,transparent 100%)}
+  .close .wrap{position:relative}
+  .close h2{font-weight:600;font-size:clamp(38px,4.6vw,68px);line-height:1.02;letter-spacing:-.035em;margin:0 0 20px;max-width:13ch;text-wrap:balance}
+  .close p{font-size:clamp(18px,1.42vw,20px);color:var(--ink-dim);margin:0 0 36px;max-width:34em}
+
+  footer{border-top:1px solid var(--rule)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:26px;padding-bottom:40px;font-size:15px;color:var(--ink-soft)}
+  footer a{color:var(--ink-soft)}
+  footer a:hover{color:var(--ink)}
+
+  /* entrances: once, short, opacity + 14px */
+  .js [data-reveal]>*{opacity:0;transform:translateY(14px)}
+  .js [data-reveal].is-in>*{opacity:1;transform:none;transition:opacity .62s var(--ease-out),transform .62s var(--ease-out)}
+  .js [data-reveal].is-in>*:nth-child(2){transition-delay:.07s}
+  .js [data-reveal].is-in>*:nth-child(3){transition-delay:.14s}
+  .js .ledger li.leak span{background-size:0 2px;transition:background-size .9s var(--ease-out)}
+  .js .is-in .ledger li.leak span{background-size:100% 2px}
+  .js .is-in .ledger li:nth-child(2) span{transition-delay:.25s}
+  .js .is-in .ledger li:nth-child(3) span{transition-delay:.45s}
+  .js .is-in .ledger li:nth-child(5) span{transition-delay:.65s}
+  .js .is-in .ledger li:nth-child(6) span{transition-delay:.85s}
+
+  @media (prefers-reduced-motion:reduce){
+    .js [data-reveal]>*{opacity:1;transform:none;transition:none}
+    .js .ledger li.leak span{background-size:100% 2px;transition:none}
+    .hero__canvas{display:none}
+  }
+
+  @media (max-width:880px){
+    .split{grid-template-columns:1fr;gap:20px}
+    .band h2{max-width:none}
+  }
+  @media (max-aspect-ratio:9/10){
+    :root{--hero-h:255svh}
+    .hero__stage img{object-position:50% 30%}
+    .hero__scrim{background:linear-gradient(0deg,rgba(13,14,16,.86) 0%,rgba(13,14,16,.62) 46%,rgba(13,14,16,0) 66%)}
+    .hero__copy{justify-content:flex-start;padding-top:max(45svh,300px);padding-bottom:56px}
+    .motion .morning{margin-top:-30svh;z-index:3}
+  }
+  @media (max-height:520px) and (min-aspect-ratio:9/10){
+    .hero__copy{justify-content:flex-start;padding-top:76px;padding-bottom:28px}
+    .hero h1{font-size:clamp(30px,4.2vw,40px);margin-bottom:14px}
+    .lede{font-size:16px;margin-bottom:18px}
+  }
+  @media (max-width:520px){
+    body{font-size:17px}
+    .top .wrap{padding-top:20px;padding-bottom:20px}
+    .top strong{font-size:15px}
+    .top a{font-size:14px}
+    .hero h1{font-size:clamp(34px,9.4vw,40px);margin-bottom:18px;letter-spacing:-.032em}
+    .lede{font-size:17px;line-height:1.55;margin-bottom:26px}
+    .actions{gap:14px}
+    .after{font-size:14.5px}
+    .ledger li{padding:16px 0 17px}
+    .close__glow{right:-40%;top:22%;width:150vw;opacity:.5}
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <strong>Amrit Chana</strong>
+    <a href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__stage">
+      <picture>
+        <source media="(max-aspect-ratio: 9/10)" srcset="frames/m/f000.webp" width="720" height="1440">
+        <img src="frames/d/f000.webp" width="1440" height="900" fetchpriority="high" alt="A dark open-plan office before dawn. One desk is still lit: a lamp, a glowing monitor and stacks of client files.">
+      </picture>
+      <canvas class="hero__canvas" aria-hidden="true"></canvas>
+      <div class="hero__shade"></div>
+      <div class="hero__scrim"></div>
+      <div class="hero__top"></div>
+      <div class="hero__fade"></div>
+    </div>
+    <div class="hero__copy">
+      <div class="wrap">
+        <h1 id="hero-title">Someone at your firm is re&#8209;keying data right now.</h1>
+        <p class="lede">I'm Amrit Chana, an independent AI consultant in Chicago. I find the routine work that AI, or a plain automation, can take off your team. Then I build the fix and keep it working.</p>
+        <div class="actions">
+          <a class="cta" href="mailto:amrit@amritchana.com?subject=About%20my%20firm">Email me your website</a>
+          <p class="after">I'll reply with a short note on where I'd look first. It's free, and you don't need to get on a call.</p>
+        </div>
+        <div class="who"><img src="../assets/amrit-b.jpg" alt="Amrit Chana" width="52" height="52"><span><b>Amrit Chana</b>I do the work myself. You won't be handed off.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="morning">
+    <figure class="wrap" aria-label="Illustrative example of a morning's work" data-reveal style="margin:0 auto">
+      <h2>Illustrative: a morning at an accounting firm</h2>
+      <ol class="ledger">
+        <li><span>Client call about a tax notice</span></li>
+        <li class="leak"><span>Re-key client documents into the tax software</span></li>
+        <li class="leak"><span>Find last year's workpapers on the shared drive</span></li>
+        <li><span>Review a return before sign-off</span></li>
+        <li class="leak"><span>Copy invoice totals into the billing tracker</span></li>
+        <li class="leak"><span>Answer three "where is this at?" emails</span></li>
+      </ol>
+    </figure>
+  </section>
+
+  <section class="band">
+    <div class="wrap split" data-reveal>
+      <h2>Start with one piece of work.</h2>
+      <div>
+        <p>If the note is useful, the next step is a paid review. I talk with the people doing the work, look first at the software you already pay for, and write a plan. Sometimes the answer is AI, sometimes a simpler automation, and sometimes nothing needs building.</p>
+        <p>When we build something, I count the time your people spend checking its output, not only the time it saves. I'll tell you where client data goes before anything is built, and I keep the fix working as your tools change.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap split" data-reveal>
+      <h2>An example from my own business.</h2>
+      <div>
+        <p class="statement">I run my business on a system that finds answers in my own records and shows where each one came from. I'm happy to walk you through it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="close">
+    <div class="close__glow" aria-hidden="true"></div>
+    <div class="wrap" data-reveal>
+      <h2>Have a piece of work in mind?</h2>
+      <p>Tell me what keeps taking up your team's time.</p>
+      <div><a class="cta" href="mailto:amrit@amritchana.com?subject=About%20my%20firm">Email Amrit</a></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Amrit Chana, Chicago</span>
+    <a href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
+  </div>
+</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Later sections: one short entrance each, once. Nothing re-hides.
+  const reveals = document.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window) || reduce.matches) {
+    reveals.forEach(el => el.classList.add('is-in'));
+  } else {
+    const io = new IntersectionObserver(entries => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.01 });
+    reveals.forEach(el => io.observe(el));
+  }
+
+  // The one scroll moment: a frame sequence scrubbed by the hero's scroll.
+  if (!window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const hero = document.querySelector('.hero');
+  const canvas = hero.querySelector('.hero__canvas');
+  const scrim = hero.querySelector('.hero__scrim');
+  const ctx = canvas.getContext('2d', { alpha: false });
+  const SETS = {
+    d: { key: 'd', n: 120, w: 1440, h: 900, fx: 0.5, fy: 0.42 },
+    m: { key: 'm', n: 100, w: 720, h: 1440, fx: 0.5, fy: 0.3 }
+  };
+  const cache = {};
+  let set = null, frames = null, want = 0, shown = -1, cw = 0, ch = 0;
+
+  function order(n) {            // coarse to fine, so early scrubs still have frames
+    const seen = new Set(), out = [];
+    for (const step of [16, 8, 4, 2, 1]) for (let i = 0; i < n; i += step) if (!seen.has(i)) { seen.add(i); out.push(i); }
+    if (!seen.has(n - 1)) out.push(n - 1);
+    return out;
+  }
+  function load(s) {
+    if (cache[s.key]) return cache[s.key];
+    const list = new Array(s.n).fill(null);
+    cache[s.key] = list;
+    const queue = order(s.n);
+    let active = 0;
+    const pump = () => {
+      while (active < 6 && queue.length) {
+        const i = queue.shift(); active++;
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = 'frames/' + s.key + '/f' + String(i).padStart(3, '0') + '.webp';
+        const done = ok => { active--; if (ok) { list[i] = img; if (s === set) draw(); } pump(); };
+        img.decode ? img.decode().then(() => done(true), () => done(false)) : (img.onload = () => done(true), img.onerror = () => done(false));
+      }
+    };
+    pump();
+    return list;
+  }
+  function nearest(i) {
+    if (!frames) return -1;
+    for (let d = 0; d < frames.length; d++) {
+      if (frames[i - d]) return i - d;
+      if (frames[i + d]) return i + d;
+    }
+    return -1;
+  }
+  function draw(force) {
+    const i = nearest(Math.max(0, Math.min(set.n - 1, Math.round(want))));
+    if (i < 0 || (i === shown && !force)) return;
+    const img = frames[i];
+    const s = Math.max(cw / set.w, ch / set.h);
+    const dw = set.w * s, dh = set.h * s;
+    ctx.drawImage(img, (cw - dw) * set.fx, (ch - dh) * set.fy, dw, dh);
+    shown = i;
+    hero.classList.add('is-live');
+  }
+  function size() {
+    const r = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cw = Math.max(1, Math.round(r.width * dpr)); ch = Math.max(1, Math.round(r.height * dpr));
+    if (canvas.width !== cw || canvas.height !== ch) { canvas.width = cw; canvas.height = ch; }
+    if (set) draw(true);
+  }
+
+  const mm = gsap.matchMedia();
+  mm.add({ wide: '(min-aspect-ratio: 9/10)', phone: '(max-aspect-ratio: 9/10)', reduce: '(prefers-reduced-motion: reduce)' }, c => {
+    if (c.conditions.reduce) return;            // static poster, no long scroll
+    document.documentElement.classList.add('motion');
+    set = c.conditions.phone ? SETS.m : SETS.d;
+    frames = load(set); shown = -1;
+    size();
+    const st = { f: 0 };
+    gsap.to(st, {
+      f: set.n - 1, ease: 'none',
+      onUpdate: () => { want = st.f; draw(); },
+      scrollTrigger: {
+        trigger: hero, start: 'top top',
+        end: () => '+=' + Math.round(hero.offsetHeight - innerHeight * 0.5),
+        scrub: 0.6, invalidateOnRefresh: true
+      }
+    });
+    gsap.to(scrim, {
+      opacity: 0, ease: 'none',
+      scrollTrigger: {
+        trigger: hero,
+        start: () => 'top top-=' + Math.round(innerHeight * 0.45),
+        end: () => '+=' + Math.round(innerHeight * 0.55),
+        scrub: true, invalidateOnRefresh: true
+      }
+    });
+    const onResize = () => size();
+    addEventListener('resize', onResize);
+    return () => {
+      removeEventListener('resize', onResize);
+      document.documentElement.classList.remove('motion');
+      hero.classList.remove('is-live');
+    };
+  });
+})();
+</script>
+</body>
+</html>
