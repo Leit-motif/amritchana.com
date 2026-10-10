@@ -39,6 +39,7 @@
     --cream:rgba(244,243,234,.97);
     --gold-rule:#c9ad55;
     --slip-gap:8px;
+    --stagger:calc(var(--dur-change) / 6);
     --pin-len:36svh;
   }
   *{box-sizing:border-box}
@@ -131,9 +132,15 @@
   /* Sorted is the resting state (and the state without JS). Unsorted is the pile as it left the ridge. */
   .sorter .slip{transition:transform var(--dur-change) var(--ease),background-color var(--dur-change) var(--ease),color var(--dur-change) var(--ease),box-shadow var(--dur-change) var(--ease)}
   .sorter .slip .tag{transition:color var(--dur-change) var(--ease)}
-  .sorter .swap > span,.sorter .lane-title{transition:opacity var(--dur-change) var(--ease),transform var(--dur-change) var(--ease)}
+  .sorter .lane-title{transition:opacity var(--dur-change) var(--ease)}
+  /* The line rewrites in two steps (old out fast, new in a stagger later), so the two never read as one smear. */
+  .sorter .swap__after{transition:opacity var(--dur-respond) var(--ease),transform var(--dur-change) var(--ease)}
+  .sorter .swap__before{transition:opacity var(--dur-change) var(--ease) var(--stagger),transform var(--dur-change) var(--ease) var(--stagger)}
+  .sorter.is-sorted .swap__before{transition:opacity var(--dur-respond) var(--ease) var(--d,0ms),transform var(--dur-change) var(--ease) var(--d,0ms)}
+  .sorter.is-sorted .swap__after{transition:opacity var(--dur-change) var(--ease) calc(var(--d,0ms) + var(--stagger)),transform var(--dur-change) var(--ease) calc(var(--d,0ms) + var(--stagger))}
+  /* The three gold chips leave their slips together, so on a phone (one column) they never pass over each other. */
   .sorter .chip{transition:opacity var(--dur-respond) var(--ease),transform var(--dur-change) var(--ease)}
-  .sorter.is-sorted .slip,.sorter.is-sorted .slip .tag,.sorter.is-sorted .swap > span,.sorter.is-sorted .chip,.sorter.is-sorted .lane-title{transition-delay:var(--d,0ms)}
+  .sorter.is-sorted .slip,.sorter.is-sorted .slip .tag,.sorter.is-sorted .chip,.sorter.is-sorted .lane-title{transition-delay:var(--d,0ms)}
   .sorter.is-sorted .slip{background:var(--cream);color:var(--card-ink);box-shadow:inset 0 0 0 1px rgba(255,255,255,.5),0 6px 16px rgba(0,0,0,.2);transform:none}
   .sorter.is-sorted .slip .tag{color:#4f6655}
   .sorter.is-sorted .swap__before{opacity:0;transform:translateX(-10px)}
@@ -408,11 +415,11 @@
               <li style="--x:0px;--r:-1.7deg;--d:320ms"><div class="slip"><span class="tag">Customer questions</span><span class="swap"><span class="swap__before" aria-hidden="true">Same answers, every day.</span><span class="swap__after">Answered from your policies.</span></span></div></li>
               <li style="--x:9px;--r:1.2deg;--d:400ms"><div class="slip"><span class="tag">Payments</span><span class="swap"><span class="swap__before" aria-hidden="true">Chased from memory.</span><span class="swap__after">Reminded on schedule.</span></span></div></li>
             </ol>
-            <h3 class="lane-title lane-title--person" id="lane-person" style="--d:160ms">A person decides</h3>
+            <h3 class="lane-title lane-title--person" id="lane-person" style="--d:320ms">A person decides</h3>
             <ol class="lane lane--person" aria-labelledby="lane-person">
-              <li data-from="0" style="--row:1;--d:160ms"><div class="chip"><span class="tag">Hot leads</span><span class="chip__text">Ring you.</span></div></li>
-              <li data-from="1" style="--row:2;--d:240ms"><div class="chip"><span class="tag">Odd orders</span><span class="chip__text">Wait for your approval.</span></div></li>
-              <li data-from="4" style="--row:5;--d:480ms"><div class="chip"><span class="tag">Complaints and refunds</span><span class="chip__text">Go to you.</span></div></li>
+              <li data-from="0" style="--row:1;--d:320ms"><div class="chip"><span class="tag">Hot leads</span><span class="chip__text">Ring you.</span></div></li>
+              <li data-from="1" style="--row:2;--d:320ms"><div class="chip"><span class="tag">Odd orders</span><span class="chip__text">Wait for your approval.</span></div></li>
+              <li data-from="4" style="--row:5;--d:320ms"><div class="chip"><span class="tag">Complaints and refunds</span><span class="chip__text">Go to you.</span></div></li>
             </ol>
           </div>
           <p class="caption__guard">A person approves anything that needs judgment.</p>
@@ -653,7 +660,7 @@
       const hold = 1 - settle((performance.now() - releaseAt) / CHANGE);
       riders.forEach((el, i) => {
         const a = from[i], b = to[i];
-        let e = smooth(clamp((p - (5 - i) * .06) / .7, 0, 1));
+        let e = smooth(clamp((p - (5 - i) * .045) / .775, 0, 1));
         e += (1 - e) * hold;
         const lift = Math.sin(Math.PI * e), side = i % 2 ? 1 : -1;
         el.style.width = (a.w + (b.w - a.w) * e).toFixed(1) + 'px';
@@ -692,7 +699,7 @@
             show(false, true, false);
             placeRiders(scrollY);
             requestAnimationFrame(releaseTick);
-          }, CHANGE);
+          }, CHANGE + CHANGE / 6);
         } else {
           if (sorted) setSorted(false, 'instant');
           show(false, true, false);
@@ -737,11 +744,14 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
     if ('ResizeObserver' in window) new ResizeObserver(remeasure).observe(steps);
     // In the valley the toggle shows the inbox or sorts it again; before the slips land it brings them in.
+    const bringIn = () => scrollTo({ top: Math.ceil(land) + 1, behavior: 'smooth' });
     toggle.addEventListener('click', () => {
       clearTimeout(sortTimer);
-      if (zone !== 'valley') { scrollTo({ top: Math.ceil(land) + 1, behavior: 'smooth' }); return; }
+      if (zone !== 'valley') { bringIn(); return; }
       setSorted(!sorted, 'animate');
     });
+    // Tabbing to the toggle mid-crossing would leave a slip over it: land the slips first.
+    toggle.addEventListener('focus', () => { if (zone !== 'valley' && toggle.matches(':focus-visible')) bringIn(); });
     measure();
     render();
   }
