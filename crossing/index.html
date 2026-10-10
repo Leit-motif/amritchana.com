@@ -3,785 +3,356 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Amrit Chana, AI consulting in Chicago</title>
-<meta name="description" content="Amrit Chana, independent AI consultant in Chicago. I find the routine work AI or a plain automation can take off your team, then build the fix and keep it working.">
+<title>Amrit Chana — AI consulting in Chicago</title>
+<meta name="description" content="Get back the hours your team spends chasing follow-ups. Practical AI consulting in Chicago, from a free note to a workflow that keeps working.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#0B0D0C">
+<meta name="theme-color" content="#101711">
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/d-frozen.webp" media="(min-aspect-ratio: 9/10)">
-<link rel="preload" as="image" href="img/m-frozen.webp" media="(max-aspect-ratio: 9/10)">
 <script>document.documentElement.classList.add('js')</script>
 <style>
-  /* THE CROSSING. Nature carries the feeling; a thin survey instrument carries the precision.
-     One accent (survey orange) belongs to the instrument and the buttons. One scroll moment. */
   :root{
-    --canvas:#0B0D0C;
-    --ink:#ECEDE7;
-    --ink-soft:#A3A9A1;
-    --ink-dim:rgba(236,237,231,.78);
-    --rule:rgba(236,237,231,.12);
-    --accent:#FF8A4C;
-    --accent-hi:#FFA474;
-    --accent-ink:#1A0D05;
-    --halo:rgba(9,11,10,.74);
-    --ease-out:cubic-bezier(.23,1,.32,1);
+    --ink:#f4f3ed;
+    --ink-muted:#e0e2da;
+    --forest:#142119;
+    --card:#f1f0e8;
+    --card-ink:#203329;
+    --card-muted:#43574a;
+    --gold:#e8cf83;
+    --gold-ink:#1e2a20;
     --sans:"Schibsted Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
     --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
-    --gutter:clamp(20px,5vw,76px);
-    --maxw:1360px;
-    --hero-h:300svh;
+    --gutter:clamp(20px,4.5vw,68px);
+    --maxw:1420px;
   }
   *{box-sizing:border-box}
-  html{background:var(--canvas);color-scheme:dark;-webkit-text-size-adjust:100%}
-  body{margin:0;background:var(--canvas);color:var(--ink);font:400 18px/1.65 var(--sans);letter-spacing:.003em;overflow-x:clip}
-  img{display:block;max-width:100%}
-  a{color:inherit;text-decoration-thickness:1px;text-underline-offset:4px;text-decoration-color:rgba(236,237,231,.35);transition:text-decoration-color .16s var(--ease-out),color .16s var(--ease-out)}
-  a:hover{text-decoration-color:currentColor}
-  :focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:3px}
-  ::selection{background:var(--accent);color:var(--accent-ink)}
-  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
+  html{background:#101711;color-scheme:dark;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:#101711;color:var(--ink);font:400 17px/1.55 var(--sans);letter-spacing:.002em;overflow-x:clip}
+  img{display:block;width:100%;height:100%;object-fit:cover}
+  a{color:inherit;text-decoration-thickness:1px;text-underline-offset:4px}
+  :focus-visible{outline:3px solid #f2d779;outline-offset:4px;border-radius:4px}
+  ::selection{background:#ead687;color:#182219}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-  /* ---------- hero: one held place, transformed under a survey instrument ---------- */
-  .hero{position:relative}
-  .motion .hero{height:var(--hero-h)}
-  .stage{position:relative;height:100svh;min-height:540px;margin-top:calc(-1 * max(100svh,540px));overflow:hidden;background:var(--canvas);isolation:isolate}
-  .motion .stage{position:sticky;top:0}
-  .cam{position:absolute;inset:0;transform-origin:66% 62%}
-  .plate,.gl,.survey{position:absolute;inset:0;width:100%;height:100%}
-  .plate img{width:100%;height:100%;object-fit:cover;max-width:none}
-  .plate--b{opacity:0}
-  .gl{opacity:0;transition:opacity .45s linear}
-  .is-live .gl{opacity:1}
-  .survey{overflow:visible;pointer-events:none}
-  .survey--m{display:none}
+  /* The four unaltered places are separate scenes. Without JS they simply stack. */
+  .journey{position:relative;background:#111812}
+  .journey__viewport{position:relative;isolation:isolate}
+  .journey__track{position:relative}
+  .journey__scene{position:relative;height:100svh;min-height:560px;overflow:hidden;isolation:isolate;background:#101711}
+  .journey__scene picture,.journey__image,.journey__shade{position:absolute;inset:0}
+  .journey__image img{width:100%;height:100%;object-fit:cover}
+  .scene--ice .journey__image img{object-position:50% 50%}
+  .scene--ridge .journey__image img{object-position:50% 48%}
+  .scene--valley .journey__image img{object-position:50% 50%}
+  .scene--forest .journey__image img{object-position:50% 50%}
+  .journey__shade{pointer-events:none;z-index:1}
+  .scene--ice .journey__shade{background:linear-gradient(90deg,rgba(7,11,13,.57) 0%,rgba(7,11,13,.28) 42%,rgba(7,11,13,0) 78%),linear-gradient(0deg,rgba(7,11,13,.62) 0%,rgba(7,11,13,.12) 48%,rgba(7,11,13,.18) 100%)}
+  .scene--ridge .journey__shade{background:linear-gradient(0deg,rgba(7,11,13,.2),transparent 56%)}
+  .scene--valley .journey__shade{background:linear-gradient(0deg,rgba(7,11,13,.22),transparent 55%)}
+  .scene--forest .journey__shade{background:linear-gradient(0deg,rgba(7,11,13,.28),transparent 58%)}
+  .site-header{position:absolute;z-index:5;top:0;left:0;right:0}
+  .site-header__inner{display:flex;justify-content:space-between;align-items:center;gap:18px;padding-block:24px;border-bottom:1px solid rgba(244,243,237,.24)}
+  .brand{font-size:15px;font-weight:600;letter-spacing:.01em;text-decoration:none;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+  .header-mail{font:400 12px/1.3 var(--mono);letter-spacing:.035em;text-decoration:none;color:rgba(244,243,237,.93);text-shadow:0 1px 8px rgba(0,0,0,.5)}
+  .hero-copy{position:absolute;z-index:2;left:0;right:0;bottom:clamp(60px,11vh,124px);pointer-events:none}
+  .hero-copy .wrap{padding-top:20px;padding-bottom:18px}
+  .eyebrow{margin:0 0 16px;font:500 11px/1.25 var(--mono);letter-spacing:.15em;text-transform:uppercase}
+  .hero-copy .eyebrow{color:#f0eee5}
+  .hero-copy h1{max-width:13ch;margin:0 0 21px;font-size:clamp(48px,7.6vw,100px);font-weight:700;line-height:.99;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 2px 18px rgba(0,0,0,.24)}
+  .hero-copy h1 span{display:block}
+  .hero-copy p:last-child{max-width:40em;margin:0;color:#f0f0eb;font-size:clamp(16px,1.34vw,19px);line-height:1.52;text-wrap:pretty;text-shadow:0 1px 12px rgba(0,0,0,.42)}
 
-  .ct{fill:none;stroke:var(--accent);stroke-width:1;vector-effect:non-scaling-stroke;opacity:.5}
-  .cl__t{font:400 9.5px/1 var(--mono);letter-spacing:.06em;fill:rgba(255,170,120,.9);paint-order:stroke;stroke:var(--halo);stroke-width:3px;stroke-linejoin:round}
-  .route--plan{stroke:var(--accent);opacity:.85;stroke-width:calc(1.5px * var(--u,1.05))}
-  .route{fill:none;stroke-linecap:round;stroke-linejoin:round}
-  .route--under{stroke:rgba(9,11,10,.5);stroke-width:calc(4.5px * var(--u,1.05))}
-  .route--line{stroke:var(--accent);stroke-width:calc(1.7px * var(--u,1.05))}
-  .mk__ring{fill:none;stroke:var(--accent);stroke-width:1.4}
-  .mk__dot,.mk__head{fill:var(--accent)}
-  .mk__x{fill:none;stroke:var(--accent);stroke-width:1.2}
-  .mk__t{font:500 10.5px/1 var(--mono);letter-spacing:.11em;fill:var(--accent);paint-order:stroke;stroke:var(--halo);stroke-width:3px;stroke-linejoin:round}
-  .mk__t:not(.mk__t--a){fill:rgba(255,190,150,.86);font-weight:400}
-  .mk__t--done{fill:var(--accent)!important;font-weight:500!important}
-  .mk--start .mk__t--a{fill:#8F3A12;stroke:rgba(236,237,231,.96);stroke-width:2.6px}
-  .js .mk--head{opacity:0}
+  /* Enhanced mode pins the world while a single camera pushes through the plate sequence. */
+  .flight .journey{height:435svh}
+  .flight .journey__viewport{position:sticky;top:0;height:100svh;min-height:560px;overflow:hidden}
+  .flight .journey__track{position:absolute;inset:-8%;width:116%;height:116%;transform-origin:50% 53%;will-change:transform}
+  .flight .journey__scene{position:absolute;inset:0;width:100%;height:100%;min-height:0;opacity:0;will-change:opacity}
+  .flight .scene--ice{opacity:1}
+  .flight .journey__image{will-change:transform}
+  .services .site-header{position:relative;top:auto;left:auto;right:auto;margin-bottom:clamp(30px,4vh,46px)}
+  .services .site-header__inner{padding:12px;border-radius:6px;background:rgba(7,15,10,.55);backdrop-filter:blur(4px)}
+  .flight .scene--ice .journey__image img{object-position:50% 50%}
+  .flight .scene--ridge .journey__image img{object-position:50% 48%}
+  .flight .scene--valley .journey__image img{object-position:50% 50%}
+  .flight .scene--forest .journey__image img{object-position:50% 50%}
+  .flight .hero-copy{left:8%;right:8%;transition:opacity .15s linear}
+  .flight .site-header{transition:opacity .2s linear}
 
-  .shade{position:absolute;inset:0;pointer-events:none;background:radial-gradient(130% 100% at 55% 45%,rgba(11,13,12,0) 60%,rgba(11,13,12,.42) 100%)}
-  .scrim{position:absolute;pointer-events:none}
-  .scrim--top{left:0;right:0;top:0;height:18%;background:linear-gradient(180deg,rgba(11,13,12,.55),rgba(11,13,12,0))}
-  .scrim--lead{left:0;bottom:0;width:100%;height:100%;z-index:-1;background:radial-gradient(100% 80% at 0% 100%,rgba(11,13,12,.72) 0%,rgba(11,13,12,.68) 82%,rgba(11,13,12,.42) 94%,rgba(11,13,12,0) 100%)}
-  .scrim--arrive{display:none;left:0;bottom:0;width:76%;height:78%;z-index:-1;background:radial-gradient(118% 102% at 0% 100%,rgba(11,13,12,.92) 0%,rgba(11,13,12,.7) 42%,rgba(11,13,12,0) 76%)}
-  .motion .scrim--arrive{display:block}
-  /* while the copy travels, its scrim must not show a hard lower edge: extend it below the block and fade that extension */
-  .motion .scrim--lead{bottom:-22vh;width:100%;height:calc(100% + 22vh);background:radial-gradient(78% 60% at 0% calc(100% - 22vh),rgba(11,13,12,.72) 0%,rgba(11,13,12,.68) 82%,rgba(11,13,12,.42) 94%,rgba(11,13,12,0) 100%);-webkit-mask-image:linear-gradient(to top,transparent 0,#000 22vh);mask-image:linear-gradient(to top,transparent 0,#000 22vh)}
-  .scrim--foot{left:0;right:0;bottom:0;height:26%;opacity:0;background:linear-gradient(0deg,var(--canvas) 0%,rgba(11,13,12,.5) 45%,rgba(11,13,12,0) 100%)}
+  /* The last frame becomes a visible, softly blurred forest behind a restrained scrim. */
+  .services{position:relative;isolation:isolate;min-height:100svh;display:flex;align-items:center;overflow:hidden;padding:clamp(42px,6vh,72px) 0 34px;background:#1b2a1f}
+  .services__backdrop{position:absolute;z-index:-3;inset:-12px;overflow:hidden}
+  .services__backdrop img{filter:blur(2px) brightness(.94) saturate(1.12);transform:scale(1.04);object-position:50% 51%}
+  .services::before{content:"";position:absolute;z-index:-2;inset:0;background:rgba(10,22,15,.24);pointer-events:none}
+  .services__content{position:relative;z-index:1}
+  .services__intro{position:relative;max-width:1010px;margin:0 0 clamp(20px,3.4vh,34px);padding:14px 22px 16px 0;isolation:isolate}
+  .services__intro::before{content:"";position:absolute;z-index:-1;inset:0 -90px 0 -22px;border-radius:10px;background:rgba(7,15,10,.68);backdrop-filter:blur(6px)}
+  .services__intro .eyebrow{margin-bottom:10px;color:#f1d77d;font-size:10px;letter-spacing:.13em}
+  .services__intro h2{max-width:19ch;margin:0 0 12px;font-size:clamp(38px,5vw,64px);font-weight:700;line-height:.99;letter-spacing:-.048em;text-wrap:balance}
+  .services__intro p:last-child{max-width:67em;margin:0;color:#e9ebe4;font-size:clamp(15px,1.22vw,17px);line-height:1.48;text-wrap:pretty}
+  .service-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;perspective:1000px}
+  .service-card{display:flex;min-width:0;min-height:160px;flex-direction:column;align-items:flex-start;padding:19px 19px 17px;border:1px solid rgba(255,255,255,.45);border-radius:8px;background:rgba(244,243,234,.97);color:var(--card-ink);text-decoration:none;box-shadow:0 8px 22px rgba(4,12,7,.16);transform:translateZ(0);transition:transform .2s cubic-bezier(.2,.75,.25,1),background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .2s ease}
+  .service-card__label{display:block;margin-bottom:9px;color:#536b59;font:500 9px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+  .service-card h3{margin:0 0 7px;font-size:clamp(17px,1.45vw,21px);line-height:1.12;letter-spacing:-.025em}
+  .service-card p{margin:0;color:var(--card-muted);font-size:13px;line-height:1.42;text-wrap:pretty}
+  .service-card:hover,.service-card:focus-visible{background:var(--gold);border-color:#f7e7aa;color:#1e2a20;box-shadow:0 16px 28px rgba(4,12,7,.25);transform:translateY(-5px)}
+  .service-card:hover .service-card__label,.service-card:focus-visible .service-card__label{color:#4c5838}
+  .service-card:hover p,.service-card:focus-visible p{color:#35432f}
+  .service-card:focus-visible{outline:3px solid #fff4c5;outline-offset:3px}
+  .queue-card{display:grid;grid-template-columns:minmax(190px,.8fr) minmax(0,2.8fr);align-items:center;gap:22px;margin-top:14px;padding:17px 20px;border:1px solid rgba(255,255,255,.58);border-radius:8px;background:rgba(244,243,234,.97);color:var(--card-ink);box-shadow:0 8px 22px rgba(4,12,7,.16)}
+  .queue-card__label{margin:0 0 5px;color:#536b59;font:500 9px/1.2 var(--mono);letter-spacing:.13em;text-transform:uppercase}
+  .queue-card h3{margin:0;font-size:clamp(22px,2.15vw,31px);line-height:1.06;letter-spacing:-.035em}
+  .queue-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0;padding:0;list-style:none}
+  .queue-steps li{display:flex;align-items:center;justify-content:center;min-width:0;min-height:54px;padding:9px 8px;border:1px solid #d9dfd4;border-radius:5px;background:#f7f7f0;color:#2c4033;text-align:center;font-size:13px;font-weight:500;line-height:1.3}
+  .queue-steps li:last-child{border-color:#d9c577;background:#f4edcf}
+  .services__actions{display:flex;align-items:center;gap:18px 22px;flex-wrap:wrap;margin-top:16px}
+  .cta{display:inline-flex;min-height:48px;align-items:center;justify-content:center;padding:13px 21px;border:0;border-radius:5px;background:var(--gold);color:var(--gold-ink);font-size:15px;font-weight:700;line-height:1.15;text-align:center;text-decoration:none;box-shadow:0 7px 18px rgba(5,12,7,.2);transition:background-color .16s ease,transform .16s ease}
+  .cta:hover{background:#f0dc9a;transform:translateY(-2px)}
+  .cta:focus-visible{outline-color:#fff4c5;outline-offset:4px}
+  .services__note{margin:0;padding:8px 11px;border-radius:5px;background:rgba(7,15,10,.58);backdrop-filter:blur(4px);color:#f0efe7;font-size:14px;line-height:1.45;text-shadow:0 1px 7px rgba(0,0,0,.4)}
+  .services__note strong{color:#f2dc91}
+  .site-footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:clamp(26px,4vh,42px);padding:12px;border:1px solid rgba(244,243,237,.28);border-radius:6px;background:rgba(7,15,10,.55);backdrop-filter:blur(4px);color:rgba(244,243,237,.9);font-size:13px}
+  .site-footer a{color:inherit}
 
-  /* the instrument's own frame: name and address at the top, one live readout at the foot */
-  /* the nav rides with the scene: a transparent sheet as tall as the stage, so both release together */
-  .nav-pin{position:relative;height:max(100svh,540px);z-index:5;pointer-events:none}
-  .motion .nav-pin{position:sticky;top:0}
-  .top{position:absolute;inset:0 0 auto 0}
-  .top a{pointer-events:auto}
-  .top .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-top:26px;padding-bottom:26px}
-  .top .brand{font-weight:600;font-size:16px;letter-spacing:-.005em;text-decoration:none;text-shadow:0 1px 2px var(--halo)}
-  .top .mail{font:400 13px/1.2 var(--mono);letter-spacing:.04em;color:var(--ink-dim);text-decoration:none;text-shadow:0 1px 2px var(--halo)}
-  .top .mail:hover{color:var(--ink)}
-  .hud{position:absolute;right:0;bottom:0;left:0;z-index:3;pointer-events:none}
-  .hud .wrap{display:flex;flex-direction:column;align-items:flex-end;gap:10px;padding-bottom:26px}
-  .hud__read{display:flex;gap:22px;font:400 11px/1 var(--mono);letter-spacing:.1em;color:rgba(255,190,150,.88);text-shadow:0 1px 2px var(--halo);font-variant-numeric:tabular-nums;white-space:nowrap}
-  .hud__read b{font-weight:500;color:var(--accent)}
-  .hud__scale{display:flex;align-items:center;gap:10px;font:400 10.5px/1 var(--mono);letter-spacing:.1em;color:rgba(255,190,150,.8);text-shadow:0 1px 2px var(--halo)}
-  .hud__scale i{display:block;width:250px;height:5px;border:1px solid rgba(255,138,76,.8);border-top:0;transform-origin:100% 50%}
-
-  .hero__copy{position:absolute;inset:0 0 auto 0;height:100svh;min-height:540px;isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end;padding:120px 0 clamp(52px,10vh,112px);z-index:2;pointer-events:none}
-  .hero__copy a{pointer-events:auto}
-  .eyebrow{font:500 11px/1.2 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:rgba(255,190,150,.94);margin:0 0 18px;text-shadow:0 1px 2px var(--halo)}
-  .hero h1{font-weight:700;font-size:clamp(42px,5.1vw,78px);line-height:1;letter-spacing:-.038em;margin:0 0 28px;max-width:20ch}
-  .hero h1 span{display:block;text-wrap:balance}
-  .hero h1 span+span{margin-top:.14em;color:rgba(236,237,231,.84)}
-  .lede{font-size:clamp(18px,1.38vw,20px);line-height:1.6;color:var(--ink-dim);max-width:33em;margin:0;text-wrap:pretty}
-  .lede--phone{display:none}
-
-  .hero__arrive{position:relative;min-height:92svh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px 0 clamp(60px,12vh,128px);overflow:hidden;z-index:2}
-  .arrive__plate{position:absolute;inset:0;z-index:-1}
-  .arrive__plate img{width:100%;height:100%;object-fit:cover;max-width:none}
-  .arrive__plate::after{content:"";position:absolute;inset:0;background:radial-gradient(115% 100% at 0% 100%,rgba(11,13,12,.9) 0%,rgba(11,13,12,.6) 40%,rgba(11,13,12,0) 74%),linear-gradient(0deg,rgba(11,13,12,.5),rgba(11,13,12,0) 40%)}
-  .motion .hero__arrive{position:absolute;left:0;right:0;bottom:0;height:100svh;min-height:540px;overflow:visible;pointer-events:none;isolation:isolate}
-  .motion .hero__arrive a{pointer-events:auto}
-  .motion .arrive__plate{display:none}
-  .actions{display:flex;align-items:center;gap:14px 26px;flex-wrap:wrap}
-  .cta{display:inline-flex;align-items:center;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:600;font-size:16px;letter-spacing:.004em;line-height:1;padding:17px 24px;border-radius:5px;white-space:nowrap;box-shadow:0 10px 24px -12px rgba(4,6,5,.65);transition:background-color .16s var(--ease-out),transform .12s var(--ease-out)}
-  .cta:hover{background:var(--accent-hi)}
-  .cta:active{transform:translateY(1px)}
-  .cta:focus-visible{outline-color:var(--ink)}
-  .after{font-size:15px;line-height:1.5;color:rgba(236,237,231,.84);max-width:37ch;margin:0;text-wrap:pretty}
-  .who{display:flex;gap:14px;align-items:center;margin:30px 0 0}
-  .who img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:50% 30%;flex:none}
-  .who span{font-size:15px;line-height:1.45;color:rgba(236,237,231,.76)}
-  .who b{display:block;color:var(--ink);font-weight:500}
-
-  /* ---------- screen three: the route arrives in an ordinary workday ---------- */
-  .business-screen{
-    --room:#e9e6da;--room-ink:#1a2a22;--room-muted:#45564b;--room-rule:rgba(26,42,34,.2);
-    position:relative;isolation:isolate;display:flex;align-items:center;min-height:100svh;overflow:hidden;
-    padding:clamp(64px,8vh,100px) 0;background:var(--room);color:var(--room-ink)
+  /* Card tilt is pointer-only; focus receives the same lift and highlight. */
+  @media (hover:hover) and (pointer:fine){.service-card{transform-style:preserve-3d}}
+  @media (max-width:1000px){
+    .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .services{align-items:flex-start;padding-top:48px}
+    .service-card{min-height:142px}
+    .queue-card{grid-template-columns:1fr;gap:14px}
   }
-  .business-screen::before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(233,230,218,.99) 0%,rgba(233,230,218,.94) 38%,rgba(233,230,218,.56) 68%,rgba(233,230,218,.26) 100%)}
-  .room__window{position:absolute;z-index:-3;right:0;top:0;width:min(58vw,900px);height:72%;overflow:hidden;border:18px solid #d7d2c4;border-top:0;background:#6d8667;box-shadow:inset 0 0 0 1px rgba(26,42,34,.18)}
-  .room__window img{width:100%;height:100%;object-fit:cover;object-position:72% 48%;filter:saturate(.82) brightness(1.11)}
-  .room__window::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,246,218,.32),transparent 42%),linear-gradient(90deg,rgba(233,230,218,.22),transparent 38%)}
-  .room__mullion{position:absolute;left:58%;top:0;bottom:0;width:10px;background:#d7d2c4;box-shadow:1px 0 0 rgba(26,42,34,.08)}
-  .room__desk{position:absolute;z-index:-1;left:0;right:0;bottom:0;height:21%;background:linear-gradient(180deg,#a27e5f 0%,#74543c 5%,#5b412f 100%);box-shadow:0 -12px 36px rgba(57,44,30,.12)}
-  .room__desk::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:rgba(255,235,199,.64)}
-  .room__content{position:relative;z-index:1;display:grid;grid-template-columns:minmax(250px,.8fr) minmax(0,1.35fr);gap:clamp(42px,6vw,94px);align-items:center;width:100%}
-  .room__copy{max-width:460px}
-  .room__eyebrow{color:#526750;text-shadow:none}
-  .room__copy h2{font-weight:700;font-size:clamp(36px,4.15vw,62px);line-height:1.02;letter-spacing:-.04em;margin:0 0 24px;max-width:11ch;text-wrap:balance}
-  .room__copy p:not(.eyebrow):not(.after){color:var(--room-muted);font-size:clamp(16px,1.22vw,18px);line-height:1.58;margin:0 0 16px;max-width:35em;text-wrap:pretty}
-  .room__actions{display:flex;flex-direction:column;align-items:flex-start;gap:10px;width:fit-content;max-width:100%;margin-top:28px;padding:12px 14px;border:1px solid rgba(26,42,34,.14);border-radius:6px;background:rgba(233,230,218,.96);box-shadow:0 5px 16px -12px rgba(26,42,34,.24)}
-  .business-screen .cta{background:var(--room-ink);color:#f7f4e9;box-shadow:0 8px 18px -10px rgba(26,42,34,.55)}
-  .business-screen .cta:hover{background:#263c30}
-  .room__actions .after{color:#45564b;max-width:35ch;font-size:14px}
-  .workstation{position:relative;width:100%;max-width:820px;margin:36px auto 0;transform:translateY(4%)}
-  .workstation__caption{margin:0 0 12px 10px;font:500 10px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#304538}
-  .laptop{filter:drop-shadow(0 26px 18px rgba(27,30,23,.22))}
-  .laptop__screen{padding:10px 10px 9px;border:1px solid #28352d;border-radius:14px 14px 7px 7px;background:#18231e;box-shadow:0 0 0 1px rgba(255,255,255,.42) inset}
-  .workflow{overflow:hidden;border-radius:5px;background:#fbfcf8;color:#1e2b24;font:400 12px/1.4 var(--sans);box-shadow:0 0 0 1px rgba(18,31,23,.15)}
-  .workflow__top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:13px 17px;border-bottom:1px solid #e2e6df;color:#46574c;font:500 10px/1.2 var(--mono);letter-spacing:.035em}
-  .workflow__brand{display:flex;align-items:center;gap:8px;min-width:0}
-  .workflow__mark{width:18px;height:18px;display:grid;place-items:center;border-radius:4px;background:#e5ede4;color:#345340;font:500 9px/1 var(--mono)}
-  .workflow__topnote{white-space:nowrap;color:#6b776d}
-  .workflow__body{display:grid;grid-template-columns:minmax(138px,.72fr) minmax(0,1.55fr);min-height:305px}
-  .workflow__rail{padding:18px 14px;background:#f4f6f1;border-right:1px solid #e2e6df}
-  .workflow__rail-label{margin:0 0 11px;color:#748076;font:500 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
-  .workflow__item{display:flex;gap:9px;align-items:flex-start;padding:10px 8px;border-radius:4px;color:#506056;font-size:10px;line-height:1.35}
-  .workflow__item--selected{background:#e7eee5;color:#22392b}
-  .workflow__dot{width:7px;height:7px;margin-top:3px;flex:none;border-radius:50%;background:#c7774d}
-  .workflow__main{padding:19px clamp(16px,2.1vw,28px) 16px}
-  .workflow__heading{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 16px}
-  .workflow__heading h3{font-size:16px;line-height:1.2;letter-spacing:-.015em;margin:0;color:#203128}
-  .workflow__status{padding:5px 8px;border:1px solid #d6e0d3;border-radius:99px;color:#38543d;background:#f2f7ef;font:500 9px/1.1 var(--mono);white-space:nowrap}
-  .workflow__card{padding:14px 15px;border:1px solid #dce3d9;border-radius:6px;background:#fff}
-  .workflow__kicker{margin:0 0 5px;color:#6a776c;font:500 9px/1.2 var(--mono);letter-spacing:.09em;text-transform:uppercase}
-  .workflow__card h4{margin:0 0 5px;color:#202d25;font-size:14px;line-height:1.3;font-weight:600}
-  .workflow__card p{margin:0;color:#59675c;font-size:11px;line-height:1.45}
-  .workflow__steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0 0}
-  .workflow__step{position:relative;min-height:58px;padding:9px 8px;border-top:2px solid #bac9b9;background:#f6f8f3;color:#26382c;font-size:9px;line-height:1.3}
-  .workflow__step b{display:block;margin-bottom:3px;font:500 9px/1.2 var(--mono);color:#6b796d}
-  .workflow__step--human{border-color:#d98656;background:#fbf4ed}
-  .workflow__actions{display:flex;justify-content:flex-end;gap:8px;margin-top:13px}
-  .workflow__button{padding:7px 10px;border:1px solid #d4ddd2;border-radius:4px;color:#415147;font-size:9px;line-height:1.15;white-space:nowrap}
-  .workflow__button--primary{border-color:#23372b;background:#23372b;color:#fff}
-  .workflow__footer{padding:10px 17px;border-top:1px solid #e2e6df;color:#59675c;background:#f7f8f5;font-size:10px}
-  .laptop__base{height:15px;margin:0 -28px;border-radius:0 0 45% 45%;background:linear-gradient(180deg,#b6b8b2 0%,#767a75 55%,#555a55 100%);box-shadow:0 4px 6px rgba(17,25,20,.18)}
-  .laptop__notch{width:18%;height:3px;margin:0 auto;border-radius:0 0 6px 6px;background:#8c908a}
-  .workstation__note{margin:12px 6px 0;text-align:right;color:#2e4035;font:400 10px/1.4 var(--mono);letter-spacing:.02em}
-
-  /* ---------- the letter that follows, calm on the near-black ---------- */
-  .morning{position:relative;padding:clamp(72px,12vh,140px) 0 clamp(96px,15vh,170px)}
-  .morning h2{font-size:15px;font-weight:500;color:var(--ink-soft);letter-spacing:.01em;margin:0 0 22px}
-  .ledger{list-style:none;margin:0;padding:0;max-width:1000px;border-top:1px solid var(--rule)}
-  .ledger li{padding:20px 0 22px;border-bottom:1px solid var(--rule);font-size:clamp(21px,2.2vw,31px);line-height:1.28;letter-spacing:-.016em;color:rgba(236,237,231,.56)}
-  .ledger li.leak{color:var(--ink)}
-  .ledger li.leak span{background-image:linear-gradient(var(--accent),var(--accent));background-repeat:no-repeat;background-position:0 100%;background-size:100% 2px;padding-bottom:5px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-  .band{border-top:1px solid var(--rule);padding:clamp(80px,13vh,150px) 0}
-  .split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,6vw,96px)}
-  .band h2{font-weight:700;font-size:clamp(28px,2.9vw,42px);line-height:1.08;letter-spacing:-.03em;margin:0;max-width:13ch;text-wrap:balance}
-  .band p{margin:0 0 18px;max-width:36em;color:var(--ink-dim);text-wrap:pretty}
-  .band p:last-child{margin-bottom:0}
-  .band .statement{font-size:clamp(25px,2.6vw,37px);line-height:1.24;letter-spacing:-.02em;color:var(--ink);max-width:24em}
-  .close{border-top:1px solid var(--rule);padding:clamp(110px,19vh,210px) 0 clamp(110px,18vh,200px)}
-  .close h2{font-weight:700;font-size:clamp(38px,4.6vw,68px);line-height:1.02;letter-spacing:-.037em;margin:0 0 20px;max-width:13ch;text-wrap:balance}
-  .close p{font-size:clamp(18px,1.38vw,20px);color:var(--ink-dim);margin:0 0 36px;max-width:34em}
-  footer{border-top:1px solid var(--rule)}
-  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:26px;padding-bottom:40px;font-size:15px;color:var(--ink-soft)}
-  footer a{color:var(--ink-soft)}
-  footer a:hover{color:var(--ink)}
-
-  .js [data-reveal]>*{opacity:0;transform:translateY(14px)}
-  .js [data-reveal].is-in>*{opacity:1;transform:none;transition:opacity .62s var(--ease-out),transform .62s var(--ease-out)}
-  .js [data-reveal].is-in>*:nth-child(2){transition-delay:.07s}
-  .js [data-reveal].is-in>*:nth-child(3){transition-delay:.14s}
-  .js .ledger li.leak span{background-size:0 2px;transition:background-size .9s var(--ease-out)}
-  .js .is-in .ledger li.leak span{background-size:100% 2px}
-  .js .is-in .ledger li:nth-child(2) span{transition-delay:.25s}
-  .js .is-in .ledger li:nth-child(3) span{transition-delay:.45s}
-  .js .is-in .ledger li:nth-child(5) span{transition-delay:.65s}
-  .js .is-in .ledger li:nth-child(6) span{transition-delay:.85s}
-
+  @media (max-width:560px){
+    body{font-size:16px}
+    .journey__scene{min-height:620px}
+    .site-header__inner{gap:12px;padding-block:18px}
+    .brand{font-size:14px}
+    .header-mail{font-size:10px;letter-spacing:0}
+    .hero-copy{bottom:clamp(58px,10vh,86px)}
+    .hero-copy .wrap{padding-top:16px;padding-bottom:12px}
+    .hero-copy .eyebrow{font-size:10px;margin-bottom:13px;letter-spacing:.12em}
+    .hero-copy h1{max-width:10.5ch;font-size:clamp(40px,11.4vw,54px);margin-bottom:17px;letter-spacing:-.05em}
+    .hero-copy p:last-child{max-width:31em;font-size:15.5px;line-height:1.48}
+    .scene--ice .journey__shade{background:linear-gradient(180deg,rgba(7,11,13,.30),rgba(7,11,13,0) 32%),linear-gradient(0deg,rgba(7,11,13,.79) 0%,rgba(7,11,13,.58) 44%,rgba(7,11,13,.08) 90%)}
+    .scene--ice .journey__image img{object-position:36% 50%}
+    .scene--ridge .journey__image img{object-position:47% 50%}
+    .scene--valley .journey__image img{object-position:54% 50%}
+    .scene--forest .journey__image img{object-position:48% 50%}
+    .services{min-height:100svh;padding:34px 0 22px}
+    .services .site-header{margin-bottom:25px}
+    .services .site-header__inner{padding:10px}
+    .site-footer{padding:10px}
+    .services__intro{margin-bottom:18px;padding:12px 8px 14px 0}
+    .services__intro::before{inset:0 -10px 0 -12px;background:rgba(7,15,10,.76);backdrop-filter:blur(7px)}
+    .services__intro .eyebrow{font-size:9px;margin-bottom:9px}
+    .services__intro h2{max-width:12ch;font-size:clamp(35px,9.5vw,42px);line-height:1.01;margin-bottom:10px}
+    .services__intro p:last-child{font-size:14px;line-height:1.45}
+    .service-grid{grid-template-columns:1fr;gap:9px}
+    .service-card{min-height:0;padding:14px 15px 13px;border-radius:7px}
+    .service-card__label{font-size:8px;margin-bottom:6px}
+    .service-card h3{font-size:18px;margin-bottom:4px}
+    .service-card p{font-size:12px;line-height:1.37}
+    .queue-card{gap:11px;margin-top:10px;padding:14px;border-radius:7px}
+    .queue-card__label{font-size:8px}
+    .queue-card h3{font-size:24px}
+    .queue-steps{grid-template-columns:1fr;gap:6px}
+    .queue-steps li{position:relative;justify-content:flex-start;min-height:39px;padding:8px 11px;font-size:12px;text-align:left}
+    .queue-steps li:not(:last-child)::after{content:"↓";position:absolute;right:12px;color:#647b68;font:500 13px/1 var(--mono)}
+    .services__actions{display:grid;grid-template-columns:1fr;gap:9px;margin-top:12px}
+    .cta{width:100%;min-height:46px}
+    .services__note{font-size:12px;line-height:1.4}
+    .site-footer{margin-top:23px;padding-top:13px;font-size:11px}
+  }
   @media (prefers-reduced-motion:reduce){
-    .js [data-reveal]>*{transform:none}
-    .js [data-reveal].is-in>*{transition:opacity .4s linear}
-    .js .ledger li.leak span{background-size:100% 2px;transition:none}
-    .gl{display:none}
-    .motion .hero{height:auto}
-    .motion .stage{position:relative;top:auto}
-    .motion .nav-pin{position:relative;top:auto}
+    html{scroll-behavior:auto}
+    *,*::before,*::after{transition-duration:.15s!important;animation-duration:.15s!important;animation-iteration-count:1!important}
+    .flight .journey{height:auto}
+    .flight .journey__viewport{position:relative;top:auto;height:auto;min-height:0;overflow:visible}
+    .flight .journey__track{position:relative;inset:auto;width:auto;height:auto;transform:none!important}
+    .flight .journey__scene{position:relative;inset:auto;width:100%;height:100svh;min-height:560px;opacity:1!important}
+    .flight .journey__image{transform:none!important}
+    .service-card:hover,.service-card:focus-visible{transform:none}
   }
-  @media (max-width:880px){
-    .split{grid-template-columns:1fr;gap:20px}
-    .band h2{max-width:none}
-    .business-screen{padding:58px 0 82px}
-    .room__window{width:100%;height:48%;border:0;border-bottom:16px solid #d7d2c4}
-    .business-screen::before{background:linear-gradient(180deg,rgba(233,230,218,.8) 0%,rgba(233,230,218,.92) 38%,rgba(233,230,218,.99) 69%)}
-    .room__content{grid-template-columns:1fr;gap:32px}
-    .room__copy{max-width:620px}
-    .room__copy h2{max-width:16ch}
-    .workstation{max-width:760px;margin:0 auto;transform:none}
-  }
-  /* phone: its own portrait plates and survey, headline high, readout at the foot */
-  @media (max-aspect-ratio:9/10){
-    :root{--hero-h:300svh}
-    .survey--d{display:none}
-    .survey--m{display:block}
-    .ct{opacity:.42}
-    .cam{transform-origin:64% 74%}
-    .hero__copy{justify-content:flex-start;padding-top:84px;padding-bottom:40px}
-    .hero h1{max-width:none}
-    .scrim--lead,.motion .scrim--lead{-webkit-mask-image:none;mask-image:none;left:0;top:0;bottom:auto;width:100%;height:62%;background:linear-gradient(180deg,rgba(11,13,12,.82) 0%,rgba(11,13,12,.62) 48%,rgba(11,13,12,0) 100%)}
-    .scrim--top{height:14%;background:linear-gradient(180deg,rgba(11,13,12,.62),rgba(11,13,12,0))}
-    .lede--wide{display:none}
-    .lede--phone{display:block;margin:0 0 26px;color:rgba(236,237,231,.9)}
-    .scrim--arrive{width:100%;height:88%;background:linear-gradient(0deg,rgba(11,13,12,.94) 0%,rgba(11,13,12,.8) 56%,rgba(11,13,12,.5) 80%,rgba(11,13,12,0) 100%)}
-    .arrive__plate::after{background:linear-gradient(0deg,rgba(11,13,12,.92) 0%,rgba(11,13,12,.66) 52%,rgba(11,13,12,0) 100%)}
-    .hud .wrap{align-items:flex-start;padding-bottom:18px}
-    .hud__scale{display:none}
-    .hud__read{gap:14px;font-size:10px;letter-spacing:.08em}
-  }
-  @media (max-height:560px) and (min-aspect-ratio:9/10){
-    .hero__copy{padding-bottom:28px}
-    .hero h1{font-size:clamp(30px,4.2vw,44px);margin-bottom:14px}
-    .lede{font-size:16px}
-  }
-  @media (max-width:520px){
-    body{font-size:17px}
-    .top .wrap{padding-top:20px;padding-bottom:20px}
-    .top .brand{font-size:15px}
-    .top .mail{font-size:11.5px}
-    .eyebrow{font-size:10px;margin-bottom:14px;letter-spacing:.1em}
-    .hero h1{font-size:clamp(30px,8vw,36px);margin-bottom:18px;letter-spacing:-.034em}
-    .lede{font-size:17px;line-height:1.55}
-    .actions{gap:14px}
-    .after{font-size:14.5px}
-    .ledger li{padding:16px 0 17px}
-    .business-screen{min-height:0;padding:64px 0 92px}
-    .room__window{height:39%;border-bottom-width:12px;opacity:.72}
-    .business-screen::before{background:linear-gradient(180deg,rgba(233,230,218,.72) 0%,rgba(233,230,218,.91) 28%,rgba(233,230,218,.99) 55%)}
-    .room__content{gap:28px}
-    .room__copy h2{font-size:clamp(32px,9.2vw,40px);max-width:12ch;margin-bottom:18px}
-    .room__copy p:not(.eyebrow):not(.after){font-size:16px;line-height:1.52}
-    .room__actions{margin-top:24px}
-    .workstation__caption{font-size:9px;margin-left:4px}
-    .laptop__screen{padding:6px;border-radius:10px 10px 5px 5px}
-    .workflow{font-size:10px}
-    .workflow__top{padding:9px 10px;font-size:9px}
-    .workflow__mark{width:16px;height:16px}
-    .workflow__body{grid-template-columns:1fr;min-height:0}
-    .workflow__rail{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));gap:3px;align-items:center;padding:9px 8px;border-right:0;border-bottom:1px solid #e2e6df}
-    .workflow__rail-label{margin:0 4px 0 0;font-size:8px}
-    .workflow__item{gap:5px;padding:5px 4px;font-size:8px;line-height:1.25}
-    .workflow__dot{width:6px;height:6px;margin-top:2px}
-    .workflow__main{padding:12px 9px}
-    .workflow__heading{margin-bottom:10px}
-    .workflow__heading h3{font-size:13px}
-    .workflow__status{font-size:8px;padding:4px 6px}
-    .workflow__card{padding:10px}
-    .workflow__card h4{font-size:12px}
-    .workflow__card p{font-size:9px}
-    .workflow__steps{gap:5px;margin-top:10px}
-    .workflow__step{min-height:53px;padding:7px 5px;font-size:8px;line-height:1.2}
-    .workflow__step b{font-size:8px}
-    .workflow__actions{gap:5px;margin-top:10px}
-    .workflow__button{padding:6px 7px;font-size:8px}
-    .workflow__footer{padding:8px 10px;font-size:9px}
-    .laptop__base{height:11px;margin:0 -15px}
-    .workstation__note{font-size:9px;text-align:left}
-  }
+  .reduced .journey__scene{opacity:0;transition:opacity .22s linear}
+  .reduced .journey__scene.is-visible{opacity:1}
 </style>
 </head>
 <body>
 <main>
-  <section class="hero" id="top" aria-labelledby="hero-title">
-    <div class="nav-pin">
-      <header class="top">
-        <div class="wrap">
+  <section class="journey" id="top" aria-label="The crossing">
+    <div class="journey__viewport">
+      <header class="site-header">
+        <div class="wrap site-header__inner">
           <a class="brand" href="#top">Amrit Chana</a>
-          <a class="mail" href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
+          <a class="header-mail" href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
         </div>
       </header>
-    </div>
-    <div class="stage">
-      <div class="cam">
-        <picture class="plate plate--a">
-          <source media="(max-aspect-ratio: 9/10)" srcset="img/m-frozen.webp" width="1290" height="2292">
-          <img src="img/d-frozen.webp" width="2400" height="1350" fetchpriority="high" alt="A winter basin seen from above: snow drifts follow the old shorelines and the pool is sealed under cracked ice.">
-        </picture>
-        <canvas class="gl" aria-hidden="true"></canvas>
-        <svg class="survey survey--d" viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"
-   data-w="1672" data-h="941" data-startf="0.6935" data-endf="0.1167" data-elev="[181,180.95,180.91,180.86,180.8,180.75,180.7,180.64,180.59,180.53,180.48,180.42,180.37,180.29,180.22,180.15,180.08,180.01,179.95,179.88,179.82,179.76,179.7,179.63,179.56,179.48,179.4,179.32,179.24,179.16,179.08,179,178.92,178.84,178.76,178.68,178.59,178.52,178.45,178.38,178.31,178.23,178.16,178.09,178.02,177.94,177.87,177.79,177.72,177.65,177.58,177.51,177.44,177.37,177.3,177.23,177.16,177.09,177.02,176.95,176.88,176.83,176.77,176.71,176.66,176.6,176.54,176.48,176.42,176.37,176.31,176.25,176.17]" data-quant="[0,0.0081,0.0899,0.1702,0.2334,0.2866,0.3339,0.3734,0.4136,0.452,0.4881,0.5231,0.5573,0.5905,0.6227,0.654,0.686,0.7227,0.7632,0.8316,1]">
-  <g class="cts">
-    <path class="ct" data-f="0.0967" d="M1672.0 491.1 L1671.2 491.1 L1669.8 490.9 L1667.5 490.6 L1664.5 490.3 L1661.6 489.6 L1658.7 488.7 L1655.9 487.6 L1653.1 486.1 L1650.6 484.6 L1648.4 482.9 L1646.4 481.0 L1644.7 479.0 L1643.2 477.0 L1642.0 475.0 L1641.1 473.0 L1640.4 471.0 L1640.2 469.4 L1640.4 468.3 L1641.1 467.7 L1642.3 467.4 L1644.9 467.6 L1649.0 468.2 L1654.5 469.3 L1661.5 470.7 L1666.8 471.8 L1670.2 472.5 L1672.0 472.9 M1392.1 940.0 L1391.6 939.5 L1390.6 938.5 L1389.1 937.0 L1387.1 935.0 L1383.9 932.7 L1379.4 930.2 L1373.6 927.5 L1366.6 924.5 L1358.0 921.3 L1348.0 918.0 L1336.5 914.5 L1323.5 910.9 L1310.5 907.5 L1297.5 904.3 L1284.5 901.2 L1271.5 898.4 L1259.8 895.6 L1249.2 892.8 L1240.0 890.1 L1232.0 887.5 L1222.8 884.1 L1212.2 879.8 L1200.5 874.7 L1187.5 868.9 L1175.1 862.9 L1163.4 857.0 L1152.3 851.0 L1141.8 845.0 L1132.1 839.0 L1123.0 833.0 L1114.7 827.0 L1107.1 821.0 L1100.6 815.2 L1095.0 809.8 L1090.5 804.5 L1087.0 799.5 L1084.3 795.0 L1082.3 791.0 L1081.0 787.5 L1080.4 784.5 L1080.1 781.5 L1080.1 778.5 L1080.3 775.5 L1080.8 772.5 L1082.0 768.8 L1084.0 764.2 L1086.8 759.0 L1090.3 753.0 L1094.2 747.2 L1098.6 741.8 L1103.4 736.5 L1108.6 731.5 L1115.0 726.0 L1122.5 720.0 L1131.1 713.5 L1140.8 706.5 L1149.7 700.5 L1157.6 695.5 L1164.7 691.6 L1170.8 688.6 L1177.1 686.1 L1183.5 684.1 L1190.0 682.6 L1196.6 681.6 L1203.0 680.4 L1209.0 679.0 L1214.6 677.5 L1220.0 675.8 L1225.7 674.3 L1231.9 673.1 L1238.5 672.0 L1245.5 671.3 L1252.2 670.2 L1258.8 668.9 L1265.0 667.4 L1271.0 665.6 L1279.0 664.4 L1289.0 663.8 L1301.0 663.9 L1315.0 664.5 L1327.8 664.6 L1339.3 664.2 L1349.5 663.4 L1358.5 662.0 L1365.6 660.8 L1370.7 659.6 L1373.9 658.5 L1375.1 657.5 L1376.2 656.0 L1377.3 654.0 L1378.2 651.5 L1379.1 648.5 L1380.3 645.2 L1381.9 641.8 L1383.8 638.0 L1386.1 634.0 L1387.9 629.8 L1389.4 625.2 L1390.4 620.5 L1391.1 615.5 L1391.9 610.8 L1393.0 606.2 L1394.2 602.0 L1395.6 598.0 L1397.3 594.4 L1399.3 591.2 L1401.6 588.4 L1404.2 585.9 L1406.8 583.8 L1409.6 582.0 L1412.5 580.5 L1415.5 579.4 L1420.2 578.3 L1426.8 577.4 L1435.0 576.5 L1445.0 575.8 L1456.0 576.0 L1468.0 577.3 L1481.0 579.5 L1495.0 582.7 L1507.8 584.6 L1519.2 585.1 L1529.5 584.3 L1538.5 582.1 L1546.0 580.4 L1552.0 579.2 L1556.5 578.6 L1559.5 578.5 L1566.2 579.2 L1576.8 580.7 L1591.0 583.1 L1609.0 586.4 L1624.0 589.4 L1636.0 592.0 L1645.0 594.4 L1651.0 596.5 L1656.2 598.2 L1660.8 599.5 L1664.5 600.3 L1667.5 600.7 L1669.8 601.0 L1671.2 601.2 L1672.0 601.3"/>
-    <path class="ct" data-f="0.216" d="M1672.0 499.7 L1671.0 499.6 L1669.0 499.3 L1666.0 499.0 L1662.0 498.5 L1658.3 497.8 L1654.9 496.8 L1651.9 495.6 L1649.1 494.2 L1645.7 491.6 L1641.7 487.9 L1637.1 483.2 L1631.9 477.3 L1626.9 472.0 L1622.3 467.4 L1618.0 463.5 L1614.0 460.1 L1610.5 456.7 L1607.4 453.1 L1604.9 449.5 L1602.8 445.7 L1600.9 441.3 L1599.3 436.4 L1597.8 431.0 L1596.6 425.0 L1595.8 420.2 L1595.3 416.6 L1595.3 414.2 L1595.6 413.0 L1596.0 412.1 L1596.7 411.5 L1597.5 411.2 L1598.5 411.2 L1600.4 412.7 L1603.2 415.8 L1606.9 420.5 L1611.5 426.7 L1616.0 432.3 L1620.5 437.5 L1625.0 442.1 L1629.4 446.1 L1633.9 449.8 L1638.6 453.0 L1643.5 455.9 L1648.5 458.4 L1653.2 460.4 L1657.8 462.0 L1662.0 463.2 L1666.0 464.0 L1669.0 464.5 L1671.0 464.9 L1672.0 465.1 M907.2 940.0 L906.9 939.5 L906.2 938.5 L905.2 937.0 L903.8 935.0 L898.8 931.0 L890.1 925.0 L877.8 917.0 L861.8 907.0 L848.0 898.0 L836.3 890.0 L826.7 883.0 L819.3 877.0 L813.1 871.8 L808.1 867.2 L804.4 863.5 L801.9 860.5 L799.5 857.5 L797.5 854.5 L795.6 851.5 L793.9 848.5 L792.5 845.5 L791.2 842.5 L790.2 839.5 L789.4 836.5 L788.8 833.2 L788.4 829.8 L788.2 826.0 L788.2 822.0 L788.5 818.0 L789.0 814.0 L789.9 810.0 L791.0 806.0 L792.5 801.8 L794.4 797.2 L796.8 792.5 L799.6 787.5 L805.8 778.8 L815.3 766.2 L828.3 750.0 L844.6 730.0 L859.2 713.0 L871.9 699.0 L882.8 688.0 L891.9 680.0 L901.9 672.1 L912.7 664.4 L924.5 656.8 L937.1 649.3 L949.0 642.8 L960.3 637.3 L971.0 632.8 L981.0 629.2 L998.0 624.3 L1022.0 618.1 L1053.0 610.5 L1091.0 601.5 L1124.2 594.3 L1152.8 588.8 L1176.5 585.1 L1195.5 583.2 L1215.5 581.8 L1236.5 581.0 L1258.5 580.7 L1281.5 580.9 L1302.0 580.9 L1320.0 580.6 L1335.5 580.0 L1348.5 579.3 L1359.0 578.5 L1367.0 577.8 L1372.5 577.2 L1375.5 576.6 L1379.2 575.6 L1383.8 574.0 L1389.0 571.9 L1395.0 569.4 L1400.8 567.2 L1406.2 565.4 L1411.5 564.1 L1416.5 563.1 L1422.5 562.3 L1429.5 561.7 L1437.5 561.3 L1446.5 561.0 L1456.8 561.6 L1468.2 563.1 L1481.0 565.5 L1495.0 568.8 L1507.5 570.8 L1518.5 571.6 L1528.0 571.2 L1536.0 569.5 L1543.0 568.2 L1549.0 567.3 L1554.0 566.8 L1558.0 566.6 L1565.8 567.4 L1577.2 569.1 L1592.5 571.8 L1611.5 575.4 L1627.0 578.5 L1639.0 581.2 L1647.5 583.5 L1652.5 585.3 L1657.0 586.8 L1661.0 588.0 L1664.5 588.8 L1667.5 589.2 L1669.8 589.6 L1671.2 589.8 L1672.0 589.9"/>
-    <path class="ct" data-f="0.3353" d="M1672.0 512.3 L1670.8 512.2 L1668.2 512.0 L1664.5 511.8 L1659.5 511.5 L1655.0 510.8 L1651.0 509.9 L1647.5 508.7 L1644.5 507.2 L1640.8 504.2 L1636.3 499.8 L1631.1 494.1 L1625.2 486.8 L1619.8 480.7 L1615.1 475.6 L1610.9 471.5 L1607.4 468.5 L1604.0 465.0 L1600.9 461.0 L1597.9 456.5 L1595.2 451.5 L1592.7 445.8 L1590.4 439.2 L1588.4 432.0 L1586.7 424.0 L1585.7 417.2 L1585.3 411.6 L1585.6 407.1 L1586.6 403.9 L1587.5 401.2 L1588.5 399.2 L1589.5 397.8 L1590.5 397.1 L1591.8 396.6 L1593.2 396.2 L1595.0 396.1 L1597.0 396.2 L1599.0 396.8 L1600.9 397.8 L1602.9 399.2 L1604.8 401.1 L1607.1 404.1 L1609.9 408.0 L1613.0 413.0 L1616.6 419.0 L1620.0 424.2 L1623.2 428.8 L1626.2 432.5 L1629.0 435.5 L1632.3 438.5 L1636.0 441.5 L1640.2 444.5 L1644.9 447.5 L1649.7 450.1 L1654.6 452.3 L1659.5 454.1 L1664.5 455.4 L1668.2 456.4 L1670.8 457.1 L1672.0 457.4 M551.9 940.0 L551.5 936.0 L550.7 928.0 L549.6 916.0 L548.0 900.0 L546.9 886.5 L546.3 875.5 L546.2 867.0 L546.6 861.0 L547.2 854.8 L548.0 848.2 L549.1 841.5 L550.4 834.5 L552.3 825.8 L554.9 815.3 L558.2 803.1 L562.1 789.2 L567.2 774.5 L573.4 759.0 L580.8 742.7 L589.3 725.6 L596.1 711.8 L601.0 701.3 L604.3 694.0 L605.7 690.0 L607.1 685.5 L608.4 680.5 L609.7 675.0 L610.9 669.0 L612.1 664.0 L613.2 660.0 L614.3 657.0 L615.3 655.0 L616.9 653.0 L619.0 651.0 L621.8 649.0 L625.1 647.0 L630.7 644.7 L638.6 642.1 L648.8 639.3 L661.3 636.1 L672.1 633.2 L681.4 630.6 L689.0 628.2 L695.0 626.0 L704.9 621.5 L718.8 614.6 L736.6 605.2 L758.4 593.5 L783.2 581.1 L811.2 567.9 L842.4 554.0 L876.6 539.3 L910.6 525.8 L944.2 513.5 L977.5 502.3 L1010.5 492.3 L1039.5 483.9 L1064.5 477.1 L1085.5 471.8 L1102.5 468.2 L1119.0 465.2 L1135.0 462.7 L1150.5 460.9 L1165.5 459.7 L1189.5 458.4 L1222.5 457.1 L1264.5 455.7 L1315.5 454.3 L1356.2 453.6 L1386.8 453.5 L1407.0 454.1 L1417.0 455.3 L1431.0 457.9 L1449.0 461.9 L1471.0 467.2 L1497.0 473.9 L1524.0 481.7 L1552.0 490.6 L1581.0 500.6 L1611.0 511.7 L1634.5 520.3 L1651.5 526.3 L1662.0 529.7 L1666.0 530.6 L1669.0 531.3 L1671.0 531.7 L1672.0 532.0"/>
-    <path class="ct" data-f="0.4547" d="M362.9 940.0 L362.7 939.2 L362.1 937.8 L361.3 935.5 L360.3 932.5 L358.8 929.5 L357.0 926.5 L354.9 923.5 L352.3 920.5 L347.9 916.3 L341.6 910.9 L333.3 904.2 L323.2 896.3 L314.8 889.7 L308.2 884.2 L303.3 879.8 L300.2 876.7 L297.3 873.4 L294.6 869.8 L292.0 866.0 L289.6 862.0 L287.4 857.8 L285.6 853.2 L284.0 848.5 L282.7 843.5 L281.7 838.5 L281.2 833.5 L281.0 828.5 L281.1 823.5 L281.6 818.2 L282.5 812.8 L283.7 807.0 L285.2 801.0 L288.5 790.5 L293.5 775.5 L300.2 756.0 L308.7 732.0 L316.3 711.5 L323.0 694.5 L328.8 681.0 L333.7 671.0 L338.1 662.5 L341.9 655.5 L345.3 650.0 L348.1 646.0 L351.2 641.9 L354.6 637.8 L358.2 633.7 L362.1 629.4 L366.2 625.3 L370.5 621.3 L374.9 617.4 L379.5 613.7 L384.3 610.0 L389.3 606.3 L394.5 602.8 L399.9 599.3 L406.0 595.6 L412.7 591.8 L420.0 587.8 L428.0 583.7 L439.2 578.2 L453.7 571.5 L471.4 563.4 L492.3 554.1 L514.0 543.9 L536.5 533.0 L559.8 521.3 L583.9 508.8 L604.7 498.2 L622.2 489.4 L636.5 482.6 L647.5 477.7 L669.0 469.1 L701.0 456.9 L743.5 441.1 L796.5 421.6 L842.5 405.0 L881.5 391.4 L913.5 380.8 L938.5 373.0 L965.5 365.2 L994.5 357.1 L1025.5 348.9 L1058.5 340.5 L1086.0 333.8 L1108.0 328.7 L1124.5 325.3 L1135.5 323.5 L1146.8 321.8 L1158.2 320.4 L1170.0 319.1 L1182.0 318.0 L1194.2 317.3 L1206.8 316.9 L1219.5 316.8 L1232.5 317.1 L1247.0 318.2 L1263.0 319.9 L1280.5 322.4 L1299.5 325.6 L1319.8 328.6 L1341.2 331.2 L1364.0 333.5 L1388.0 335.5 L1411.5 337.9 L1434.5 340.8 L1457.0 344.1 L1479.0 347.8 L1501.2 352.2 L1523.8 357.1 L1546.5 362.6 L1569.5 368.7 L1588.8 374.7 L1604.2 380.5 L1616.0 386.1 L1624.0 391.6 L1631.5 396.5 L1638.5 400.7 L1645.0 404.3 L1651.0 407.2 L1656.2 409.6 L1660.8 411.5 L1664.5 412.8 L1667.5 413.6 L1669.8 414.2 L1671.2 414.6 L1672.0 414.8"/>
-    <path class="ct" data-f="0.574" d="M139.4 940.0 L138.8 937.8 L137.6 933.2 L135.8 926.5 L133.3 917.5 L131.2 908.5 L129.3 899.5 L127.7 890.5 L126.4 881.5 L125.2 871.8 L124.2 861.2 L123.2 850.0 L122.4 838.0 L121.8 824.8 L121.3 810.2 L121.0 794.5 L120.9 777.5 L120.4 761.0 L119.5 745.0 L118.2 729.5 L116.5 714.5 L115.3 701.2 L114.7 689.8 L114.6 680.0 L115.1 672.0 L116.0 664.2 L117.4 656.8 L119.1 649.5 L121.3 642.5 L123.8 635.8 L126.5 629.2 L129.5 623.0 L132.9 617.0 L136.6 610.8 L140.9 604.2 L145.6 597.5 L150.8 590.5 L156.3 583.5 L162.1 576.5 L168.2 569.5 L174.6 562.5 L181.1 555.7 L187.8 549.1 L194.6 542.6 L201.6 536.4 L209.5 530.0 L218.5 523.4 L228.5 516.8 L239.5 509.9 L254.5 501.7 L273.5 491.9 L296.5 480.8 L323.5 468.2 L352.5 455.1 L383.5 441.6 L416.5 427.6 L451.5 413.2 L485.0 398.9 L517.0 384.7 L547.5 370.7 L576.5 356.8 L600.8 345.5 L620.3 336.8 L635.0 330.6 L645.0 326.9 L657.8 322.6 L673.5 317.6 L692.0 311.9 L713.3 305.6 L735.0 298.4 L757.0 290.4 L779.3 281.7 L802.0 272.2 L831.0 261.6 L866.3 249.9 L908.0 237.1 L956.0 223.3 L996.8 212.0 L1030.2 203.0 L1056.5 196.6 L1075.5 192.6 L1093.0 189.4 L1109.0 187.0 L1123.5 185.3 L1136.5 184.4 L1150.5 184.0 L1165.5 184.2 L1181.5 184.9 L1198.5 186.1 L1214.0 187.5 L1228.0 189.1 L1240.5 190.7 L1251.5 192.6 L1265.8 195.4 L1283.2 199.3 L1304.0 204.2 L1328.0 210.1 L1353.8 215.0 L1381.2 219.0 L1410.5 221.9 L1441.5 223.8 L1474.2 226.9 L1508.8 230.9 L1545.0 236.1 L1583.0 242.3 L1613.5 247.2 L1636.5 250.8 L1652.0 253.0 L1660.0 253.9 L1666.0 254.5 L1670.0 255.0 L1672.0 255.2"/>
-    <path class="ct" data-f="0.6933" d="M0.0 491.7 L0.5 491.5 L1.5 491.0 L3.0 490.3 L5.0 489.3 L12.2 483.9 L24.8 474.1 L42.5 459.7 L65.5 440.9 L85.0 425.1 L101.0 412.4 L113.5 402.8 L122.5 396.1 L131.2 390.0 L139.8 384.3 L148.0 379.0 L156.0 374.2 L168.9 366.9 L186.8 357.2 L209.6 344.9 L237.3 330.1 L260.2 318.4 L278.2 309.6 L291.3 303.9 L299.6 301.1 L310.3 298.1 L323.4 294.9 L339.0 291.5 L357.0 287.8 L372.8 284.4 L386.2 281.3 L397.5 278.4 L406.5 275.8 L421.0 270.5 L441.0 262.6 L466.5 252.0 L497.5 238.8 L527.5 226.4 L556.5 214.7 L584.5 203.7 L611.5 193.5 L637.2 183.5 L661.8 173.5 L685.0 163.8 L707.0 154.1 L730.5 145.0 L755.5 136.2 L782.0 127.9 L810.0 120.1 L838.0 111.7 L866.0 102.9 L894.0 93.6 L922.0 83.8 L948.2 76.2 L972.8 70.8 L995.5 67.7 L1016.5 66.7 L1038.2 65.4 L1060.8 63.7 L1084.0 61.6 L1108.0 59.1 L1129.2 57.3 L1147.8 56.2 L1163.5 55.7 L1176.5 55.9 L1189.2 56.4 L1201.8 57.3 L1214.0 58.5 L1226.0 60.0 L1241.0 62.3 L1259.0 65.3 L1280.0 69.2 L1304.0 73.9 L1328.0 77.6 L1352.0 80.3 L1376.0 82.1 L1400.0 82.9 L1420.8 83.8 L1438.2 84.8 L1452.5 85.8 L1463.5 87.0 L1477.5 88.9 L1494.5 91.4 L1514.5 94.7 L1537.5 98.8 L1561.0 103.1 L1585.0 107.7 L1609.5 112.6 L1634.5 117.8 L1653.2 121.7 L1665.8 124.3 L1672.0 125.6"/>
-    <path class="ct" data-f="0.8126" d="M0.0 272.7 L0.8 272.4 L2.2 272.0 L4.5 271.3 L7.5 270.3 L14.0 267.2 L24.0 261.9 L37.5 254.4 L54.5 244.7 L73.0 235.1 L93.0 225.6 L114.5 216.2 L137.5 206.9 L160.0 197.4 L182.0 187.5 L203.5 177.2 L224.5 166.7 L248.5 157.0 L275.5 148.1 L305.5 140.0 L338.5 132.7 L373.8 124.2 L411.2 114.6 L451.0 103.7 L493.0 91.8 L527.7 81.7 L555.0 73.5 L575.0 67.1 L587.6 62.7 L603.9 56.6 L623.8 48.9 L647.4 39.5 L674.6 28.5 L695.9 19.8 L711.4 13.2 L721.0 9.0 L724.8 7.0 L727.7 5.2 L729.9 3.8 L731.2 2.5 L731.8 1.5 L732.2 0.8 L732.5 0.2 L732.6 0.0"/>
-    <path class="ct" data-f="0.932" d="M187.5 0.0 L187.3 0.5 L186.9 1.5 L186.2 3.0 L185.4 5.0 L183.3 8.0 L179.9 12.0 L175.3 17.0 L169.5 23.0 L164.3 28.1 L159.8 32.4 L155.9 35.7 L152.8 38.2 L149.4 40.6 L145.8 43.0 L142.0 45.2 L138.0 47.4 L130.5 50.4 L119.5 54.3 L105.0 59.1 L87.0 64.7 L69.8 69.5 L53.2 73.5 L37.5 76.7 L22.5 79.0 L11.2 80.7 L3.8 81.9 L0.0 82.5"/>
-  </g>
-  <g class="mk mk--cl" data-x="305.5" data-y="140.0" data-a="-14.7" transform="translate(305.5 140.0) rotate(-14.7) scale(1.0456)"><text class="cl__t" y="3.5" text-anchor="middle">182</text></g>
-  <g class="mk mk--cl" data-x="1411.5" data-y="337.9" data-a="6.5" transform="translate(1411.5 337.9) rotate(6.5) scale(1.0456)"><text class="cl__t" y="3.5" text-anchor="middle">179</text></g>
-  <g class="mk mk--cl" data-x="1081.0" data-y="787.5" data-a="72.7" transform="translate(1081.0 787.5) rotate(72.7) scale(1.0456)"><text class="cl__t" y="3.5" text-anchor="middle">176</text></g>
-  <path class="route route--plan" d="M430.0 268.0 C455.8 272.7 533.0 280.7 585.0 296.0 C637.0 311.3 691.2 335.0 742.0 360.0 C792.8 385.0 845.0 418.0 890.0 446.0 C935.0 474.0 975.0 500.7 1012.0 528.0 C1049.0 555.3 1083.7 585.3 1112.0 610.0 C1140.3 634.7 1170.3 665.0 1182.0 676.0" stroke-dasharray="2.09 5.23"/>
-  <path class="route route--under" d="M430.0 268.0 C455.8 272.7 533.0 280.7 585.0 296.0 C637.0 311.3 691.2 335.0 742.0 360.0 C792.8 385.0 845.0 418.0 890.0 446.0 C935.0 474.0 975.0 500.7 1012.0 528.0 C1049.0 555.3 1083.7 585.3 1112.0 610.0 C1140.3 634.7 1170.3 665.0 1182.0 676.0"/>
-  <path class="route route--line" d="M430.0 268.0 C455.8 272.7 533.0 280.7 585.0 296.0 C637.0 311.3 691.2 335.0 742.0 360.0 C792.8 385.0 845.0 418.0 890.0 446.0 C935.0 474.0 975.0 500.7 1012.0 528.0 C1049.0 555.3 1083.7 585.3 1112.0 610.0 C1140.3 634.7 1170.3 665.0 1182.0 676.0"/>
-  <g class="mk mk--start" data-x="430" data-y="268" transform="translate(430 268) scale(1.0456)">
-    <circle class="mk__ring" r="8"/><circle class="mk__dot" r="2"/>
-    <text class="mk__t mk__t--a" x="16" y="-5">YOU ARE HERE</text>
-    <text class="mk__t" x="16" y="10">41.8781 N  87.6298 W  181 M</text>
-  </g>
-  <g class="mk mk--end" data-x="1182" data-y="676" transform="translate(1182 676) scale(1.0456)">
-    <g class="mk__glyph"><circle class="mk__ring" r="8"/><path class="mk__x" d="M-15 0H-4M4 0H15M0 -15V-4M0 4V15"/></g>
-    <g class="mk__lab"><text class="mk__t mk__t--a" x="20" y="-5">YOUR BETTER GROUND</text>
-    <text class="mk__t" x="20" y="10">41.8711 N  87.6124 W  176 M</text>
-    <text class="mk__t mk__t--done" x="20" y="25">ROUTE SURVEYED</text></g>
-  </g>
-  <g class="mk mk--head" data-x="430" data-y="268" transform="translate(430 268) scale(1.0456)"><circle class="mk__head" r="3"/></g>
-</svg>
-        <svg class="survey survey--m" viewBox="0 0 941 1672" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"
-   data-w="941" data-h="1672" data-startf="0.401" data-endf="0.0031" data-elev="[180.98,180.92,180.86,180.81,180.75,180.69,180.63,180.57,180.51,180.45,180.39,180.33,180.27,180.2,180.13,180.06,179.99,179.91,179.84,179.77,179.7,179.63,179.56,179.5,179.43,179.36,179.29,179.22,179.15,179.08,179,178.93,178.86,178.78,178.71,178.63,178.56,178.5,178.43,178.37,178.31,178.25,178.19,178.13,178.07,178.01,177.95,177.89,177.8,177.71,177.54,177.28,176.94,176.61,176.36,176.2,176.13,176.1,176.09,176.08,176.08]" data-quant="[0,0.0028,0.1312,0.1983,0.2483,0.2925,0.332,0.3682,0.4026,0.4355,0.4678,0.5082,0.5556,0.6037,0.6507,0.6997,0.7501,0.8008,0.8541,0.9094,1]">
-  <g class="cts">
-    <path class="ct" data-f="0.078" d="M854.3 1672.0 L854.1 1671.5 L853.7 1670.5 L853.2 1669.0 L852.4 1667.0 L851.2 1664.8 L849.4 1662.2 L847.1 1659.5 L844.2 1656.5 L840.2 1652.5 L834.9 1647.5 L828.5 1641.5 L820.8 1634.5 L813.2 1627.9 L805.7 1621.7 L798.3 1615.9 L791.0 1610.4 L784.5 1605.3 L778.8 1600.6 L774.0 1596.3 L770.0 1592.3 L766.3 1588.4 L762.9 1584.6 L759.8 1580.9 L757.1 1577.3 L753.7 1572.4 L749.7 1566.1 L745.1 1558.4 L739.8 1549.4 L735.4 1542.0 L731.8 1536.2 L729.0 1532.1 L727.0 1529.6 L724.6 1527.1 L721.7 1524.6 L718.5 1522.2 L714.8 1519.7 L710.0 1516.8 L704.0 1513.4 L696.8 1509.6 L688.5 1505.3 L678.8 1498.6 L667.9 1489.6 L655.5 1478.3 L641.9 1464.6 L631.2 1453.5 L623.4 1445.2 L618.6 1439.5 L616.7 1436.5 L614.8 1433.0 L612.9 1429.0 L611.0 1424.5 L609.1 1419.5 L607.2 1413.8 L605.1 1407.2 L603.0 1400.0 L600.9 1392.0 L598.9 1384.0 L597.3 1376.0 L595.8 1368.0 L594.6 1360.0 L593.3 1353.7 L592.1 1349.0 L591.0 1345.9 L589.8 1344.5 L587.9 1343.1 L585.3 1341.5 L582.0 1339.9 L578.0 1338.2 L574.9 1336.4 L572.6 1334.6 L571.2 1332.8 L570.6 1330.9 L570.2 1328.9 L570.0 1327.0 L570.0 1325.0 L570.1 1323.0 L570.7 1320.5 L571.6 1317.5 L573.0 1314.0 L574.8 1310.0 L577.8 1304.8 L582.1 1298.2 L587.6 1290.5 L594.3 1281.5 L600.1 1274.2 L604.9 1268.5 L608.8 1264.5 L611.7 1262.1 L615.1 1259.8 L619.0 1257.6 L623.5 1255.6 L628.5 1253.6 L633.2 1251.3 L637.8 1248.9 L642.0 1246.2 L646.0 1243.3 L649.3 1241.2 L651.8 1239.9 L653.6 1239.3 L654.6 1239.6 L655.6 1240.5 L656.4 1242.2 L657.2 1244.5 L657.9 1247.5 L658.7 1249.9 L659.7 1251.7 L660.8 1252.8 L662.1 1253.3 L664.8 1253.8 L668.9 1254.2 L674.5 1254.6 L681.5 1254.9 L688.8 1255.8 L696.2 1257.2 L704.0 1259.1 L712.0 1261.6 L719.0 1263.3 L725.0 1264.3 L730.0 1264.6 L734.0 1264.1 L737.8 1263.5 L741.2 1262.8 L744.5 1261.9 L747.5 1260.9 L750.0 1259.8 L752.0 1258.9 L753.5 1257.9 L754.5 1256.9 L755.4 1255.7 L756.2 1254.3 L756.9 1252.7 L757.5 1250.8 L757.9 1248.9 L758.1 1247.0 L758.0 1245.0 L757.6 1243.0 L756.9 1240.2 L755.6 1236.8 L753.9 1232.5 L751.8 1227.5 L750.3 1223.0 L749.5 1219.0 L749.3 1215.5 L749.7 1212.5 L750.6 1209.2 L751.7 1205.8 L753.2 1202.0 L755.0 1198.0 L756.8 1194.2 L758.7 1190.8 L760.7 1187.5 L762.6 1184.5 L764.8 1181.8 L767.0 1179.2 L769.4 1177.0 L771.9 1175.0 L774.4 1173.3 L776.7 1172.0 L778.8 1171.1 L780.9 1170.4 L783.2 1170.1 L785.7 1170.1 L788.5 1170.4 L791.5 1171.0 L794.5 1172.1 L797.5 1173.7 L800.5 1175.8 L803.5 1178.5 L806.2 1180.6 L808.8 1182.3 L811.0 1183.4 L813.0 1184.0 L816.0 1184.2 L820.0 1184.1 L825.0 1183.6 L831.0 1182.7 L837.0 1182.2 L843.0 1181.9 L849.0 1182.0 L855.0 1182.4 L861.2 1182.5 L867.8 1182.1 L874.5 1181.4 L881.5 1180.3 L886.9 1179.6 L890.6 1179.2 L892.7 1179.2 L893.2 1179.5 L892.9 1180.4 L891.9 1181.8 L890.2 1183.7 L887.7 1186.1 L885.7 1188.4 L884.1 1190.4 L883.0 1192.1 L882.4 1193.7 L881.9 1195.3 L881.7 1197.1 L881.7 1199.0 L881.8 1201.0 L882.2 1203.0 L882.9 1205.0 L883.7 1207.0 L884.8 1209.0 L886.7 1211.7 L889.5 1215.0 L893.0 1218.9 L897.4 1223.5 L902.2 1227.9 L907.4 1231.9 L913.0 1235.6 L919.0 1239.1 L924.2 1241.9 L928.8 1244.0 L932.5 1245.5 L935.5 1246.4 L937.8 1247.0 L939.2 1247.5 L940.0 1247.7"/>
-    <path class="ct" data-f="0.1592" d="M684.8 1672.0 L684.4 1671.2 L683.8 1669.8 L682.8 1667.5 L681.5 1664.5 L679.0 1660.2 L675.1 1654.8 L670.0 1648.0 L663.6 1640.0 L655.0 1629.7 L644.0 1617.2 L630.8 1602.4 L615.3 1585.3 L601.8 1570.3 L590.4 1557.3 L581.0 1546.3 L573.7 1537.4 L566.1 1527.7 L558.2 1517.2 L550.0 1506.0 L541.5 1494.0 L533.9 1482.8 L527.0 1472.2 L521.0 1462.5 L515.9 1453.5 L511.3 1444.8 L507.4 1436.2 L504.1 1428.0 L501.4 1420.0 L499.2 1412.0 L497.6 1404.0 L496.5 1396.0 L495.9 1388.0 L495.9 1379.8 L496.4 1371.2 L497.5 1362.5 L499.1 1353.5 L501.2 1344.6 L503.8 1335.7 L507.0 1326.9 L510.6 1318.1 L514.2 1310.0 L518.0 1302.5 L521.7 1295.6 L525.5 1289.4 L529.4 1283.4 L533.4 1277.8 L537.5 1272.5 L541.6 1267.5 L545.8 1262.8 L550.2 1258.2 L554.6 1254.0 L559.1 1250.0 L563.9 1246.1 L568.9 1242.3 L574.2 1238.7 L579.7 1235.1 L585.9 1231.5 L592.6 1227.8 L600.0 1224.0 L608.0 1220.2 L616.0 1216.6 L624.0 1213.2 L632.0 1210.2 L640.0 1207.3 L648.0 1204.7 L656.0 1202.4 L664.0 1200.3 L672.0 1198.4 L681.0 1196.5 L691.0 1194.6 L702.0 1192.7 L714.0 1190.8 L723.5 1189.1 L730.5 1187.7 L735.0 1186.5 L737.0 1185.5 L739.8 1183.6 L743.2 1180.9 L747.5 1177.4 L752.5 1173.0 L757.2 1169.2 L761.8 1166.0 L766.0 1163.4 L770.0 1161.4 L774.2 1159.9 L778.8 1158.9 L783.5 1158.2 L788.5 1158.0 L793.8 1158.7 L799.2 1160.2 L805.0 1162.6 L811.0 1165.8 L816.8 1168.0 L822.2 1169.4 L827.5 1169.9 L832.5 1169.4 L837.8 1169.2 L843.2 1169.1 L849.0 1169.3 L855.0 1169.7 L860.8 1169.6 L866.2 1169.1 L871.5 1168.1 L876.5 1166.7 L881.0 1165.6 L885.0 1164.8 L888.5 1164.2 L891.5 1163.9 L894.5 1164.0 L897.5 1164.3 L900.5 1164.9 L903.5 1165.9 L906.5 1167.3 L909.5 1169.2 L912.5 1171.5 L915.5 1174.2 L919.0 1176.2 L923.0 1177.6 L927.5 1178.2 L932.5 1178.1 L936.2 1178.0 L938.8 1177.9 L940.0 1177.9"/>
-    <path class="ct" data-f="0.2405" d="M518.7 1672.0 L518.6 1671.5 L518.3 1670.5 L517.9 1669.0 L517.3 1667.0 L516.1 1664.5 L514.4 1661.5 L512.1 1658.0 L509.3 1654.0 L501.3 1644.0 L488.3 1628.0 L470.2 1606.0 L447.1 1578.0 L428.0 1554.8 L413.0 1536.2 L402.1 1522.5 L395.2 1513.5 L388.8 1504.5 L382.8 1495.5 L377.3 1486.5 L372.2 1477.5 L367.7 1468.5 L363.7 1459.5 L360.3 1450.5 L357.5 1441.5 L355.2 1433.2 L353.4 1425.8 L352.1 1419.0 L351.3 1413.0 L350.7 1406.8 L350.3 1400.2 L350.2 1393.5 L350.2 1386.5 L350.6 1379.2 L351.1 1371.8 L352.0 1364.0 L353.1 1356.0 L354.4 1348.2 L355.8 1340.8 L357.5 1333.5 L359.3 1326.5 L361.3 1319.8 L363.3 1313.2 L365.5 1307.0 L367.8 1301.0 L370.3 1295.0 L373.0 1289.0 L375.9 1283.0 L379.0 1277.0 L384.0 1268.2 L391.1 1256.7 L400.2 1242.3 L411.3 1225.2 L420.7 1211.2 L428.2 1200.2 L434.0 1192.4 L438.0 1187.6 L442.0 1183.2 L446.0 1179.0 L450.0 1175.0 L454.0 1171.3 L458.2 1167.7 L462.8 1164.1 L467.5 1160.5 L472.5 1156.9 L478.0 1153.3 L483.9 1149.5 L490.3 1145.7 L497.1 1141.8 L504.5 1137.8 L512.5 1133.7 L521.1 1129.5 L530.3 1125.1 L539.1 1121.1 L547.7 1117.4 L556.0 1113.9 L564.0 1110.8 L571.8 1107.9 L579.2 1105.3 L586.5 1103.0 L593.5 1101.0 L600.8 1099.1 L608.2 1097.3 L616.0 1095.6 L624.0 1094.1 L636.0 1092.4 L652.0 1090.6 L672.0 1088.7 L696.0 1086.7 L716.5 1085.1 L733.5 1084.0 L747.0 1083.4 L757.0 1083.3 L766.5 1083.3 L775.5 1083.5 L784.0 1083.8 L792.0 1084.3 L800.2 1085.1 L808.8 1086.2 L817.5 1087.6 L826.5 1089.3 L838.5 1092.4 L853.5 1096.7 L871.5 1102.4 L892.5 1109.4 L909.2 1114.8 L921.8 1118.7 L930.0 1121.0 L934.0 1121.8 L937.0 1122.4 L939.0 1122.8 L940.0 1123.0"/>
-    <path class="ct" data-f="0.3217" d="M366.8 1672.0 L366.6 1671.5 L366.3 1670.5 L365.9 1669.0 L365.3 1667.0 L364.5 1665.0 L363.5 1663.0 L362.3 1661.0 L360.9 1659.0 L355.3 1652.0 L345.3 1640.0 L331.1 1623.0 L312.6 1601.0 L296.8 1581.8 L283.8 1565.2 L273.5 1551.5 L266.0 1540.5 L259.3 1530.2 L253.5 1520.8 L248.5 1512.0 L244.4 1504.0 L240.3 1495.5 L236.2 1486.5 L232.1 1477.0 L228.0 1467.0 L224.2 1457.2 L220.7 1447.8 L217.5 1438.5 L214.5 1429.5 L212.0 1421.0 L209.9 1413.0 L208.1 1405.5 L206.7 1398.5 L205.7 1391.5 L205.0 1384.5 L204.6 1377.5 L204.6 1370.5 L204.8 1363.2 L205.4 1355.8 L206.2 1348.0 L207.4 1340.0 L208.9 1331.2 L210.7 1321.8 L212.9 1311.5 L215.5 1300.5 L218.1 1290.2 L220.7 1280.8 L223.5 1272.0 L226.2 1264.0 L229.1 1256.2 L232.2 1248.6 L235.5 1241.2 L238.9 1234.0 L242.6 1226.7 L246.6 1219.2 L251.0 1211.5 L255.6 1203.7 L260.7 1195.6 L266.2 1187.2 L272.1 1178.5 L278.5 1169.5 L284.7 1161.0 L290.7 1153.0 L296.7 1145.5 L302.5 1138.5 L308.6 1131.4 L315.1 1124.3 L322.0 1117.1 L329.2 1109.9 L336.6 1102.7 L344.2 1095.5 L352.0 1088.5 L360.0 1081.5 L367.8 1075.0 L375.2 1069.0 L382.5 1063.5 L389.5 1058.5 L396.5 1053.8 L403.5 1049.3 L410.5 1045.1 L417.5 1041.3 L427.0 1036.6 L439.0 1031.0 L453.5 1024.6 L470.5 1017.4 L486.2 1011.0 L500.8 1005.2 L514.0 1000.1 L526.0 995.7 L538.5 991.5 L551.5 987.4 L565.0 983.5 L579.0 979.7 L592.8 976.2 L606.2 973.0 L619.5 970.2 L632.5 967.8 L644.5 965.7 L655.5 964.1 L665.5 962.9 L674.5 962.1 L684.0 961.5 L694.0 961.0 L704.5 960.6 L715.5 960.4 L728.0 960.6 L742.0 961.1 L757.5 962.1 L774.5 963.4 L788.2 964.8 L798.8 966.3 L806.0 967.8 L810.0 969.5 L815.6 972.5 L822.7 976.8 L831.4 982.5 L841.7 989.5 L852.4 996.5 L863.6 1003.5 L875.2 1010.5 L887.2 1017.5 L897.6 1023.5 L906.5 1028.5 L913.7 1032.4 L919.4 1035.3 L924.5 1037.7 L928.8 1039.6 L932.5 1040.9 L935.5 1041.6 L937.8 1042.2 L939.2 1042.6 L940.0 1042.7"/>
-    <path class="ct" data-f="0.4029" d="M210.7 1672.0 L210.6 1671.5 L210.2 1670.5 L209.6 1669.0 L208.9 1667.0 L206.6 1663.5 L202.7 1658.6 L197.3 1652.1 L190.4 1644.2 L184.2 1636.9 L178.7 1630.2 L174.0 1624.0 L170.0 1618.4 L165.8 1612.1 L161.2 1605.1 L156.5 1597.3 L151.5 1588.9 L146.6 1580.2 L141.8 1571.5 L137.1 1562.6 L132.5 1553.6 L127.7 1543.6 L122.7 1532.9 L117.5 1521.2 L112.1 1508.6 L106.8 1495.9 L101.6 1482.9 L96.5 1469.6 L91.4 1456.2 L87.1 1444.1 L83.5 1433.4 L80.6 1424.0 L78.3 1416.0 L76.4 1408.2 L74.9 1400.8 L73.6 1393.5 L72.7 1386.5 L72.1 1379.2 L71.7 1371.8 L71.7 1364.0 L71.9 1356.0 L72.5 1347.5 L73.4 1338.5 L74.6 1329.0 L76.2 1319.0 L78.5 1306.9 L81.5 1292.8 L85.1 1276.6 L89.5 1258.4 L93.7 1241.2 L97.9 1225.1 L102.0 1210.1 L106.0 1196.1 L109.8 1183.5 L113.4 1172.1 L116.8 1162.0 L120.0 1153.2 L123.3 1144.6 L126.8 1136.1 L130.5 1127.8 L134.3 1119.6 L138.2 1111.8 L142.2 1104.3 L146.4 1097.1 L150.7 1090.3 L155.0 1083.7 L159.5 1077.5 L164.2 1071.7 L168.9 1066.1 L174.2 1060.4 L180.1 1054.5 L186.5 1048.5 L193.5 1042.3 L203.0 1034.3 L215.0 1024.4 L229.5 1012.7 L246.5 999.2 L262.5 986.9 L277.5 975.9 L291.5 966.2 L304.5 957.7 L317.2 949.6 L329.8 941.9 L342.0 934.7 L354.0 927.9 L365.2 921.8 L375.8 916.4 L385.5 911.8 L394.5 907.8 L409.2 901.9 L429.8 894.0 L456.0 884.0 L488.0 872.1 L515.0 862.3 L537.0 854.6 L554.0 848.9 L566.0 845.4 L577.8 842.2 L589.2 839.3 L600.5 836.7 L611.5 834.5 L622.0 832.6 L632.0 831.0 L641.5 829.8 L650.5 828.9 L659.2 828.3 L667.8 827.9 L676.0 827.7 L684.0 827.8 L691.8 828.1 L699.2 828.6 L706.5 829.3 L713.5 830.3 L720.5 831.4 L727.5 832.9 L734.5 834.6 L741.5 836.6 L751.0 839.9 L763.0 844.4 L777.5 850.3 L794.5 857.4 L809.5 863.9 L822.5 869.6 L833.5 874.7 L842.5 879.1 L851.5 883.8 L860.5 888.8 L869.5 894.1 L878.5 899.6 L887.7 905.8 L897.2 912.4 L907.0 919.6 L917.0 927.4 L925.0 933.3 L931.0 937.5 L935.0 940.0 L937.0 940.6 L938.5 941.1 L939.5 941.5 L940.0 941.6"/>
-    <path class="ct" data-f="0.4842" d="M0.0 1077.9 L0.2 1077.8 L0.8 1077.5 L1.5 1077.0 L2.5 1076.4 L3.5 1075.5 L4.5 1074.4 L5.5 1073.0 L6.5 1071.4 L8.5 1067.3 L11.5 1060.7 L15.5 1051.6 L20.5 1039.9 L25.3 1029.1 L30.0 1018.9 L34.6 1009.6 L38.9 1000.9 L43.9 992.0 L49.3 982.7 L55.4 973.0 L62.0 963.0 L68.7 953.7 L75.5 945.1 L82.4 937.2 L89.4 930.1 L99.5 920.9 L112.5 909.6 L128.5 896.3 L147.5 881.0 L163.0 868.7 L175.0 859.6 L183.5 853.5 L188.5 850.5 L196.2 846.8 L206.8 842.4 L220.0 837.2 L236.0 831.4 L252.5 824.8 L269.5 817.6 L287.0 809.6 L305.0 800.9 L323.0 792.4 L341.0 784.3 L359.0 776.3 L377.0 768.6 L393.8 761.2 L409.2 754.0 L423.5 747.0 L436.5 740.3 L447.5 734.8 L456.5 730.6 L463.5 727.5 L468.5 725.7 L474.0 724.0 L480.0 722.4 L486.5 721.0 L493.5 719.6 L504.8 718.0 L520.2 716.1 L540.0 714.0 L564.0 711.5 L584.2 709.6 L600.8 708.3 L613.5 707.6 L622.5 707.5 L631.2 707.6 L639.8 708.0 L648.0 708.7 L656.0 709.6 L664.0 710.8 L672.0 712.3 L680.0 714.2 L688.0 716.3 L696.8 719.0 L706.2 722.2 L716.5 726.0 L727.5 730.2 L741.8 736.5 L759.2 744.9 L780.0 755.2 L804.0 767.7 L828.2 778.9 L852.8 788.8 L877.5 797.5 L902.5 805.0 L921.2 810.6 L933.8 814.3 L940.0 816.1 M0.0 1561.4 L0.2 1561.6 L0.8 1561.9 L1.5 1562.5 L2.5 1563.3 L3.8 1565.1 L5.2 1568.1 L7.0 1572.1 L9.0 1577.2 L11.6 1585.0 L14.8 1595.4 L18.7 1608.5 L23.1 1624.3 L26.7 1637.7 L29.5 1648.6 L31.4 1657.0 L32.5 1663.0 L33.3 1667.5 L33.8 1670.5 L34.1 1672.0"/>
-    <path class="ct" data-f="0.5654" d="M0.0 804.1 L0.8 803.8 L2.2 803.0 L4.5 801.8 L7.5 800.3 L12.4 796.5 L19.3 790.5 L28.1 782.2 L38.8 771.7 L48.4 762.5 L56.9 754.6 L64.3 747.9 L70.6 742.5 L76.8 737.4 L82.9 732.6 L89.0 728.1 L95.0 723.9 L101.0 719.9 L107.0 716.2 L113.0 712.7 L119.0 709.4 L125.8 706.2 L133.2 702.9 L141.5 699.6 L150.5 696.3 L161.2 692.9 L173.8 689.5 L188.0 686.1 L204.0 682.6 L217.8 679.4 L229.2 676.6 L238.5 674.1 L245.5 671.9 L261.5 665.3 L286.5 654.2 L320.5 638.6 L363.5 618.5 L397.2 603.0 L421.8 591.9 L437.0 585.4 L443.0 583.3 L449.0 581.5 L455.0 579.9 L461.0 578.6 L467.0 577.5 L473.2 576.6 L479.8 575.9 L486.5 575.5 L493.5 575.2 L500.8 575.3 L508.2 575.5 L516.0 576.0 L524.0 576.8 L535.0 578.9 L549.0 582.3 L566.0 587.0 L586.0 593.0 L607.0 598.7 L629.0 604.2 L652.0 609.3 L676.0 614.2 L696.8 618.7 L714.2 623.0 L728.5 627.0 L739.5 630.7 L753.0 635.8 L769.0 642.3 L787.5 650.1 L808.5 659.4 L829.2 667.8 L849.8 675.4 L870.0 682.1 L890.0 688.0 L906.2 692.7 L918.8 696.1 L927.5 698.3 L932.5 699.2 L936.2 699.9 L938.8 700.4 L940.0 700.6"/>
-    <path class="ct" data-f="0.6466" d="M0.0 579.8 L0.8 579.7 L2.2 579.4 L4.5 579.0 L7.5 578.4 L11.2 577.4 L15.8 575.9 L21.0 574.0 L27.0 571.7 L33.6 568.9 L40.9 565.7 L48.9 562.1 L57.4 558.0 L67.2 553.2 L78.2 547.6 L90.4 541.2 L103.9 534.0 L116.4 527.7 L128.1 522.4 L139.0 518.0 L149.0 514.5 L161.2 511.0 L175.8 507.5 L192.5 503.9 L211.5 500.2 L232.8 496.7 L256.2 493.3 L282.0 490.1 L310.0 487.0 L337.5 483.2 L364.5 478.8 L391.0 473.7 L417.0 468.0 L440.0 463.4 L460.0 460.1 L477.0 458.0 L491.0 457.0 L504.2 456.5 L516.8 456.4 L528.5 456.8 L539.5 457.6 L550.5 458.8 L561.5 460.5 L572.5 462.6 L583.5 465.0 L600.0 469.6 L622.0 476.4 L649.5 485.3 L682.5 496.3 L712.8 506.9 L740.2 517.1 L765.0 526.9 L787.0 536.3 L810.2 545.3 L834.8 554.1 L860.5 562.5 L887.5 570.6 L908.5 576.9 L923.5 581.2 L932.5 583.6 L935.5 584.2 L937.8 584.5 L939.2 584.8 L940.0 584.9"/>
-    <path class="ct" data-f="0.7279" d="M0.0 407.5 L0.5 407.4 L1.5 407.2 L3.0 406.9 L5.0 406.6 L10.5 404.7 L19.5 401.4 L32.0 396.6 L48.0 390.3 L63.0 384.8 L77.0 380.3 L90.0 376.7 L102.0 373.9 L124.5 370.9 L157.5 367.7 L201.0 364.2 L255.0 360.5 L302.5 357.0 L343.5 353.6 L378.0 350.4 L406.0 347.3 L433.5 343.9 L460.5 340.1 L487.0 336.1 L513.0 331.7 L534.0 328.4 L550.0 326.0 L561.0 324.6 L567.0 324.2 L572.8 324.1 L578.2 324.3 L583.5 324.9 L588.5 325.8 L594.5 327.2 L601.5 329.0 L609.5 331.4 L618.5 334.2 L630.5 338.4 L645.5 344.1 L663.5 351.3 L684.5 359.9 L710.5 370.4 L741.5 382.6 L777.5 396.7 L818.5 412.6 L852.2 425.6 L878.8 435.7 L898.0 443.0 L910.0 447.4 L919.8 450.9 L927.2 453.4 L932.5 454.9 L935.5 455.5 L937.8 455.9 L939.2 456.2 L940.0 456.3"/>
-    <path class="ct" data-f="0.8091" d="M0.0 222.9 L3.0 222.9 L9.0 223.0 L18.0 223.0 L30.0 223.1 L46.5 222.7 L67.5 221.9 L93.0 220.7 L123.0 219.0 L155.0 217.8 L189.0 217.3 L225.0 217.3 L263.0 217.8 L301.8 217.5 L341.2 216.4 L381.5 214.4 L422.5 211.6 L456.0 209.6 L482.0 208.2 L500.5 207.6 L511.5 207.8 L522.0 208.4 L532.0 209.4 L541.5 210.8 L550.5 212.6 L561.2 215.5 L573.8 219.5 L588.0 224.4 L604.0 230.4 L624.5 236.6 L649.5 242.8 L679.0 249.3 L713.0 255.8 L748.8 263.8 L786.2 273.0 L825.5 283.6 L866.5 295.5 L898.0 304.6 L920.0 310.8 L932.5 314.1 L935.5 314.6 L937.8 315.0 L939.2 315.2 L940.0 315.3"/>
-    <path class="ct" data-f="0.8903" d="M0.0 74.3 L12.2 75.0 L36.8 76.4 L73.5 78.6 L122.5 81.4 L166.0 83.4 L204.0 84.6 L236.5 85.0 L263.5 84.5 L292.2 84.2 L322.8 84.2 L355.0 84.4 L389.0 84.9 L417.8 85.9 L441.2 87.5 L459.5 89.6 L472.5 92.3 L488.2 96.0 L506.8 100.7 L528.0 106.4 L552.0 113.2 L580.0 119.4 L612.0 125.3 L648.0 130.7 L688.0 135.6 L726.2 141.0 L762.8 146.8 L797.5 153.1 L830.5 159.7 L859.0 165.1 L883.0 169.2 L902.5 172.0 L917.5 173.5 L928.8 174.6 L936.2 175.3 L940.0 175.7"/>
-    <path class="ct" data-f="0.9716" d="M588.1 0.0 L588.2 0.2 L588.4 0.8 L588.7 1.5 L589.1 2.5 L590.1 3.8 L591.7 5.2 L594.0 7.0 L596.8 9.0 L599.9 10.9 L603.1 12.7 L606.7 14.3 L610.4 15.9 L614.2 17.3 L618.1 18.5 L622.0 19.6 L626.0 20.6 L630.5 21.3 L635.5 21.9 L641.0 22.4 L647.0 22.7 L655.8 22.7 L667.2 22.4 L681.5 21.9 L698.5 21.1 L713.2 20.5 L725.8 20.3 L736.0 20.3 L744.0 20.6 L751.8 21.1 L759.2 21.8 L766.5 22.7 L773.5 23.7 L783.8 25.5 L797.2 28.1 L814.0 31.5 L834.0 35.6 L853.8 39.3 L873.2 42.6 L892.5 45.5 L911.5 47.9 L925.8 49.8 L935.2 51.0 L940.0 51.6"/>
-  </g>
-  <g class="mk mk--cl" data-x="123.3" data-y="1144.6" data-a="-68.2" transform="translate(123.3 1144.6) rotate(-68.2) scale(1.9810)"><text class="cl__t" y="3.5" text-anchor="middle">181</text></g>
-  <g class="mk mk--cl" data-x="402.1" data-y="1522.5" data-a="52.1" transform="translate(402.1 1522.5) rotate(52.1) scale(1.9810)"><text class="cl__t" y="3.5" text-anchor="middle">179</text></g>
-  <path class="route route--plan" d="M250.0 1000.0 C263.3 1010.3 300.8 1041.7 330.0 1062.0 C359.2 1082.3 393.3 1100.7 425.0 1122.0 C456.7 1143.3 491.5 1168.7 520.0 1190.0 C548.5 1211.3 576.0 1233.3 596.0 1250.0 C616.0 1266.7 632.7 1283.3 640.0 1290.0" stroke-dasharray="3.96 9.91"/>
-  <path class="route route--under" d="M250.0 1000.0 C263.3 1010.3 300.8 1041.7 330.0 1062.0 C359.2 1082.3 393.3 1100.7 425.0 1122.0 C456.7 1143.3 491.5 1168.7 520.0 1190.0 C548.5 1211.3 576.0 1233.3 596.0 1250.0 C616.0 1266.7 632.7 1283.3 640.0 1290.0"/>
-  <path class="route route--line" d="M250.0 1000.0 C263.3 1010.3 300.8 1041.7 330.0 1062.0 C359.2 1082.3 393.3 1100.7 425.0 1122.0 C456.7 1143.3 491.5 1168.7 520.0 1190.0 C548.5 1211.3 576.0 1233.3 596.0 1250.0 C616.0 1266.7 632.7 1283.3 640.0 1290.0"/>
-  <g class="mk mk--start" data-x="250" data-y="1000" transform="translate(250 1000) scale(1.9810)">
-    <circle class="mk__ring" r="8"/><circle class="mk__dot" r="2"/>
-    <text class="mk__t mk__t--a" x="16" y="-5">YOU ARE HERE</text>
-    <text class="mk__t" x="16" y="10">41.8781 N  87.6298 W  181 M</text>
-  </g>
-  <g class="mk mk--end" data-x="640" data-y="1290" transform="translate(640 1290) scale(1.9810)">
-    <g class="mk__glyph"><circle class="mk__ring" r="8"/><path class="mk__x" d="M-15 0H-4M4 0H15M0 -15V-4M0 4V15"/></g>
-    <g class="mk__lab"><text class="mk__t mk__t--a" x="-20" y="-5" text-anchor="end">YOUR BETTER GROUND</text>
-    <text class="mk__t" x="-20" y="10" text-anchor="end">41.8711 N  87.6124 W  176 M</text>
-    <text class="mk__t mk__t--done" x="-20" y="25" text-anchor="end">ROUTE SURVEYED</text></g>
-  </g>
-  <g class="mk mk--head" data-x="250" data-y="1000" transform="translate(250 1000) scale(1.9810)"><circle class="mk__head" r="3"/></g>
-</svg>
-      </div>
-      <div class="shade"></div>
-      <div class="scrim scrim--top"></div>
-      <div class="scrim scrim--foot"></div>
-      <div class="hud" aria-hidden="true">
-        <div class="wrap">
-          <div class="hud__scale"><i></i><span>500 M</span></div>
-          <div class="hud__read"><span data-r="pos">41.8781 N  87.6298 W</span><span>ELEV <b data-r="elev">181.0</b> M</span><span>NDVI <b data-r="ndvi">0.04</b></span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero__copy">
-      <div class="scrim scrim--lead"></div>
-      <div class="wrap">
-        <p class="eyebrow">AI consulting · Chicago</p>
-        <h1 id="hero-title"><span>You don't have to</span> <span>cross alone.</span></h1>
-        <p class="lede lede--wide">I find routine work AI or a plain automation can take off your team's plate, build the fix, keep it working, and walk you through it.</p>
-      </div>
-    </div>
-
-    <div class="hero__arrive">
-      <picture class="arrive__plate" aria-hidden="true">
-        <source media="(max-aspect-ratio: 9/10)" srcset="img/m-forest.webp" width="1290" height="2292">
-        <img src="img/d-forest.webp" width="2400" height="1350" alt="" loading="lazy">
-      </picture>
-      <div class="scrim scrim--arrive"></div>
-      <div class="wrap">
-        <p class="lede lede--phone">I find routine work AI or a plain automation can take off your team's plate, build the fix, keep it working, and walk you through it.</p>
-        <div class="actions">
-          <a class="cta" href="mailto:amrit@amritchana.com?subject=About%20my%20firm">Email me your website</a>
-          <p class="after">I'll reply with a short note on where I'd look first. It's free, and you don't need to get on a call.</p>
-        </div>
-        <div class="who"><img src="../assets/amrit-b.jpg" alt="Amrit Chana" width="52" height="52"><span><b>Amrit Chana</b>I do the work myself. You won't be handed off.</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="business-screen" aria-labelledby="business-title">
-    <div class="room__window" aria-hidden="true">
-      <img src="img/d-forest.webp" alt="" width="2400" height="1350" loading="lazy">
-      <span class="room__mullion"></span>
-    </div>
-    <div class="room__desk" aria-hidden="true"></div>
-    <div class="wrap room__content" data-reveal>
-      <div class="room__copy">
-        <p class="eyebrow room__eyebrow">The work, made concrete</p>
-        <h2 id="business-title">A little less copy‑paste. More room for the work.</h2>
-        <p>An invoice reminder can mean checking a record, finding the last email, and writing the same note again. A small workflow can bring that context together and draft the follow-up.</p>
-        <p>You still review it. Nothing leaves your business just because a model wrote it.</p>
-        <div class="room__actions">
-          <a class="cta" href="mailto:amrit@amritchana.com?subject=About%20my%20firm">Email me your website</a>
-          <p class="after">I'll reply with a short, free note on where I'd look first.</p>
-        </div>
-      </div>
-
-      <figure class="workstation">
-        <figcaption class="workstation__caption" id="workflow-caption">Example workflow · no client data</figcaption>
-        <div class="laptop" role="img" aria-labelledby="workflow-caption" aria-describedby="workflow-summary">
-          <div class="laptop__screen">
-            <div class="workflow">
-              <div class="workflow__top">
-                <div class="workflow__brand"><span class="workflow__mark">RQ</span><span>Review queue</span></div>
-                <span class="workflow__topnote">EXAMPLE ONLY</span>
-              </div>
-              <div class="workflow__body">
-                <div class="workflow__rail">
-                  <p class="workflow__rail-label">Today</p>
-                  <div class="workflow__item"><span class="workflow__dot"></span><span>New customer inquiry</span></div>
-                  <div class="workflow__item workflow__item--selected"><span class="workflow__dot"></span><span>Invoice follow-up</span></div>
-                  <div class="workflow__item"><span class="workflow__dot"></span><span>Scheduling request</span></div>
-                </div>
-                <div class="workflow__main">
-                  <div class="workflow__heading"><h3>Ready for your review</h3><span class="workflow__status">1 draft</span></div>
-                  <div class="workflow__card">
-                    <p class="workflow__kicker">Routine follow-up</p>
-                    <h4>Invoice reminder</h4>
-                    <p>Drafted from the invoice status and the latest message in this thread.</p>
-                    <div class="workflow__steps" aria-hidden="true">
-                      <div class="workflow__step"><b>01 · CHECK</b>Invoice matched</div>
-                      <div class="workflow__step"><b>02 · DRAFT</b>Reminder prepared</div>
-                      <div class="workflow__step workflow__step--human"><b>03 · YOU</b>Review before send</div>
-                    </div>
-                    <div class="workflow__actions" aria-hidden="true"><span class="workflow__button">Edit draft</span><span class="workflow__button workflow__button--primary">Review &amp; send</span></div>
-                  </div>
-                </div>
-              </div>
-              <div class="workflow__footer">A person decides what goes out.</div>
+      <div class="journey__track">
+        <section class="journey__scene scene--ice" data-scene="ice" aria-labelledby="hero-title">
+          <picture class="journey__image">
+            <source media="(max-aspect-ratio:9/10)" srcset="img/m-ice-aerial.webp" width="900" height="1950">
+            <img src="img/ice-aerial.webp" width="2400" height="1350" alt="A frozen glacier rises toward a snowy mountain ridge under a grey sky." fetchpriority="high">
+          </picture>
+          <div class="journey__shade"></div>
+          <div class="hero-copy">
+            <div class="wrap">
+              <p class="eyebrow">AI consulting · Chicago</p>
+              <h1 id="hero-title"><span>You don't have to</span><span>cross alone.</span></h1>
+              <p>I find routine work AI or a plain automation can take off your team's plate, build the fix, keep it working, and walk you through it.</p>
             </div>
           </div>
-          <div class="laptop__base"><div class="laptop__notch"></div></div>
+        </section>
+        <section class="journey__scene scene--ridge" data-scene="ridge" aria-label="The camera crests the snowy ridge">
+          <picture class="journey__image">
+            <source media="(max-aspect-ratio:9/10)" srcset="img/m-ridge-crest.webp" width="900" height="1950">
+            <img src="img/ridge-crest.webp" width="2400" height="1350" alt="From the snow-covered ridge, a separate green valley opens below." loading="eager">
+          </picture>
+          <div class="journey__shade"></div>
+          <h2 class="sr-only">Over the ridge</h2>
+        </section>
+        <section class="journey__scene scene--valley" data-scene="valley" aria-label="A different, lush valley below the ridge">
+          <picture class="journey__image">
+            <source media="(max-aspect-ratio:9/10)" srcset="img/m-eden-valley.webp" width="900" height="1950">
+            <img src="img/eden-valley.webp" width="2400" height="1350" alt="A lush, sunlit valley with forested hills and a winding river." loading="eager">
+          </picture>
+          <div class="journey__shade"></div>
+          <h2 class="sr-only">A new valley</h2>
+        </section>
+        <section class="journey__scene scene--forest" data-scene="forest" aria-label="Descending into the forest">
+          <picture class="journey__image">
+            <source media="(max-aspect-ratio:9/10)" srcset="img/m-forest-closeup.webp" width="900" height="1950">
+            <img src="img/forest-closeup.webp" width="2400" height="1350" alt="Warm sunlight falls through a green forest onto a small stream." loading="eager">
+          </picture>
+          <div class="journey__shade"></div>
+          <h2 class="sr-only">Into the forest</h2>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="services" aria-labelledby="services-title">
+    <div class="services__backdrop" aria-hidden="true"><img src="img/forest-closeup.webp" alt="" width="2400" height="1350" loading="eager"></div>
+    <div class="wrap services__content">
+      <header class="site-header">
+        <div class="site-header__inner">
+          <a class="brand" href="#top">Amrit Chana</a>
+          <a class="header-mail" href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
         </div>
-        <p class="workstation__note" id="workflow-summary">A routine follow-up, drafted for a person to review.</p>
-      </figure>
-    </div>
-  </section>
-
-  <section class="morning">
-    <figure class="wrap" aria-label="Illustrative example of a morning's work" data-reveal style="margin:0 auto">
-      <h2>Illustrative: a morning at an accounting firm</h2>
-      <ol class="ledger">
-        <li><span>Client call about a tax notice</span></li>
-        <li class="leak"><span>Re-key client documents into the tax software</span></li>
-        <li class="leak"><span>Find last year's workpapers on the shared drive</span></li>
-        <li><span>Review a return before sign-off</span></li>
-        <li class="leak"><span>Copy invoice totals into the billing tracker</span></li>
-        <li class="leak"><span>Answer three "where is this at?" emails</span></li>
-      </ol>
-    </figure>
-  </section>
-
-  <section class="band">
-    <div class="wrap split" data-reveal>
-      <h2>Start with one piece of work.</h2>
-      <div>
-        <p>If the note is useful, the next step is a paid review. I talk with the people doing the work, look first at the software you already pay for, and write a plan. Sometimes the answer is AI, sometimes a simpler automation, and sometimes nothing needs building.</p>
-        <p>When we build something, I count the time your people spend checking its output, not only the time it saves. I'll tell you where client data goes before anything is built, and I keep the fix working as your tools change.</p>
+      </header>
+      <div class="services__intro">
+        <p class="eyebrow">A practical way to get time back</p>
+        <h2 id="services-title">Get back the hours your team spends chasing follow-ups.</h2>
+        <p>I find routine work AI or a plain automation can take off your team's plate, build the fix, keep it working, and walk you through it.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="band">
-    <div class="wrap split" data-reveal>
-      <h2>An example from my own business.</h2>
-      <div>
-        <p class="statement">I run my business on a system that finds answers in my own records and shows where each one came from. I'm happy to walk you through it.</p>
+      <div class="service-grid" aria-label="Ways to work together">
+        <a class="service-card" href="mailto:amrit@amritchana.com?subject=Free%20note">
+          <span class="service-card__label">Free note</span>
+          <h3>Start with a note.</h3>
+          <p>Send me your website. I'll reply with a short note on where I'd look first—free, and no call required.</p>
+        </a>
+        <a class="service-card" href="mailto:amrit@amritchana.com?subject=Paid%20review">
+          <span class="service-card__label">Paid review</span>
+          <h3>Find the right fix.</h3>
+          <p>I talk with the people doing the work, look at software you already pay for, and write a plan—even if nothing needs building.</p>
+        </a>
+        <a class="service-card" href="mailto:amrit@amritchana.com?subject=Build">
+          <span class="service-card__label">Build</span>
+          <h3>Build what helps.</h3>
+          <p>When a fix earns its place, I build it: AI where useful, a simpler automation where that fits better.</p>
+        </a>
+        <a class="service-card" href="mailto:amrit@amritchana.com?subject=Keep%20it%20working">
+          <span class="service-card__label">Keep it working</span>
+          <h3>Make it last.</h3>
+          <p>I walk you through the fix and keep it working as your tools change.</p>
+        </a>
       </div>
-    </div>
-  </section>
-
-  <section class="close">
-    <div class="wrap" data-reveal>
-      <h2>Have a piece of work in mind?</h2>
-      <p>Tell me what keeps taking up your team's time.</p>
-      <div><a class="cta" href="mailto:amrit@amritchana.com?subject=About%20my%20firm">Email Amrit</a></div>
+      <section class="queue-card" aria-labelledby="queue-title">
+        <div>
+          <p class="queue-card__label">Example · no client data</p>
+          <h3 id="queue-title">Review queue</h3>
+        </div>
+        <ol class="queue-steps" aria-label="Inbox, record, draft, then a person approves">
+          <li>Inbox</li><li>Record</li><li>Draft</li><li>A person approves</li>
+        </ol>
+      </section>
+      <div class="services__actions">
+        <a class="cta" id="email-cta" href="mailto:amrit@amritchana.com?subject=About%20my%20firm">Email me your website</a>
+        <p class="services__note"><strong>Free note:</strong> I'll reply with a short, free note on where I'd look first. No call required.</p>
+      </div>
+      <footer class="site-footer">
+        <span>Amrit Chana · Chicago</span>
+        <a href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
+      </footer>
     </div>
   </section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <span>Amrit Chana, Chicago</span>
-    <a href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
-  </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script>
 (() => {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-
-  // Later sections: one short entrance each, once. Nothing re-hides.
-  const reveals = document.querySelectorAll('[data-reveal]');
-  if (!('IntersectionObserver' in window) || reduce.matches) {
-    reveals.forEach(el => el.classList.add('is-in'));
-  } else {
-    const io = new IntersectionObserver(entries => {
-      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
-    reveals.forEach(el => io.observe(el));
-  }
-
-  if (!window.gsap || !window.ScrollTrigger) return;      // static two-frame page stands on its own
-  gsap.registerPlugin(ScrollTrigger);
-
   const root = document.documentElement;
-  const hero = document.querySelector('.hero');
-  const stage = hero.querySelector('.stage');
-  const lead = hero.querySelector('.hero__copy');
-  const cam = hero.querySelector('.cam');
-  const canvas = hero.querySelector('.gl');
-  const plateA = hero.querySelector('.plate--a img');
-  const scr = {
-    foot: hero.querySelector('.scrim--foot')
-  };
-  const hud = {
-    pos: hero.querySelector('[data-r=pos]'), elev: hero.querySelector('[data-r=elev]'),
-    ndvi: hero.querySelector('[data-r=ndvi]'), bar: hero.querySelector('.hud__scale i')
-  };
-  const SETS = {
-    d: { key: 'd', svg: hero.querySelector('.survey--d') },
-    m: { key: 'm', svg: hero.querySelector('.survey--m') }
-  };
-  const M_PER_PX = 1.91;                                   // plate scale: 500 m = 262 plate px
-  const START = [41.8781, 87.6298], END = [41.8711, 87.6124];
+  const journey = document.querySelector('.journey');
+  const track = document.querySelector('.journey__track');
+  const scenes = [...document.querySelectorAll('.journey__scene')];
+  const header = document.querySelector('.journey .site-header');
+  const copy = document.querySelector('.hero-copy');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const smooth = t => t * t * (3 - 2 * t);
 
-  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-  const seg = (p, a, b) => clamp((p - a) / (b - a), 0, 1);
-  const inOut = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-  const out = t => 1 - Math.pow(1 - t, 3);
-
-  function levelAt(set, c) {                          // field level that covers fraction c of the plate
-    const q = set.quant, x = clamp(c, 0, 1) * (q.length - 1), i = Math.min(q.length - 2, Math.floor(x));
-    const v = q[i] + (q[i + 1] - q[i]) * (x - i);
-    return c >= 1 ? 1.2 : v + .06 * c;                 // feather allowance so the last ground fully turns
-  }
-  function coverageAt(set, level) {
-    const q = set.quant;
-    for (let i = 0; i < q.length - 1; i++) if (level <= q[i + 1]) return (i + (level - q[i]) / Math.max(1e-6, q[i + 1] - q[i])) / (q.length - 1);
-    return 1;
-  }
-  function prep(set) {
-    if (set.ready) return set;
-    const svg = set.svg;
-    set.w = +svg.dataset.w; set.h = +svg.dataset.h;
-    set.startF = +svg.dataset.startf; set.endF = +svg.dataset.endf;
-    set.elevs = JSON.parse(svg.dataset.elev);
-    set.quant = JSON.parse(svg.dataset.quant);
-    set.cts = [...svg.querySelectorAll('.ct')].map(el => ({ el, f: +el.dataset.f, o: '' }));
-    set.lines = [...svg.querySelectorAll('.route--under, .route--line')];
-    set.plan = svg.querySelector('.route--plan');
-    set.path = svg.querySelector('.route--line');
-    set.mks = [...svg.querySelectorAll('.mk')];
-    set.head = svg.querySelector('.mk--head');
-    set.end = svg.querySelector('.mk--end');
-    set.endLab = svg.querySelector('.mk--end .mk__lab');
-    set.endGlyph = svg.querySelector('.mk--end .mk__glyph');
-    set.done = svg.querySelector('.mk__t--done');
-    set.ready = true;
-    return set;
-  }
-
-  // ---- WebGL: three registered plates, composited by the survey's own elevation field ----
-  const VS = 'attribute vec2 p;varying vec2 v;void main(){v=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}';
-  const FS = 'precision mediump float;varying vec2 v;uniform sampler2D tA,tT,tB,tF;uniform vec2 uS,uO;uniform float uL,uW,uBand;' +
-    'void main(){vec2 uv=v*uS+uO;float e=texture2D(tF,uv).r;vec3 a=texture2D(tA,uv).rgb;vec3 t=texture2D(tT,uv).rgb;vec3 b=texture2D(tB,uv).rgb;' +
-    'float g=dot(a,vec3(.299,.587,.114));float ee=e+(g-.33)*.05;' +
-    'float kb=1.-smoothstep(uL-uW,uL,ee);float kt=1.-smoothstep(uL+uBand-uW,uL+uBand,ee);' +
-    'vec3 c=mix(a,t,kt);c=mix(c,b,kb);gl_FragColor=vec4(c,1.);}';
-  function makeGL() {
-    const opts = { alpha: false, antialias: false, depth: false, stencil: false, premultipliedAlpha: false, powerPreference: 'high-performance' };
-    const gl = canvas.getContext('webgl2', opts) || canvas.getContext('webgl', opts);
-    if (!gl) return null;
-    const gl2 = typeof WebGL2RenderingContext !== 'undefined' && gl instanceof WebGL2RenderingContext;
-    const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null; };
-    const vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS);
-    if (!vs || !fs) return null;
-    const pr = gl.createProgram(); gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
-    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return null;
-    gl.useProgram(pr);
-    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    const loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    const U = n => gl.getUniformLocation(pr, n);
-    const u = { S: U('uS'), O: U('uO'), L: U('uL'), W: U('uW'), B: U('uBand') };
-    ['tA', 'tT', 'tB', 'tF'].forEach((n, i) => gl.uniform1i(U(n), i));
-    const tex = (i, img) => {
-      const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + i); gl.bindTexture(gl.TEXTURE_2D, t);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      if (gl2 && i < 3) { gl.generateMipmap(gl.TEXTURE_2D); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR); }
-      else gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-      return t;
+  if (reduce.matches) {
+    root.classList.add('reduced');
+    scenes[0].classList.add('is-visible');
+    const io = new IntersectionObserver(entries => {
+      for (const entry of entries) if (entry.isIntersecting) entry.target.classList.add('is-visible');
+    }, { threshold: .12 });
+    scenes.slice(1).forEach(scene => io.observe(scene));
+  } else {
+    root.classList.add('flight');
+    let frame = 0;
+    const render = () => {
+      frame = 0;
+      const r = journey.getBoundingClientRect();
+      const travel = Math.max(1, journey.offsetHeight - innerHeight);
+      const p = clamp(-r.top / travel, 0, 1);
+      const idx = p * (scenes.length - 1 + .35);
+      scenes.forEach((scene, i) => {
+        const distance = Math.abs(idx - i);
+        const enter = i === 0 ? 1 : smooth(clamp((idx - (i - .22)) / .44, 0, 1));
+        const exit = i === scenes.length - 1 ? 1 : 1 - smooth(clamp((idx - (i + .78)) / .44, 0, 1));
+        const alpha = Math.min(enter, exit);
+        scene.style.opacity = alpha.toFixed(3);
+        const local = clamp(idx - i, 0, 1);
+        const parallax = (i === 0 ? -1 : 1) * (local * 2.2);
+        scene.querySelector('.journey__image').style.transform = `translate3d(0,${parallax.toFixed(2)}%,0) scale(${(1 + .055 * local).toFixed(3)})`;
+        scene.style.zIndex = String(10 - Math.round(distance * 3));
+      });
+      track.style.transform = `translate3d(${(-1.2 * p).toFixed(2)}%,${(-1.8 * p).toFixed(2)}%,0) scale(${(1.035 + .34 * p).toFixed(3)})`;
+      const fade = 1 - smooth(clamp((p - .08) / .13, 0, 1));
+      copy.style.opacity = fade.toFixed(3);
+      copy.style.transform = `translate3d(0,${(-13 * (1 - fade)).toFixed(1)}px,0)`;
+      header.style.opacity = String(1 - smooth(clamp((p - .12) / .24, 0, 1)));
+      header.style.pointerEvents = p > .24 ? 'none' : '';
     };
-    let texs = [], pw = 1, ph = 1, ok = false;
-    return {
-      load(imgs) { texs.forEach(t => gl.deleteTexture(t)); texs = imgs.map((im, i) => tex(i, im)); pw = imgs[0].naturalWidth; ph = imgs[0].naturalHeight; ok = true; },
-      draw(level) {
-        if (!ok) return false;
-        const w = canvas.width, h = canvas.height, ca = w / h, pa = pw / ph;
-        gl.viewport(0, 0, w, h);
-        if (ca > pa) { gl.uniform2f(u.S, 1, pa / ca); gl.uniform2f(u.O, 0, (1 - pa / ca) / 2); }
-        else { gl.uniform2f(u.S, ca / pa, 1); gl.uniform2f(u.O, (1 - ca / pa) / 2, 0); }
-        gl.uniform1f(u.L, level); gl.uniform1f(u.W, .05); gl.uniform1f(u.B, .1);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
-        return true;
-      },
-      lost: () => gl.isContextLost()
-    };
-  }
-  const loadImg = src => new Promise((res, rej) => { const im = new Image(); im.decoding = 'async'; im.onload = () => res(im); im.onerror = rej; im.src = src; });
-
-  let set = null, glr = null, cover = { s: 1, ox: 0, oy: 0 }, lastP = 0, fallback = null;
-
-  function size() {
-    const r = stage.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const w = Math.max(1, Math.round(r.width * dpr)), h = Math.max(1, Math.round(r.height * dpr));
-    if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
-    if (!set) return;
-    const s = Math.max(r.width / set.w, r.height / set.h);
-    cover = { s, ox: (r.width - set.w * s) / 2, oy: (r.height - set.h * s) / 2, vw: r.width };
-    const k = 1 / s;
-    set.svg.style.setProperty('--u', k.toFixed(4));
-    set.k = k;
-    for (const m of set.mks) if (m !== set.head) m.setAttribute('transform', 'translate(' + m.dataset.x + ' ' + m.dataset.y + ')' + (m.dataset.a ? ' rotate(' + m.dataset.a + ')' : '') + ' scale(' + k.toFixed(4) + ')');
-    if (set.plan) set.plan.setAttribute('stroke-dasharray', (2 * k).toFixed(2) + ' ' + (5 * k).toFixed(2));
-    set.len = set.path.getTotalLength();
-    for (const l of set.lines) l.style.strokeDasharray = set.len + ' ' + set.len;
-    render(lastP, true);
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule, { passive: true });
+    render();
   }
 
-  let txt = { pos: '', elev: '', ndvi: '' };
-  function put(key, v) { if (txt[key] !== v) { txt[key] = v; hud[key].textContent = v; } }
-
-  function render(p, force) {
-    lastP = p;
-    if (!set || !set.len) return;
-    const exit = seg(p, .10, .26);
-    lead.style.opacity = (1 - exit).toFixed(3);
-    lead.style.transform = 'translate3d(0,' + (-18 * exit).toFixed(1) + 'px,0)';
-    const rp = inOut(seg(p, .04, .25));
-    for (const l of set.lines) l.style.strokeDashoffset = (set.len * (1 - rp)).toFixed(1);
-    const pt = set.path.getPointAtLength(set.len * rp);
-    set.head.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ') scale(' + set.k.toFixed(4) + ')');
-    set.head.style.opacity = rp > .004 && rp < .996 ? 1 : 0;
-
-    // the front: water and green first at the destination, then rising contour by contour over everything
-    // coverage is eased in screen area, then mapped through the field's own quantiles to a level
-    const c0 = coverageAt(set, set.endF + .08);
-    const sp = seg(p, .10, .58);
-    const cov = c0 * out(seg(p, .06, .20)) + (1 - c0) * sp * sp * (3 - 2 * sp);
-    const level = p < .06 ? -.08 : levelAt(set, cov);
-
-    const settle = seg(p, .60, .72);
-    const base = (set.key === 'm' ? .42 : .5) - .3 * settle;
-    for (const c of set.cts) {
-      const d = (c.f - level) / .04;
-      const o = Math.min(1, base + .55 * Math.exp(-d * d) * (1 - settle)).toFixed(3);
-      if (o !== c.o) { c.o = o; c.el.style.opacity = o; }
-    }
-    const arrive = seg(p, .30, .38);
-    set.endGlyph.style.opacity = (.55 + .45 * arrive).toFixed(3);
-    set.endLab.style.opacity = arrive.toFixed(3);
-    if (set.key === 'm') set.svg.style.opacity = (1 - .7 * seg(p, .70, .82)).toFixed(3);
-    set.done.style.opacity = seg(p, .78, .88);
-
-    const z = 1 + .075 * inOut(p);
-    cam.style.transform = 'scale(' + z.toFixed(4) + ')';
-
-    if (glr) { if (!glr.draw(level) && fallback) fallback.style.opacity = clamp(level, 0, 1); }
-    else if (fallback) fallback.style.opacity = clamp(level, 0, 1).toFixed(3);
-
-    scr.foot.style.opacity = seg(p, .86, 1).toFixed(3);
-
-    const lat = START[0] + (END[0] - START[0]) * rp, lon = START[1] + (END[1] - START[1]) * rp;
-    put('pos', lat.toFixed(4) + ' N  ' + lon.toFixed(4) + ' W');
-    const ei = rp * (set.elevs.length - 1), e0 = Math.floor(ei), e1 = Math.min(set.elevs.length - 1, e0 + 1);
-    put('elev', (set.elevs[e0] + (set.elevs[e1] - set.elevs[e0]) * (ei - e0)).toFixed(1));
-    put('ndvi', (.04 + .77 * (p < .06 ? 0 : cov)).toFixed(2));
-    if (hud.bar && cover.s) hud.bar.style.width = Math.round(500 / M_PER_PX * cover.s * z) + 'px';
-  }
-
-  const mm = gsap.matchMedia();
-  mm.add({ phone: '(max-aspect-ratio: 9/10)', wide: '(min-aspect-ratio: 9/10)', reduce: '(prefers-reduced-motion: reduce)' }, ctx => {
-    if (ctx.conditions.reduce) return;                     // static: frozen frame with the plotted route, then the lit forest
-    root.classList.add('motion');
-    set = prep(ctx.conditions.phone ? SETS.m : SETS.d);
-    const k = set.key;
-    size();
-    let alive = true;
-    if (!glr) glr = makeGL();
-    if (glr) {
-      Promise.all(['frozen', 'thaw', 'forest'].map(n => loadImg('img/' + k + '-' + n + '.webp')).concat(loadImg('img/field-' + k + '.png')))
-        .then(imgs => { if (!alive) return; glr.load(imgs); render(lastP, true); hero.classList.add('is-live'); })
-        .catch(() => { glr = null; useFallback(k); });
-    } else useFallback(k);
-    const st = { p: 0 };
-    const tw = gsap.to(st, {
-      p: 1, ease: 'none', onUpdate: () => render(st.p),
-      scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: window.__CROSSING_CAPTURE ? true : .5, invalidateOnRefresh: true }
+  const cards = [...document.querySelectorAll('.service-card')];
+  if (!reduce.matches && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    cards.forEach(card => {
+      card.addEventListener('pointermove', event => {
+        if (event.pointerType !== 'mouse' && event.pointerType !== 'pen') return;
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - .5;
+        const y = (event.clientY - rect.top) / rect.height - .5;
+        card.style.transform = `perspective(900px) translateY(-5px) rotateX(${(-y * 5).toFixed(2)}deg) rotateY(${(x * 6).toFixed(2)}deg)`;
+      });
+      card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+      card.addEventListener('blur', () => { card.style.transform = ''; });
     });
-    const onResize = () => size();
-    addEventListener('resize', onResize);
-    return () => {
-      alive = false;
-      removeEventListener('resize', onResize);
-      tw.scrollTrigger && tw.scrollTrigger.kill(); tw.kill();
-      root.classList.remove('motion'); hero.classList.remove('is-live');
-      lead.style.opacity = ''; lead.style.transform = '';
-      cam.style.transform = '';
-      for (const s of Object.values(SETS)) if (s.ready) {
-        for (const l of s.lines) { l.style.strokeDasharray = ''; l.style.strokeDashoffset = ''; }
-        for (const c of s.cts) { c.el.style.opacity = ''; c.o = ''; }
-        s.endGlyph.style.opacity = ''; s.endLab.style.opacity = ''; s.done.style.opacity = ''; s.head.style.opacity = ''; s.svg.style.opacity = '';
-      }
-      Object.values(scr).forEach(el => el.style.opacity = '');
-      if (fallback) { fallback.remove(); fallback = null; }
-      set = null;
-    };
-  });
-
-  function useFallback(k) {                               // no WebGL: a plain crossfade to the lit plate
-    if (fallback) return;
-    const pic = document.createElement('img');
-    pic.src = 'img/' + k + '-forest.webp'; pic.alt = ''; pic.className = 'plate plate--b';
-    pic.style.objectFit = 'cover'; pic.style.width = '100%'; pic.style.height = '100%';
-    cam.insertBefore(pic, canvas);
-    fallback = pic;
-    render(lastP, true);
   }
 })();
 </script>
