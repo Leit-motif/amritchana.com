@@ -32,9 +32,9 @@
     --dur-change:480ms;
     --dur-beat:960ms;
     /* Story sections: six paper slips cross from the ridge to the valley. */
-    --slip:#d6e1e8;
+    --slip:#bed3e2;
     --slip-ink:#14222a;
-    --slip-tag:#3b5664;
+    --slip-tag:#33505f;
     --cream:rgba(244,243,234,.97);
     --gold-rule:#c9ad55;
     --slip-gap:8px;
@@ -112,8 +112,12 @@
   .pile .swap__after,.riders .swap__after{visibility:hidden}
   .flight .pile .slip{opacity:0;will-change:transform,opacity}
   .pile.is-away .slip{visibility:hidden}
-  .riders{position:absolute;z-index:3;top:0;left:0;width:0;height:0;pointer-events:none}
+  /* Crossing slips ride in two copies. The front copy is cut out of the valley heading row (eyebrow, heading,
+     toggle), so a slip tucks in under the heading; the copy under the panels shows faintly through its glass. */
+  .riders{position:absolute;z-index:3;inset:0;pointer-events:none;clip-path:polygon(evenodd,-40px -40px,calc(100% + 40px) -40px,calc(100% + 40px) calc(100% + 40px),-40px calc(100% + 40px),-40px -40px,-50px var(--band-top,0px),calc(100% + 50px) var(--band-top,0px),calc(100% + 50px) var(--band-bottom,0px),-50px var(--band-bottom,0px))}
+  .riders--under{z-index:1;clip-path:none;opacity:.4}
   .riders .slip{position:absolute;top:0;left:0;will-change:transform}
+  .riders--under .slip{box-shadow:none}
 
   /* Valley: one panel, two lanes. The toggle is neutral, because sorting is the machine's work. */
   .sort-toggle{position:absolute;top:14px;right:18px;display:inline-flex;align-items:center;gap:8px;min-height:32px;margin:0;padding:6px 12px 6px 11px;border:1px solid rgba(244,243,237,.5);border-radius:6px;background:rgba(244,243,237,.08);color:#f4f3ed;font:600 14px/1.1 var(--sans);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color var(--dur-respond) var(--ease),border-color var(--dur-respond) var(--ease)}
@@ -146,6 +150,8 @@
   .sorter:not(.is-sorted) .swap__after{opacity:0;transform:translateX(10px)}
   .sorter:not(.is-sorted) .lane-title{opacity:0}
   .sorter:not(.is-sorted) .chip{opacity:0;transform:translate(var(--dx,0px),var(--dy,0px)) scale(.94)}
+  /* Folding back on the way up, the gold chips fade where they are instead of flying back over the slips. */
+  .sorter.is-folding:not(.is-sorted) .chip{transform:none}
   .sorter.no-anim,.sorter.no-anim *{transition:none!important}
   .sorter.is-awaiting .slip{visibility:hidden}
   @media (min-width:900px){
@@ -153,13 +159,10 @@
     .sorter{grid-template-columns:512px minmax(0,1fr)}
     .lane-title--done{grid-area:1/1}
     .lane-title--person{grid-area:1/2;margin-top:0}
-    .lane--done{grid-column:1;grid-row:2/span 6}
-    .lane--person{grid-column:2;grid-row:2/span 6;align-content:start}
+    /* The gold lane is one group: its three chips stack at the top, whichever slip each came from. */
+    .lane--done{grid-area:2/1}
+    .lane--person{grid-area:2/2;align-content:start}
     .lane--person > li{width:100%}
-    @supports (grid-template-rows:subgrid){
-      .lane--done,.lane--person{grid-template-rows:subgrid}
-      .lane--person > li{grid-row:var(--row)}
-    }
   }
 
   /* ---------- Screen three: the offer. ---------- */
@@ -416,9 +419,9 @@
             </ol>
             <h3 class="lane-title lane-title--person" id="lane-person" style="--d:320ms">A person decides</h3>
             <ol class="lane lane--person" aria-labelledby="lane-person">
-              <li data-from="0" style="--row:1;--d:320ms"><div class="chip"><span class="tag">Hot leads</span><span class="chip__text">Ring you.</span></div></li>
-              <li data-from="1" style="--row:2;--d:320ms"><div class="chip"><span class="tag">Odd orders</span><span class="chip__text">Wait for your approval.</span></div></li>
-              <li data-from="4" style="--row:5;--d:320ms"><div class="chip"><span class="tag">Complaints and refunds</span><span class="chip__text">Go to you.</span></div></li>
+              <li data-from="0" style="--d:320ms"><div class="chip"><span class="tag">Hot leads</span><span class="chip__text">Ring you.</span></div></li>
+              <li data-from="1" style="--d:320ms"><div class="chip"><span class="tag">Odd orders</span><span class="chip__text">Wait for your approval.</span></div></li>
+              <li data-from="4" style="--d:320ms"><div class="chip"><span class="tag">Complaints and refunds</span><span class="chip__text">Go to you.</span></div></li>
             </ol>
           </div>
           <p class="caption__guard">A person approves anything that needs judgment.</p>
@@ -585,12 +588,30 @@
     const scenes = [...track.querySelectorAll('.scene')];
     const images = scenes.map(scene => scene.querySelector('.scene__image'));
     const services = document.querySelector('.services');
-    const riderLayer = document.createElement('div');
-    riderLayer.className = 'riders';
-    riderLayer.setAttribute('aria-hidden', 'true');
-    riderLayer.hidden = true;
-    const riders = pileSlips.map(slip => riderLayer.appendChild(slip.cloneNode(true)));
-    steps.appendChild(riderLayer);
+    // Two copies of the six slips ride between the panels: one under the panels, one in front of them.
+    const layer = cls => {
+      const el = document.createElement('div');
+      el.className = cls;
+      el.setAttribute('aria-hidden', 'true');
+      el.hidden = true;
+      steps.appendChild(el);
+      return [el, pileSlips.map(slip => el.appendChild(slip.cloneNode(true)))];
+    };
+    const [underLayer, under] = layer('riders riders--under');
+    const [riderLayer, riders] = layer('riders');
+    // Each glass panel is only as tall as what is on it: the ridge glass closes up behind the slips as they lift off,
+    // and the valley glass opens under them as they arrive, so neither ever shows an empty tray.
+    const glass = { h: 0, head: 0, bottom: [], slot: [] }, vglass = { top: 0, h: 0, head: 0, pad: 0, side: 0 };
+    const clipper = el => {
+      let now = '';
+      return (bottom, right = 0) => {
+        const b = Math.max(0, Math.round(bottom * 2) / 2), r = Math.max(0, Math.round(right * 2) / 2);
+        const v = b || r ? 'inset(0 ' + r + 'px ' + b + 'px 0 round 10px)' : '';
+        if (v !== now) el.style.clipPath = now = v;
+      };
+    };
+    const setCut = clipper(ridge), setValleyCut = clipper(valley);
+    const emptyCut = () => glass.h - glass.head;
 
     const pin = { start: 0, end: 1 };
     let leave = 0, land = 1, keys = [[0, 0], [1, 1], [2, 2], [3, 3]], restFrom = 4, restTo = 5, frame = 0;
@@ -613,6 +634,23 @@
       const base = steps.getBoundingClientRect(), baseY = base.top + scrollY, cap = ridge.getBoundingClientRect();
       from = pileSlots.map(li => { const r = li.getBoundingClientRect(); return { x: r.left - base.left, y: capEnd - baseY + r.top - cap.top, w: r.width }; });
       to = doneSlots.map(li => { const r = li.getBoundingClientRect(); return { x: r.left - base.left, y: r.top - base.top, w: r.width }; });
+      // The valley heading row a crossing slip tucks in under: from the panel's top edge to below the heading and toggle.
+      const head = Math.max(...[valley.querySelector('h2'), toggle].map(el => el.getBoundingClientRect().bottom));
+      const vr = valley.getBoundingClientRect(), vs = getComputedStyle(valley);
+      riderLayer.style.setProperty('--band-top', (vr.top - base.top).toFixed(1) + 'px');
+      riderLayer.style.setProperty('--band-bottom', (head - base.top + 8).toFixed(1) + 'px');
+      vglass.top = vr.top - base.top;
+      vglass.h = vr.height;
+      vglass.pad = (parseFloat(vs.paddingBottom) || 0) + (parseFloat(vs.borderBottomWidth) || 0);
+      vglass.head = head - vr.top + vglass.pad;
+      // On a wide screen the gold lane sits beside the slips; the glass makes room for it as the slips land.
+      vglass.side = Math.max(0, vr.right - sorter.querySelector('.lane--done').getBoundingClientRect().right - (parseFloat(vs.paddingRight) || 0) - (parseFloat(vs.borderRightWidth) || 0));
+      // Where the ridge glass ends with each slip still on it, and with none left (the heading alone).
+      const rs = getComputedStyle(ridge), pad = (parseFloat(rs.paddingBottom) || 0) + (parseFloat(rs.borderBottomWidth) || 0);
+      glass.h = cap.height;
+      glass.head = ridge.querySelector('h2').getBoundingClientRect().bottom - cap.top + pad;
+      glass.bottom = pileSlots.map(li => li.getBoundingClientRect().bottom - cap.top + pad);
+      glass.slot = pileSlots.map(li => li.offsetHeight);
       // The landscape holds the ridge through the pin and arrives in the valley as the slips land.
       const offer = top(services);
       keys = [[0, 0], [pin.start, 1], [pin.end, 1], [land, 2], [Math.max(land + 1, offer - vh * .55), 3]];
@@ -657,14 +695,27 @@
     const placeRiders = y => {
       const p = clamp((y - leave) / Math.max(1, land - leave), 0, 1);
       const hold = 1 - settle((performance.now() - releaseAt) / CHANGE);
+      let edge = glass.h, low = -1e9;
       riders.forEach((el, i) => {
         const a = from[i], b = to[i];
         let e = smooth(clamp((p - (5 - i) * .045) / .775, 0, 1));
         e += (1 - e) * hold;
         const lift = Math.sin(Math.PI * e), side = i % 2 ? 1 : -1;
-        el.style.width = (a.w + (b.w - a.w) * e).toFixed(1) + 'px';
-        el.style.transform = 'translate3d(' + (a.x + (b.x - a.x) * e + tilt[i].x + side * 10 * lift).toFixed(1) + 'px,' + (a.y + (b.y - a.y) * e).toFixed(1) + 'px,0) rotate(' + (tilt[i].r + side * 3 * lift).toFixed(2) + 'deg)';
+        const width = (a.w + (b.w - a.w) * e).toFixed(1) + 'px';
+        const transform = 'translate3d(' + (a.x + (b.x - a.x) * e + tilt[i].x + side * 10 * lift).toFixed(1) + 'px,' + (a.y + (b.y - a.y) * e).toFixed(1) + 'px,0) rotate(' + (tilt[i].r + side * 3 * lift).toFixed(2) + 'deg)';
+        el.style.width = under[i].style.width = width;
+        el.style.transform = under[i].style.transform = transform;
+        // Once a slip has moved 60% of its height its place on the glass is gone. Slips leave bottom first, so the
+        // glass ends below the lowest slip still on it.
+        const gone = smooth(clamp((b.y - a.y) * e / (glass.slot[i] * .6), 0, 1));
+        edge -= (glass.bottom[i] - (i ? glass.bottom[i - 1] : glass.head)) * gone;
+        low = Math.max(low, a.y + (b.y - a.y) * e + glass.slot[i]);
       });
+      setCut(glass.h - edge);
+      // The valley glass reaches just below the lowest slip that has come in, and opens fully as the last one lands.
+      let open = smooth(clamp((p - .8) / .2, 0, 1));
+      open += (1 - open) * hold;
+      setValleyCut(vglass.h - Math.max(vglass.head, low - vglass.top + vglass.pad, vglass.head + (vglass.h - vglass.head) * open), vglass.side * (1 - open));
     };
     const releaseTick = () => {
       if (zone === 'transit' && !holding) placeRiders(scrollY);
@@ -672,14 +723,24 @@
     };
     const show = (onPile, onRiders, onValley) => {
       pile.classList.toggle('is-away', !onPile);
-      riderLayer.hidden = !onRiders;
+      riderLayer.hidden = underLayer.hidden = !onRiders;
       sorter.classList.toggle('is-awaiting', !onValley);
     };
     const inView = el => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; };
+    // The chips wait inside their slips again (unseen), ready for the next sort; nothing else jumps.
+    const chips = chipSlots.map(li => li.firstElementChild);
+    const endFold = () => {
+      if (!sorter.classList.contains('is-folding')) return;
+      chips.forEach(c => { c.style.transition = 'none'; });
+      sorter.classList.remove('is-folding');
+      void sorter.offsetWidth;
+      chips.forEach(c => { c.style.transition = ''; });
+    };
     const enter = (next, prev) => {
       clearTimeout(sortTimer);
       clearTimeout(holdTimer);
       holding = false;
+      endFold();
       if (next === 'valley') {
         show(false, false, true);
         if (!sorted) {
@@ -690,10 +751,12 @@
         if (sorted && prev === 'valley' && inView(valley)) {
           holding = true;
           show(false, false, true);
+          sorter.classList.add('is-folding');
           setSorted(false, 'animate');
           holdTimer = setTimeout(() => {
             holding = false;
             if (zone !== 'transit') return;
+            endFold();
             releaseAt = performance.now();
             show(false, true, false);
             placeRiders(scrollY);
@@ -713,6 +776,11 @@
       const next = y < leave ? 'ridge' : y < land ? 'transit' : 'valley';
       if (next !== zone) { const prev = zone; zone = next; enter(next, prev); }
       if (zone === 'transit' && !holding) placeRiders(y);
+      else {
+        setCut(zone === 'ridge' ? 0 : emptyCut());
+        if (zone === 'ridge') setValleyCut(vglass.h - vglass.head, vglass.side);
+        else setValleyCut(0);
+      }
     };
 
     const render = () => {
