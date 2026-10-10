@@ -70,16 +70,17 @@
   .mk__t{font:500 10.5px/1 var(--mono);letter-spacing:.11em;fill:var(--accent);paint-order:stroke;stroke:var(--halo);stroke-width:3px;stroke-linejoin:round}
   .mk__t:not(.mk__t--a){fill:rgba(255,190,150,.86);font-weight:400}
   .mk__t--done{fill:var(--accent)!important;font-weight:500!important}
+  .mk--start .mk__t--a{fill:#8F3A12;stroke:rgba(236,237,231,.96);stroke-width:2.6px}
   .js .mk--head{opacity:0}
 
   .shade{position:absolute;inset:0;pointer-events:none;background:radial-gradient(130% 100% at 55% 45%,rgba(11,13,12,0) 60%,rgba(11,13,12,.42) 100%)}
   .scrim{position:absolute;pointer-events:none}
   .scrim--top{left:0;right:0;top:0;height:18%;background:linear-gradient(180deg,rgba(11,13,12,.55),rgba(11,13,12,0))}
-  .scrim--lead{left:0;bottom:0;width:82%;height:88%;z-index:-1;background:radial-gradient(118% 102% at 0% 100%,rgba(11,13,12,.94) 0%,rgba(11,13,12,.90) 42%,rgba(11,13,12,.72) 68%,rgba(11,13,12,0) 78%)}
+  .scrim--lead{left:0;bottom:0;width:100%;height:100%;z-index:-1;background:radial-gradient(100% 80% at 0% 100%,rgba(11,13,12,.72) 0%,rgba(11,13,12,.68) 82%,rgba(11,13,12,.42) 94%,rgba(11,13,12,0) 100%)}
   .scrim--arrive{display:none;left:0;bottom:0;width:76%;height:78%;z-index:-1;background:radial-gradient(118% 102% at 0% 100%,rgba(11,13,12,.92) 0%,rgba(11,13,12,.7) 42%,rgba(11,13,12,0) 76%)}
   .motion .scrim--arrive{display:block}
   /* while the copy travels, its scrim must not show a hard lower edge: extend it below the block and fade that extension */
-  .motion .scrim--lead{bottom:-22vh;width:82%;height:calc(100% + 22vh);background:radial-gradient(118% 102% at 0% calc(100% - 22vh),rgba(11,13,12,.94) 0%,rgba(11,13,12,.90) 42%,rgba(11,13,12,.72) 68%,rgba(11,13,12,0) 78%);-webkit-mask-image:linear-gradient(to top,transparent 0,#000 22vh);mask-image:linear-gradient(to top,transparent 0,#000 22vh)}
+  .motion .scrim--lead{bottom:-22vh;width:100%;height:calc(100% + 22vh);background:radial-gradient(78% 60% at 0% calc(100% - 22vh),rgba(11,13,12,.72) 0%,rgba(11,13,12,.68) 82%,rgba(11,13,12,.42) 94%,rgba(11,13,12,0) 100%);-webkit-mask-image:linear-gradient(to top,transparent 0,#000 22vh);mask-image:linear-gradient(to top,transparent 0,#000 22vh)}
   .scrim--foot{left:0;right:0;bottom:0;height:26%;opacity:0;background:linear-gradient(0deg,var(--canvas) 0%,rgba(11,13,12,.5) 45%,rgba(11,13,12,0) 100%)}
 
   /* the instrument's own frame: name and address at the top, one live readout at the foot */
@@ -305,8 +306,8 @@
     <div class="hero__copy">
       <div class="scrim scrim--lead"></div>
       <div class="wrap">
-        <h1 id="hero-title"><span>I’ll help your team</span> <span>find better ground.</span></h1>
-        <p class="lede lede--wide">We’ll start with the work that’s stuck, find a useful path, and build the fix together.</p>
+        <h1 id="hero-title"><span>You don't have to</span> <span>cross alone.</span></h1>
+        <p class="lede lede--wide">I find routine work AI or a plain automation can take off your team's plate, build the fix, keep it working, and walk you through it.</p>
       </div>
     </div>
 
@@ -317,7 +318,7 @@
       </picture>
       <div class="scrim scrim--arrive"></div>
       <div class="wrap">
-        <p class="lede lede--phone">We’ll start with the work that’s stuck, find a useful path, and build the fix together.</p>
+        <p class="lede lede--phone">I find routine work AI or a plain automation can take off your team's plate, build the fix, keep it working, and walk you through it.</p>
         <div class="actions">
           <a class="cta" href="mailto:amrit@amritchana.com?subject=About%20my%20firm">Email me your website</a>
           <p class="after">I'll reply with a short note on where I'd look first. It's free, and you don't need to get on a call.</p>
