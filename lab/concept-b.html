@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Lab — Concept B · Week clock → Flip — amritchana.com sections v5</title>
+<meta name="description" content="I take routine work off your team's plate with AI or a plain automation, build it in your accounts, and keep it working. Prices on the page, starting with a free note.">
+<meta name="theme-color" content="#101711">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js', matchMedia('(prefers-reduced-motion: reduce)').matches ? 'reduced' : 'flight')</script>
+<style>
+  :root{
+    --ink:#f4f3ed;
+    --card-ink:#203329;
+    --card-muted:#43574a;
+    --gold:#e8cf83;
+    --gold-text:#f1d77d;
+    --gold-ink:#1e2a20;
+    --glass:rgba(8,14,11,.76);
+    --sans:"Schibsted Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --gutter:clamp(20px,4.5vw,68px);
+    --maxw:1420px;
+    --scene-min:560px;
+    --card-pad:19px;
+    /* Motion (design.md): one curve, three durations. */
+    --ease:cubic-bezier(.2,.75,.25,1);
+    --dur-respond:200ms;
+    --dur-change:480ms;
+    --dur-beat:960ms;
+  }
+  *{box-sizing:border-box}
+  html{background:#101711;color-scheme:dark;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:#101711;color:var(--ink);font:400 17px/1.55 var(--sans);letter-spacing:.002em;overflow-x:clip}
+  img{display:block;width:100%;height:100%;object-fit:cover}
+  a{color:inherit;text-decoration-thickness:1px;text-underline-offset:4px}
+  :focus-visible{outline:3px solid #f2d779;outline-offset:4px;border-radius:4px}
+  ::selection{background:#ead687;color:#182219}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
+  .eyebrow{margin:0 0 14px;font:500 12px/1.3 var(--mono);letter-spacing:.13em;text-transform:uppercase}
+
+  /* Top bar: sits over the first screen and scrolls away with the page. */
+  .site-header{position:absolute;z-index:6;top:0;left:0;right:0}
+  body > .site-header::before{content:"";position:absolute;z-index:-1;inset:0 0 -36px;background:linear-gradient(180deg,rgba(6,10,12,.72),rgba(6,10,12,.48) 58%,rgba(6,10,12,0));pointer-events:none}
+  .site-header__inner{display:flex;justify-content:space-between;align-items:center;gap:18px;padding-block:24px;border-bottom:1px solid rgba(244,243,237,.24)}
+  .brand{font-size:15px;font-weight:600;letter-spacing:.01em;text-decoration:none;text-shadow:0 1px 8px rgba(0,0,0,.45)}
+  .header-mail{font:400 13px/1.3 var(--mono);letter-spacing:.02em;text-decoration:none;color:#f4f3ed;text-shadow:0 1px 8px rgba(0,0,0,.55)}
+
+  /* ---------- Base layout (no JS, reduced motion): each place is a full screen with its words on it. ---------- */
+  .world{position:relative;display:grid;grid-template-columns:minmax(0,1fr);background:#111812}
+  .world__viewport,.world__track,.world__steps{display:contents}
+  .scene{position:relative;grid-column:1;min-height:max(100svh,var(--scene-min));overflow:hidden;isolation:isolate;background:#101711}
+  .scene--ice,.step--hero{grid-row:1}
+  .scene--ridge,.step--ridge{grid-row:2}
+  .scene--valley,.step--valley{grid-row:3}
+  .services{grid-row:4;grid-column:1}
+  .scene--forest,.scene--rest{display:none}
+  .scene__image,.scene__shade{position:absolute;inset:0}
+  .scene__shade{pointer-events:none;z-index:1}
+  .scene--ice .scene__image img{object-position:50% 50%}
+  .scene--ridge .scene__image img{object-position:50% 48%}
+  .scene--valley .scene__image img,.scene--forest .scene__image img,.scene--rest .scene__image img{object-position:50% 50%}
+  .scene--ice .scene__shade{background:linear-gradient(90deg,rgba(7,11,13,.5) 0%,rgba(7,11,13,.22) 42%,rgba(7,11,13,0) 78%),linear-gradient(0deg,rgba(7,11,13,.55) 0%,rgba(7,11,13,.1) 48%,rgba(7,11,13,.2) 100%)}
+  .scene--ridge .scene__shade{background:linear-gradient(0deg,rgba(7,11,13,.22),transparent 56%)}
+  .scene--valley .scene__shade{background:linear-gradient(0deg,rgba(7,11,13,.22),transparent 55%)}
+  .scene--forest .scene__shade{background:linear-gradient(0deg,rgba(7,11,13,.26),transparent 58%)}
+  .scene--rest .scene__image img{filter:blur(3px) brightness(.9) saturate(1.1);transform:scale(1.04)}
+  .scene--rest .scene__shade{background:rgba(9,19,13,.26)}
+
+  .step{position:relative;z-index:2;grid-column:1;display:flex;flex-direction:column;justify-content:center;min-height:max(100svh,var(--scene-min));padding-block:clamp(84px,12vh,128px);overflow-x:clip}
+  .step--hero{justify-content:flex-end;padding-bottom:clamp(60px,11vh,124px)}
+
+  /* Hero copy carries its own soft shade, so it stays readable wherever it scrolls over the ice. */
+  .hero-copy{position:relative;max-width:820px;isolation:isolate}
+  .hero-copy::before{content:"";position:absolute;z-index:-1;inset:-30% -16% -22% -10%;background:linear-gradient(90deg,rgba(6,10,13,0),rgba(6,10,13,.5) 15%,rgba(6,10,13,.44) 72%,rgba(6,10,13,0));-webkit-mask-image:linear-gradient(180deg,transparent,#000 22%,#000 82%,transparent);mask-image:linear-gradient(180deg,transparent,#000 22%,#000 82%,transparent);pointer-events:none}
+  .hero-copy .eyebrow{color:#f2f0e8;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+  .hero-copy h1{max-width:13ch;margin:0 0 21px;font-size:clamp(48px,7.6vw,100px);font-weight:700;line-height:.99;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 2px 18px rgba(0,0,0,.28)}
+  .hero-copy h1 span{display:block}
+  .hero-copy__lead{max-width:40em;margin:0;color:#f2f2ed;font-size:clamp(16px,1.34vw,19px);line-height:1.52;text-wrap:pretty;text-shadow:0 1px 12px rgba(0,0,0,.5)}
+
+  /* Ridge and valley captions: what the week looks like now, and what changes. */
+  .caption{position:relative;max-width:560px;padding:22px 24px 24px;border:1px solid rgba(244,243,237,.17);border-radius:10px;background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 18px 44px rgba(0,0,0,.2)}
+  .caption .eyebrow{margin-bottom:10px;color:#c9dbe6}
+  .step--valley .caption .eyebrow{color:var(--gold-text)}
+  .caption h2{margin:0 0 16px;font-size:clamp(32px,3.1vw,44px);font-weight:700;line-height:1;letter-spacing:-.045em;text-wrap:balance}
+  .caption__list{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+  .caption__list li{position:relative;padding-left:20px;color:#eceee8;font-size:17px;line-height:1.42;text-wrap:pretty}
+  .caption__list li::before{content:"";position:absolute;left:1px;top:.6em;width:7px;height:7px;border-radius:50%;background:#a9c2d1}
+  .caption__list strong{color:#fff;font-weight:650}
+  .step--valley .caption__list li::before{background:var(--gold)}
+  .step--valley .caption__list strong{color:var(--gold-text)}
+  .caption__guard{display:flex;gap:10px;align-items:flex-start;margin:18px 0 0;padding:11px 13px;border:1px solid rgba(232,207,131,.45);border-radius:7px;background:rgba(232,207,131,.13);color:#f7efcf;font-size:16px;font-weight:600;line-height:1.38}
+  .caption__guard::before{content:"✓";flex:none;color:var(--gold-text);font-weight:700}
+
+  /* ---------- Screen three: the offer. ---------- */
+  .services{position:relative;isolation:isolate;overflow:hidden;padding:clamp(44px,7vh,80px) 0 34px;background:#1b2a1f}
+  .services__backdrop{position:absolute;z-index:-3;inset:-12px;overflow:hidden}
+  .services__backdrop img{filter:blur(3px) brightness(.9) saturate(1.1);transform:scale(1.04);object-position:50% 50%}
+  .services::before{content:"";position:absolute;z-index:-2;inset:0;background:linear-gradient(180deg,#101711 0,rgba(16,23,17,0) 160px),rgba(9,19,13,.26);pointer-events:none}
+  .services__content{position:relative;z-index:1}
+  .services .site-header{position:relative;top:auto;left:auto;right:auto;margin-bottom:clamp(26px,4vh,44px)}
+  .services .site-header__inner{padding:12px var(--card-pad);border:0;border-radius:8px;background:rgba(7,15,10,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .panel{border-radius:10px;background:rgba(7,15,10,.72);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .services__intro{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);column-gap:clamp(24px,4vw,64px);align-items:end;margin:0 0 14px;padding:17px var(--card-pad) 19px}
+  .services__intro .eyebrow{grid-column:1/-1}
+  .services__intro .eyebrow{margin-bottom:10px;color:var(--gold-text)}
+  .services__intro h2{max-width:19ch;margin:0 0 12px;font-size:clamp(38px,5vw,64px);font-weight:700;line-height:.99;letter-spacing:-.048em;text-wrap:balance}
+  .services__intro h2{margin-bottom:0}
+  .services__intro p:last-child{max-width:34em;margin:0;padding-bottom:3px;color:#e9ebe4;font-size:clamp(16px,1.25vw,18px);line-height:1.48;text-wrap:pretty}
+
+  .offer-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none;perspective:1000px}
+  .offer-card{position:relative;display:flex;min-width:0;flex-direction:column;align-items:flex-start;padding:17px var(--card-pad) 18px;border:1px solid rgba(255,255,255,.45);border-radius:8px;background:rgba(244,243,234,.97);color:var(--card-ink);box-shadow:0 8px 22px rgba(4,12,7,.16);transform:translateZ(0);transition:transform var(--dur-respond) var(--ease),background-color var(--dur-respond) var(--ease),border-color var(--dur-respond) var(--ease),box-shadow var(--dur-respond) var(--ease)}
+  .offer-card__label{margin:0 0 10px;padding:4px 0;color:#4f6655;font:500 12px/1.25 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+  .offer-card--pick{border-color:#c9ad55;box-shadow:0 0 0 1px #c9ad55,0 8px 22px rgba(4,12,7,.16)}
+  .offer-card--pick .offer-card__label{padding-inline:8px;border-radius:4px;background:#1f3326;color:#f3e2a6}
+  .offer-card h3{margin:0 0 8px;font-size:clamp(19px,1.45vw,22px);line-height:1.12;letter-spacing:-.025em}
+  .offer-card h3 a{text-decoration:none;scroll-margin:110px 0 300px}
+  .offer-card h3 a::after{content:"";position:absolute;inset:0;z-index:1;border-radius:8px}
+  .offer-card h3 a:focus-visible{outline:none}
+  .offer-card__price{margin:0;color:#14231a;font-size:clamp(25px,2vw,30px);font-weight:700;line-height:1.05;letter-spacing:-.035em}
+  .offer-card__price span{font-size:15px;font-weight:600;letter-spacing:0}
+  .offer-card__terms{margin:6px 0 12px;color:#3c5143;font-size:14px;font-weight:600;line-height:1.35}
+  .offer-card__body{margin:0;color:var(--card-muted);font-size:14px;line-height:1.45;text-wrap:pretty}
+  .offer-card:hover,.offer-card:focus-within{background:var(--gold);border-color:#f7e7aa;box-shadow:0 16px 28px rgba(4,12,7,.25);transform:translateY(-5px)}
+  .offer-card:focus-within{outline:3px solid #fff4c5;outline-offset:3px}
+  .offer-card:hover .offer-card__label,.offer-card:focus-within .offer-card__label{color:#3f4a2c}
+  .offer-card--pick:hover .offer-card__label,.offer-card--pick:focus-within .offer-card__label{color:#f3e2a6}
+  .offer-card:hover .offer-card__body,.offer-card:focus-within .offer-card__body,.offer-card:hover .offer-card__terms,.offer-card:focus-within .offer-card__terms{color:#33402c}
+
+  .care-note{margin:12px 0 0;padding:13px var(--card-pad) 14px;color:#eef0e9;font-size:15px;line-height:1.5}
+  .care-note strong{color:var(--gold-text)}
+
+  .next-row{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:12px;align-items:stretch;margin-top:12px}
+  .after-box{padding:18px var(--card-pad) 19px}
+  .after-box h3{margin:0 0 6px;font-size:clamp(21px,1.7vw,26px);line-height:1.1;letter-spacing:-.03em}
+  .after-box__lead{margin:0 0 12px;color:#eef0e9;font-size:16px}
+  .after-box__lead strong{color:var(--gold-text)}
+  .after-steps{display:grid;gap:7px;margin:0;padding:0;list-style:none;counter-reset:step}
+  .after-steps li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:baseline;color:#eceee8;font-size:15px;line-height:1.42}
+  .who{justify-self:start;padding:3px 7px;border-radius:4px;font:500 12px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+  .who--me{background:var(--gold);color:var(--gold-ink)}
+  .who--you{background:rgba(244,243,237,.14);color:#f4f3ed;box-shadow:inset 0 0 0 1px rgba(244,243,237,.35)}
+  .after-box__not{margin:14px 0 0;padding-top:12px;border-top:1px solid rgba(244,243,237,.2);color:#e3e6df;font-size:14px;line-height:1.45}
+
+  .queue-card{display:flex;flex-direction:column;justify-content:center;gap:14px;padding:17px var(--card-pad);border:1px solid rgba(255,255,255,.58);border-radius:8px;background:rgba(244,243,234,.97);color:var(--card-ink);box-shadow:0 8px 22px rgba(4,12,7,.16)}
+  .queue-card__label{margin:0 0 5px;color:#4f6655;font:500 12px/1.25 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+  .queue-card h3{margin:0;font-size:clamp(22px,2vw,28px);line-height:1.06;letter-spacing:-.035em}
+  .queue-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0;padding:0;list-style:none}
+  .queue-steps li{display:flex;align-items:center;justify-content:center;min-width:0;min-height:50px;padding:9px 8px;border:1px solid #d9dfd4;border-radius:5px;background:#f7f7f0;color:#2c4033;text-align:center;font-size:15px;font-weight:500;line-height:1.3}
+  .queue-steps li:last-child{border-color:#d9c577;background:#f4edcf}
+
+  .services__actions{display:flex;align-items:center;gap:14px 20px;flex-wrap:wrap;margin-top:16px}
+  .cta{display:inline-flex;min-height:50px;align-items:center;justify-content:center;padding:13px 22px;border:0;border-radius:6px;background:var(--gold);color:var(--gold-ink);font-size:16px;font-weight:700;line-height:1.15;text-align:center;text-decoration:none;box-shadow:0 7px 18px rgba(5,12,7,.2);transition:background-color var(--dur-respond) var(--ease),transform var(--dur-respond) var(--ease)}
+  .cta:hover{background:#f0dc9a;transform:translateY(-2px)}
+  .cta:focus-visible{outline-color:#fff4c5;outline-offset:4px}
+  .cta,.site-footer a{scroll-margin:80px 0 120px}
+  .services__note{margin:0;padding:9px 12px;border-radius:6px;background:rgba(7,15,10,.66);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);color:#f0efe7;font-size:15px;line-height:1.45}
+  .services__note strong{color:var(--gold-text)}
+  .site-footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:clamp(26px,4vh,42px);padding:12px var(--card-pad);border-radius:8px;background:rgba(7,15,10,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);color:#eeeee8;font-size:14px}
+  .site-footer a{color:inherit}
+
+  @media (hover:hover) and (pointer:fine){.offer-card{transform-style:preserve-3d}}
+
+  /* ---------- Enhanced mode: one pinned world, the words scroll over it like a normal page. ---------- */
+  .flight .world{display:block}
+  .flight .world__viewport{display:block;position:sticky;top:0;z-index:0;height:100vh;height:100lvh;min-height:var(--scene-min);overflow:hidden}
+  .flight .world__track{display:block;position:absolute;inset:-5%;transform-origin:50% 52%;will-change:transform}
+  .flight .scene{position:absolute;inset:0;min-height:0;opacity:0;will-change:opacity}
+  .flight .scene--ice{opacity:1}
+  .flight .scene--forest,.flight .scene--rest{display:block}
+  .flight .scene__image{will-change:transform}
+  .flight .world__steps{display:block;position:relative;z-index:2;margin-top:-100vh;margin-top:calc(-1 * max(100lvh,var(--scene-min)))}
+  .flight .step{min-height:max(100svh,var(--scene-min));padding-block:clamp(72px,10vh,120px)}
+  .flight .step--hero{padding-bottom:clamp(60px,11vh,124px)}
+  .flight .step--valley{justify-content:flex-start;padding-top:clamp(60px,9vh,96px)}
+  .flight .services{z-index:2;background:transparent;overflow:visible}
+  .flight .services::before{content:none}
+  .flight .services__backdrop{display:none}
+
+  @media (max-width:1000px){
+    .services__intro{display:block}
+    .services__intro h2{margin-bottom:12px}
+  }
+  @media (max-width:1180px){
+    .offer-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+    .offer-card{grid-column:span 2}
+    .offer-card:nth-child(n+4){grid-column:span 3}
+    .next-row{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){
+    :root{--scene-min:620px;--card-pad:15px}
+    body{font-size:16px}
+    .site-header__inner{gap:12px;padding-block:18px}
+    .brand{font-size:15px}
+    .header-mail{font-size:12px;letter-spacing:0}
+    .step{padding-block:72px}
+    .step--hero{padding-bottom:clamp(54px,9vh,80px)}
+    .hero-copy::before{inset:-30% -8% -20% -8%}
+    .hero-copy .eyebrow{margin-bottom:12px;letter-spacing:.1em}
+    .hero-copy h1{max-width:10.5ch;margin-bottom:16px;font-size:clamp(40px,11.4vw,54px);letter-spacing:-.05em}
+    .hero-copy__lead{font-size:16px;line-height:1.48}
+    .scene--ice .scene__shade{background:linear-gradient(180deg,rgba(7,11,13,.26),rgba(7,11,13,0) 22%),linear-gradient(0deg,rgba(7,11,13,.5) 0%,rgba(7,11,13,.26) 40%,rgba(7,11,13,0) 72%)}
+    .scene--ice .scene__image img,.scene--ridge .scene__image img,.scene--valley .scene__image img,.scene--forest .scene__image img,.scene--rest .scene__image img{object-position:50% 50%}
+    .caption{padding:18px 16px 18px}
+    .caption h2{margin-bottom:13px;font-size:31px}
+    .caption__list{gap:9px}
+    .caption__list li{padding-left:17px;font-size:16px;line-height:1.4}
+    .caption__list li::before{top:.58em;width:6px;height:6px}
+    .caption__guard{margin-top:15px;font-size:15px}
+    .flight .step--valley{padding-top:clamp(48px,8vh,72px)}
+    .services{padding:34px 0 22px}
+    .services .site-header{margin-bottom:22px}
+    .services .site-header__inner{padding-block:10px}
+    .services__intro{margin-bottom:10px;padding:14px var(--card-pad) 16px}
+    .services__intro h2{max-width:12ch;font-size:clamp(34px,9.4vw,42px);line-height:1.01;margin-bottom:10px}
+    .services__intro p:last-child{font-size:15px;line-height:1.45}
+    .offer-grid{grid-template-columns:1fr;gap:9px}
+    .offer-card,.offer-card:nth-child(n+4){grid-column:auto}
+    .offer-card{padding:14px var(--card-pad) 15px;border-radius:8px}
+    .offer-card__label{margin-bottom:8px}
+    .offer-card h3{font-size:20px;margin-bottom:6px}
+    .offer-card__price{font-size:26px}
+    .offer-card__terms{margin:5px 0 8px}
+    .care-note{margin-top:9px;font-size:14px}
+    .next-row{margin-top:9px;gap:9px}
+    .after-box{padding:15px var(--card-pad) 16px}
+    .after-box__lead{font-size:15px}
+    .after-steps li{grid-template-columns:84px minmax(0,1fr);gap:10px;font-size:14px}
+    .queue-card{gap:11px;padding:14px var(--card-pad)}
+    .queue-card h3{font-size:24px}
+    .queue-steps{gap:6px}
+    .queue-steps li{min-height:42px;font-size:14px}
+    .services__actions{display:grid;grid-template-columns:1fr;gap:9px;margin-top:12px}
+    .cta{width:100%;min-height:52px;padding-inline:14px}
+    .services__note{font-size:14px;line-height:1.42}
+    .site-footer{margin-top:22px;font-size:13px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+    .offer-card:hover,.offer-card:focus-within,.cta:hover{transform:none}
+  }
+
+  /* ---------- Lab (sections-v5): proposed tokens from design.md ---------- */
+  :root{--cool:#a9c2d1;--cool-text:#c9dbe6;--slip:#e3e9ec;--slip-ink:#17252c;--slip-tag:#46606d;--cream:rgba(244,243,234,.97);--gold-rule:#c9ad55;--stagger:calc(var(--dur-change) / 6)}
+  html:not(.js) .js-only{display:none!important}
+  .tag{display:block;font:500 11.5px/1.25 var(--mono);letter-spacing:.09em;text-transform:uppercase}
+  .hint{margin:12px 0 0;color:var(--cool-text);font:500 12px/1.35 var(--mono);letter-spacing:.05em}
+  .step--valley .hint{color:#ebe6cc}
+  .caption--wide{max-width:660px}
+  .swap{position:relative;display:grid}
+  .swap > *{grid-area:1/1;transition:opacity var(--dur-change) var(--ease),transform var(--dur-change) var(--ease)}
+  .lab-chip{margin-left:10px;padding:2px 7px;border-radius:4px;background:rgba(244,243,237,.14);font:500 11px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;vertical-align:2px}
+  /* Pinned panels (Scrub): the panel holds the centre while scroll drives the sequence. */
+  .flight .step--pin{min-height:calc(max(100svh,var(--scene-min)) + var(--pin-len,60svh));justify-content:flex-start}
+  .flight .step--pin > .wrap{flex:1 0 auto;display:flex;flex-direction:column}
+  .flight .step--pin .caption{position:sticky;top:12vh;width:100%}
+
+  /* ---------- Concept B, section 1: Week clock (Scrub) ---------- */
+  .weekgrid{--cell:15px;--cellgap:5px}
+  .clock{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:12px;margin:0;padding:0 0 8px;border-bottom:1px solid rgba(201,219,230,.24)}
+  .clock__now{font:500 15px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#f1f5f7;font-variant-numeric:tabular-nums}
+  .clock__days{display:grid;grid-template-columns:repeat(5,var(--cell));gap:var(--cellgap);color:var(--cool-text);font:500 11px/1 var(--mono);text-align:center}
+  .chores{display:grid;margin:0;padding:0;list-style:none}
+  .chore{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px;padding:9px 0 10px;border-bottom:1px solid rgba(201,219,230,.13)}
+  .chore:last-child{border-bottom:0;padding-bottom:2px}
+  .chore__text{color:#eceee8;font-size:17px;font-weight:500;line-height:1.28}
+  .chore .tag{margin-bottom:3px;color:var(--cool-text)}
+  .cells{display:grid;grid-template-columns:repeat(5,var(--cell));gap:var(--cellgap)}
+  .cells i{display:block;height:24px;border-radius:3px;background:var(--cool);box-shadow:inset 0 0 0 1px rgba(201,219,230,.45);transition:background-color var(--dur-respond) var(--ease),transform var(--dur-respond) var(--ease)}
+  .weekgrid.is-scrub .cells i{background:rgba(201,219,230,.06);transform:scale(.72)}
+  .weekgrid.is-scrub .cells i.on{background:var(--cool);transform:none}
+
+  /* ---------- Concept B, section 2: Flip ---------- */
+  .flips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0;padding:0;list-style:none}
+  .flips li{display:flex}
+  .flip{display:block;flex:1;width:100%;margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;perspective:1000px;-webkit-tap-highlight-color:transparent}
+  .flip__inner{display:grid;height:100%;transform-style:preserve-3d;transition:transform var(--dur-change) var(--ease)}
+  .flip.is-before .flip__inner{transform:rotateY(180deg)}
+  /* Faces swap visibility at the edge-on moment (14.5% of the --ease curve reaches 90deg), so the turn never relies on backface-visibility. */
+  .face{position:relative;grid-area:1/1;display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:11px 34px 12px 13px;border-radius:7px;-webkit-backface-visibility:hidden;backface-visibility:hidden;transition:visibility 0s linear calc(var(--dur-change) * .145)}
+  .face--after{background:var(--cream);color:var(--card-ink);box-shadow:0 8px 20px rgba(0,0,0,.22)}
+  .face--before{visibility:hidden;background:var(--slip);color:var(--slip-ink);box-shadow:0 8px 20px rgba(0,0,0,.22);transform:rotateY(180deg)}
+  .flip.is-before .face--before{visibility:visible}
+  .flip.is-before .face--after{visibility:hidden}
+  .face .tag{margin-bottom:1px;color:#4f6655}
+  .face--before .tag{color:var(--slip-tag)}
+  .face__text{font-size:16.5px;font-weight:650;line-height:1.28;letter-spacing:-.01em}
+  .face__gold{margin-top:5px;padding:4px 8px;border-radius:4px;background:var(--gold);color:var(--gold-ink);font-size:14.5px;font-weight:650;line-height:1.25;box-shadow:inset 0 0 0 1px var(--gold-rule)}
+  .face__turn{position:absolute;top:8px;right:10px;color:#5d7064;font:500 15px/1 var(--mono)}
+  .face--before .face__turn{color:var(--slip-tag)}
+  html:not(.js) .flip{pointer-events:none;cursor:default}
+  .flip:focus-visible{outline:none}
+  .flip:focus-visible .face{outline:3px solid #fff4c5;outline-offset:2px}
+  @media (hover:hover) and (pointer:fine){.flip:hover .face--after{box-shadow:0 12px 24px rgba(0,0,0,.28)}}
+  /* Reduced motion: a fade instead of the turn. */
+  .reduced .flip__inner{transform:none!important}
+  .reduced .face--before{transform:none}
+
+  @media (max-width:560px){
+    .weekgrid{--cell:13px;--cellgap:4px}
+    .chore{gap:10px;padding:8px 0 9px}
+    .chore__text{font-size:16px}
+    .cells i{height:22px}
+    .flips{grid-template-columns:1fr;gap:8px}
+    .face{padding:10px 34px 11px 12px}
+    .face__text{font-size:16px}
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="#top">Amrit Chana<span class="lab-chip">Lab · Concept B</span></a>
+    <a class="header-mail" href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
+  </div>
+</header>
+<main class="world" id="top">
+  <div class="world__viewport" aria-hidden="true">
+    <div class="world__track">
+      <div class="scene scene--ice">
+        <picture class="scene__image">
+          <source media="(max-aspect-ratio:9/10)" srcset="../img/m-ice-aerial-640.webp 640w, ../img/m-ice-aerial-960.webp 960w, ../img/m-ice-aerial.webp 1290w" sizes="110vw" width="1290" height="2796">
+          <img src="../img/ice-aerial.webp" width="1672" height="941" alt="" fetchpriority="high">
+        </picture>
+        <div class="scene__shade"></div>
+      </div>
+      <div class="scene scene--ridge">
+        <picture class="scene__image">
+          <source media="(max-aspect-ratio:9/10)" srcset="../img/m-ridge-crest-640.webp 640w, ../img/m-ridge-crest-960.webp 960w, ../img/m-ridge-crest.webp 1290w" sizes="110vw" width="1290" height="2796">
+          <img src="../img/ridge-crest.webp" width="1672" height="941" alt="">
+        </picture>
+        <div class="scene__shade"></div>
+      </div>
+      <div class="scene scene--valley">
+        <picture class="scene__image">
+          <source media="(max-aspect-ratio:9/10)" srcset="../img/m-eden-valley-640.webp 640w, ../img/m-eden-valley-960.webp 960w, ../img/m-eden-valley.webp 1290w" sizes="110vw" width="1290" height="2796">
+          <img src="../img/eden-valley.webp" width="1672" height="941" alt="">
+        </picture>
+        <div class="scene__shade"></div>
+      </div>
+      <div class="scene scene--forest">
+        <picture class="scene__image">
+          <source media="(max-aspect-ratio:9/10)" srcset="../img/m-forest-closeup-640.webp 640w, ../img/m-forest-closeup-960.webp 960w, ../img/m-forest-closeup.webp 1290w" sizes="110vw" width="1290" height="2796">
+          <img src="../img/forest-closeup.webp" width="1672" height="941" alt="">
+        </picture>
+        <div class="scene__shade"></div>
+      </div>
+      <div class="scene scene--rest">
+        <picture class="scene__image">
+          <source media="(max-aspect-ratio:9/10)" srcset="../img/m-forest-closeup-640.webp 640w, ../img/m-forest-closeup-960.webp 960w, ../img/m-forest-closeup.webp 1290w" sizes="110vw" width="1290" height="2796">
+          <img src="../img/forest-closeup.webp" width="1672" height="941" alt="">
+        </picture>
+        <div class="scene__shade"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="world__steps">
+    <section class="step step--hero" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div class="hero-copy">
+          <p class="eyebrow">AI consulting · Chicago</p>
+          <h1 id="hero-title"><span>You don't have to</span> <span>cross alone.</span></h1>
+          <p class="hero-copy__lead">I find routine work AI or a plain automation can take off your team's plate, build the fix, keep it working, and walk you through it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="step step--ridge step--pin" aria-labelledby="ridge-title">
+      <div class="wrap">
+        <div class="caption">
+          <p class="eyebrow">Where you are</p>
+          <h2 id="ridge-title">Where the week goes</h2>
+          <div class="weekgrid">
+            <div class="clock" aria-hidden="true"><span class="clock__now">Fri 17:00</span><span class="clock__days"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span></span></div>
+            <ul class="chores" aria-label="Work that eats every day of the week">
+              <li class="chore"><span class="chore__text"><span class="tag">Leads</span>Wait until someone's free.</span><span class="cells" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></li>
+              <li class="chore"><span class="chore__text"><span class="tag">Orders</span>Retyped from email.</span><span class="cells" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></li>
+              <li class="chore"><span class="chore__text"><span class="tag">Paperwork</span>Renamed and filed by hand.</span><span class="cells" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></li>
+              <li class="chore"><span class="chore__text"><span class="tag">Quotes</span>Sent. Never followed up.</span><span class="cells" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></li>
+              <li class="chore"><span class="chore__text"><span class="tag">Customer questions</span>Same answers, every day.</span><span class="cells" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></li>
+              <li class="chore"><span class="chore__text"><span class="tag">Payments</span>Chased from memory.</span><span class="cells" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step step--valley" aria-labelledby="valley-title">
+      <div class="wrap">
+        <div class="caption caption--wide">
+          <p class="eyebrow">Where I take you</p>
+          <h2 id="valley-title">What changes</h2>
+          <ul class="flips">
+            <li><button class="flip" type="button" aria-pressed="false"><span class="flip__inner"><span class="face face--after"><span class="tag">Leads</span><span class="face__text">Answered in minutes.</span><span class="face__gold">Hot ones ring you.</span><span class="face__turn js-only" aria-hidden="true">↺</span></span><span class="face face--before" aria-hidden="true"><span class="tag">Leads · before</span><span class="face__text">Wait until someone's free.</span><span class="face__turn" aria-hidden="true">↺</span></span></span></button></li>
+            <li><button class="flip" type="button" aria-pressed="false"><span class="flip__inner"><span class="face face--after"><span class="tag">Orders</span><span class="face__text">Drafted into your system.</span><span class="face__gold">Odd ones wait for you.</span><span class="face__turn js-only" aria-hidden="true">↺</span></span><span class="face face--before" aria-hidden="true"><span class="tag">Orders · before</span><span class="face__text">Retyped from email.</span><span class="face__turn" aria-hidden="true">↺</span></span></span></button></li>
+            <li><button class="flip" type="button" aria-pressed="false"><span class="flip__inner"><span class="face face--after"><span class="tag">Paperwork</span><span class="face__text">Read, named and filed.</span><span class="face__turn js-only" aria-hidden="true">↺</span></span><span class="face face--before" aria-hidden="true"><span class="tag">Paperwork · before</span><span class="face__text">Renamed and filed by hand.</span><span class="face__turn" aria-hidden="true">↺</span></span></span></button></li>
+            <li><button class="flip" type="button" aria-pressed="false"><span class="flip__inner"><span class="face face--after"><span class="tag">Quotes</span><span class="face__text">Followed up, in your words.</span><span class="face__turn js-only" aria-hidden="true">↺</span></span><span class="face face--before" aria-hidden="true"><span class="tag">Quotes · before</span><span class="face__text">Sent. Never followed up.</span><span class="face__turn" aria-hidden="true">↺</span></span></span></button></li>
+            <li><button class="flip" type="button" aria-pressed="false"><span class="flip__inner"><span class="face face--after"><span class="tag">Customer questions</span><span class="face__text">Answered from your policies.</span><span class="face__gold">Complaints go to you.</span><span class="face__turn js-only" aria-hidden="true">↺</span></span><span class="face face--before" aria-hidden="true"><span class="tag">Customer questions · before</span><span class="face__text">Same answers, every day.</span><span class="face__turn" aria-hidden="true">↺</span></span></span></button></li>
+            <li><button class="flip" type="button" aria-pressed="false"><span class="flip__inner"><span class="face face--after"><span class="tag">Payments</span><span class="face__text">Reminded on schedule.</span><span class="face__turn js-only" aria-hidden="true">↺</span></span><span class="face face--before" aria-hidden="true"><span class="tag">Payments · before</span><span class="face__text">Chased from memory.</span><span class="face__turn" aria-hidden="true">↺</span></span></span></button></li>
+          </ul>
+          <p class="hint js-only">Tap a card to see the old way.</p>
+          <p class="caption__guard">A person approves anything that needs judgment.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="services" id="services" aria-labelledby="services-title">
+    <div class="services__backdrop" aria-hidden="true">
+      <picture>
+        <source media="(max-aspect-ratio:9/10)" srcset="../img/m-forest-closeup-640.webp 640w, ../img/m-forest-closeup-960.webp 960w, ../img/m-forest-closeup.webp 1290w" sizes="110vw" width="1290" height="2796">
+        <img src="../img/forest-closeup.webp" alt="" width="1672" height="941">
+      </picture>
+    </div>
+    <div class="wrap services__content">
+      <div class="site-header">
+        <div class="site-header__inner">
+          <a class="brand" href="#top">Amrit Chana</a>
+          <a class="header-mail" href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
+        </div>
+      </div>
+      <div class="services__intro panel">
+        <p class="eyebrow">A practical way to get time back</p>
+        <h2 id="services-title">Get back the hours your team spends chasing follow-ups.</h2>
+        <p>Start with a free note. Every step below has its price on the page, and I do the work myself.</p>
+      </div>
+
+      <ol class="offer-grid" aria-label="Ways to work together, with prices">
+        <li class="offer-card">
+          <p class="offer-card__label">Start here</p>
+          <h3><a href="mailto:amrit@amritchana.com?subject=Free%20note">Free note</a></h3>
+          <p class="offer-card__price">$0</p>
+          <p class="offer-card__terms">Reply within 2 business days</p>
+          <p class="offer-card__body">Tell me the task that eats your week. I reply with where I'd look first. No call required.</p>
+        </li>
+        <li class="offer-card">
+          <p class="offer-card__label">Find the fix</p>
+          <h3><a href="mailto:amrit@amritchana.com?subject=Workflow%20Review">Workflow Review</a></h3>
+          <p class="offer-card__price">$1,500 <span>fixed</span></p>
+          <p class="offer-card__terms">1–2 weeks</p>
+          <p class="offer-card__body">I talk with the people doing the work and look at the software you already pay for. You get a written plan with a fixed price for each fix, even if nothing needs building.</p>
+        </li>
+        <li class="offer-card offer-card--pick">
+          <p class="offer-card__label">Best first project</p>
+          <h3><a href="mailto:amrit@amritchana.com?subject=Fix%20one%20workflow">Fix one workflow</a></h3>
+          <p class="offer-card__price"><span>from</span> $3,500</p>
+          <p class="offer-card__terms">Typical build with an AI step: $5,000–$5,500</p>
+          <p class="offer-card__body">I build it in your accounts and test it on your real examples. A person approves anything that needs judgment.</p>
+        </li>
+        <li class="offer-card">
+          <p class="offer-card__label">Several workflows</p>
+          <h3><a href="mailto:amrit@amritchana.com?subject=Connected%20system">Connected system</a></h3>
+          <p class="offer-card__price"><span>from</span> $9,500</p>
+          <p class="offer-card__terms">2–4 workflows built to work together</p>
+          <p class="offer-card__body">For work that crosses tools, so it moves from one system to the next without anyone retyping it.</p>
+        </li>
+        <li class="offer-card">
+          <p class="offer-card__label">After launch</p>
+          <h3><a href="mailto:amrit@amritchana.com?subject=Keep%20it%20working">Keep it working</a></h3>
+          <p class="offer-card__price">$450<span>/mo per workflow</span></p>
+          <p class="offer-card__terms">Monitoring, fixes and a monthly note</p>
+          <p class="offer-card__body">When a tool or AI model changes, I fix what breaks, so the work keeps getting done.</p>
+        </li>
+      </ol>
+
+      <p class="care-note panel"><strong>Every build includes 30 days of fixes.</strong> Builds with an AI step then need 3 months of Keep it working, because AI models get retired and tools change. After that, cancel anytime, or take a written handoff and pay $200/hr for any later fixes.</p>
+
+      <div class="next-row">
+        <section class="after-box panel" aria-labelledby="after-title">
+          <h3 id="after-title">What happens after the review</h3>
+          <p class="after-box__lead"><strong>Who builds it? I do.</strong> Here's who does what.</p>
+          <ol class="after-steps">
+            <li><span class="who who--me">Me</span><span>Walk you through the plan: each fix and its fixed price.</span></li>
+            <li><span class="who who--you">You</span><span>Pick what to build, or nothing. The plan is yours either way.</span></li>
+            <li><span class="who who--me">Me</span><span>Build it in your accounts and test it on your real examples.</span></li>
+            <li><span class="who who--you">Your team</span><span>Approve anything that needs judgment before it goes out.</span></li>
+            <li><span class="who who--me">Me</span><span>Fix what breaks for 30 days, then keep it working.</span></li>
+          </ol>
+          <p class="after-box__not">Not a chatbot bolted onto your site. If a setting in software you already pay for fixes it, the plan says so.</p>
+        </section>
+        <section class="queue-card" aria-labelledby="queue-title">
+          <div>
+            <p class="queue-card__label">Example · no client data</p>
+            <h3 id="queue-title">Review queue</h3>
+          </div>
+          <ol class="queue-steps" aria-label="Inbox, record, draft, then a person approves">
+            <li>Inbox</li><li>Record</li><li>Draft</li><li>A person approves</li>
+          </ol>
+        </section>
+      </div>
+
+      <div class="services__actions">
+        <a class="cta" id="email-cta" href="mailto:amrit@amritchana.com?subject=The%20task%20that%20eats%20our%20week">Tell me the task that eats your week</a>
+        <p class="services__note"><strong>Free note:</strong> I reply within 2 business days with where I'd look first. No call required.</p>
+      </div>
+      <footer class="site-footer">
+        <span>Amrit Chana · Chicago</span>
+        <a href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
+      </footer>
+    </div>
+  </section>
+</main>
+<script>
+(() => {
+  const root = document.documentElement;
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const smooth = t => t * t * (3 - 2 * t);
+  const flight = root.classList.contains('flight');
+  const frameFns = [], watchers = [];
+  const pins = [...document.querySelectorAll('.step--pin')].map(section => ({ section, panel: section.querySelector('.caption'), start: 0, end: 1 }));
+  const LAB = window.LAB = {
+    clamp, smooth, flight, pins,
+    ease: 'cubic-bezier(.2,.75,.25,1)', DUR: { respond: 200, change: 480, beat: 960 }, STAGGER: 80,
+    onFrame: fn => frameFns.push(fn),
+    // Run fn once, when the element's top has risen above `at` of the viewport.
+    whenReady: (el, fn, at = .5) => watchers.push({ el, fn, at, done: false })
+  };
+  const track = document.querySelector('.world__track');
+  const scenes = track ? [...track.querySelectorAll('.scene')] : [];
+  const images = scenes.map(scene => scene.querySelector('.scene__image'));
+  const ridge = document.querySelector('.step--ridge .caption');
+  const valley = document.querySelector('.step--valley .caption');
+  const services = document.querySelector('.services');
+  let keys = [[0, 0], [1, 1], [2, 2], [3, 3]], restFrom = 4, restTo = 5, frame = 0;
+
+  // Each place is fully in view while its caption is centred (or pinned); the forest lands as the offer arrives.
+  const measure = () => {
+    const vh = innerHeight;
+    const top = el => el.getBoundingClientRect().top + scrollY;
+    pins.forEach(pin => {
+      const wrap = pin.panel.parentElement;
+      const t = Math.max(60, Math.round((vh - pin.panel.offsetHeight) / 2));
+      if (flight) pin.panel.style.top = t + 'px';
+      const wTop = top(wrap);
+      pin.start = wTop - t;
+      pin.end = Math.max(pin.start + 1, wTop + wrap.offsetHeight - pin.panel.offsetHeight - t);
+    });
+    const centre = el => top(el) + el.offsetHeight / 2 - vh / 2;
+    const span = el => { const pin = pins.find(p => p.panel === el); return pin ? [pin.start, pin.end] : [centre(el), centre(el)]; };
+    const [rIn, rOut] = span(ridge), [vIn, vOut] = span(valley);
+    const offer = top(services);
+    keys = [[0, 0], [rIn, 1], [rOut, 1], [vIn, 2], [vOut, 2], [Math.max(vOut + 1, offer - vh * .55), 3]];
+    restFrom = offer - vh * .55; restTo = offer - vh * .08;
+  };
+  const sceneAt = y => {
+    if (y <= keys[0][0]) return keys[0][1];
+    for (let i = 1; i < keys.length; i++) {
+      const [y0, s0] = keys[i - 1], [y1, s1] = keys[i];
+      if (y <= y1) return y1 > y0 ? s0 + (s1 - s0) * (y - y0) / (y1 - y0) : s1;
+    }
+    return keys[keys.length - 1][1];
+  };
+  const render = () => {
+    frame = 0;
+    const y = scrollY, vh = innerHeight;
+    if (flight && track) {
+      const idx = sceneAt(y);
+      const alpha = [1];
+      for (let i = 1; i < 4; i++) alpha[i] = smooth(clamp((idx - (i - 1) - .2) / .6, 0, 1));
+      alpha[4] = smooth(clamp((y - restFrom) / Math.max(1, restTo - restFrom), 0, 1));
+      scenes.forEach((scene, i) => {
+        const covered = alpha.slice(i + 1).some(a => a >= 1);
+        scene.style.opacity = alpha[i].toFixed(3);
+        scene.style.visibility = covered || alpha[i] <= 0 ? 'hidden' : '';
+        scene.style.zIndex = String(i + 1);
+        const local = clamp(idx - i + 1, 0, 2) / 2;
+        const drift = i === 0 ? -local * 1.6 : (local - .5) * 1.6;
+        images[i].style.transform = 'translate3d(0,' + drift.toFixed(2) + '%,0) scale(' + (1 + .04 * local).toFixed(3) + ')';
+      });
+      track.style.transform = 'translate3d(' + (-.35 * idx).toFixed(2) + '%,' + (-.45 * idx).toFixed(2) + '%,0) scale(' + (1.02 + .055 * idx).toFixed(3) + ')';
+    }
+    frameFns.forEach(fn => fn(y, vh));
+    watchers.forEach(w => {
+      if (w.done) return;
+      const r = w.el.getBoundingClientRect();
+      if (r.top < vh * w.at && r.bottom > vh * .25) { w.done = true; w.fn(); }
+    });
+  };
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+  const remeasure = () => { measure(); schedule(); };
+  LAB.remeasure = remeasure;
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', remeasure, { passive: true });
+  addEventListener('load', remeasure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+  if ('ResizeObserver' in window) new ResizeObserver(remeasure).observe(document.querySelector('.world__steps'));
+  LAB.start = () => { measure(); render(); };
+
+  const cards = [...document.querySelectorAll('.offer-card')];
+  if (flight && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    cards.forEach(card => {
+      card.addEventListener('pointermove', event => {
+        if (event.pointerType !== 'mouse' && event.pointerType !== 'pen') return;
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - .5;
+        const y = (event.clientY - rect.top) / rect.height - .5;
+        card.style.transform = 'perspective(900px) translateY(-5px) rotateX(' + (-y * 5).toFixed(2) + 'deg) rotateY(' + (x * 6).toFixed(2) + 'deg)';
+      });
+      card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+      card.addEventListener('focusout', () => { card.style.transform = ''; });
+    });
+  }
+})();
+
+(() => {
+  const { clamp, flight, pins } = LAB;
+  /* Section 1: Week clock. Scroll position runs the week; each job fills its day. */
+  const grid = document.querySelector('.weekgrid');
+  const clock = grid.querySelector('.clock__now');
+  const rows = [...grid.querySelectorAll('.chore')].map(r => [...r.querySelectorAll('.cells i')]);
+  const pin = pins.find(p => p.section.contains(grid));
+  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+  if (flight && pin) {
+    grid.classList.add('is-scrub');
+    LAB.onFrame((y, vh) => {
+      const from = pin.start - vh * .12, to = pin.start + (pin.end - pin.start) * .85;
+      const p = clamp((y - from) / Math.max(1, to - from), 0, 1);
+      const t = p * 5, d = Math.min(4, Math.floor(t));
+      const mins = p >= 1 ? 17 * 60 : Math.floor((9 + (t - d) * 8) * 6) * 10;
+      clock.textContent = DAYS[d] + ' ' + String(Math.floor(mins / 60)).padStart(2, '0') + ':' + String(mins % 60).padStart(2, '0');
+      rows.forEach((cells, r) => cells.forEach((c, day) => c.classList.toggle('on', t >= day + (r + .5) / 6 * .92)));
+    });
+  }
+
+  /* Section 2: Flip. Tiles turn to the after face by themselves once; tap shows the before. */
+  const list = document.querySelector('.flips');
+  const flips = [...list.querySelectorAll('.flip')];
+  const show = (f, before) => {
+    f.classList.toggle('is-before', before);
+    f.setAttribute('aria-pressed', String(before));
+    f.querySelector('.face--before').setAttribute('aria-hidden', String(!before));
+    f.querySelector('.face--after').setAttribute('aria-hidden', String(before));
+  };
+  flips.forEach(f => f.addEventListener('click', () => show(f, !f.classList.contains('is-before'))));
+  if (flight) {
+    flips.forEach(f => show(f, true));
+    LAB.whenReady(list, () => flips.forEach((f, i) => setTimeout(() => show(f, false), LAB.DUR.respond + i * LAB.STAGGER)), .55);
+  }
+})();
+LAB.start();
+</script>
+</body>
+</html>
