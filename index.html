@@ -68,15 +68,23 @@
   .services{grid-row:4;grid-column:1}
   .scene--forest,.scene--rest{display:none}
   .scene__image,.scene__shade{position:absolute;inset:0}
+  .scene__image > picture{position:absolute;inset:0}
   .scene__shade{pointer-events:none;z-index:1}
   .scene--ice .scene__image img{object-position:50% 50%}
-  .scene--ridge .scene__image img{object-position:50% 48%}
+  /* Where the week goes is still the visitor's ice: without the flight it gets its own, closer view of the hero's glacier. */
+  .scene--ridge .scene__image{transform:scale(1.16);transform-origin:40% 72%}
   .scene--valley .scene__image img,.scene--forest .scene__image img,.scene--rest .scene__image img{object-position:50% 50%}
   .scene--ice .scene__shade{background:linear-gradient(90deg,rgba(7,11,13,.5) 0%,rgba(7,11,13,.22) 42%,rgba(7,11,13,0) 78%),linear-gradient(0deg,rgba(7,11,13,.55) 0%,rgba(7,11,13,.1) 48%,rgba(7,11,13,.2) 100%)}
   .scene--ridge .scene__shade{background:linear-gradient(0deg,rgba(7,11,13,.22),transparent 56%)}
   .scene--valley .scene__shade{background:linear-gradient(0deg,rgba(7,11,13,.22),transparent 55%)}
   .scene--forest .scene__shade{background:linear-gradient(0deg,rgba(7,11,13,.26),transparent 58%)}
   .scene--rest .scene__image img{filter:blur(3px) brightness(.9) saturate(1.1);transform:scale(1.04)}
+  /* The thaw: the valley rises in frozen (the same plate, cool and colourless) behind "What changes", like a snow line
+     going up the slope, and turns green as the slips are sorted. */
+  .scene__reveal{position:absolute;inset:0}
+  .scene__frost{display:none}
+  .scene__frost img{filter:saturate(.08) brightness(1.06) contrast(.9)}
+  .scene__frost::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(214,228,238,.36),rgba(169,194,209,.22) 55%,rgba(150,176,194,.18))}
   .scene--rest .scene__shade{background:rgba(9,19,13,.26)}
 
   .step{position:relative;z-index:2;grid-column:1;display:flex;flex-direction:column;justify-content:center;min-height:max(100svh,var(--scene-min));padding-block:clamp(84px,12vh,128px);overflow-x:clip}
@@ -241,6 +249,11 @@
   .flight .scene{position:absolute;inset:0;min-height:0;opacity:0;will-change:opacity}
   .flight .scene--ice{opacity:1}
   .flight .scene--forest,.flight .scene--rest{display:block}
+  .flight .scene--ridge{display:none}
+  .flight .scene--valley{background:none}
+  .flight .scene__frost{display:block;will-change:opacity}
+  .flight .scene__reveal{top:-60%;-webkit-mask-image:linear-gradient(180deg,transparent,#000 37.5%);mask-image:linear-gradient(180deg,transparent,#000 37.5%);will-change:transform}
+  .flight .scene__reveal > .scene__image{top:auto;height:62.5%}
   .flight .scene__image{will-change:transform}
   .flight .world__steps{display:block;position:relative;z-index:2;margin-top:-100vh;margin-top:calc(-1 * max(100lvh,var(--scene-min)))}
   .flight .step{min-height:max(100svh,var(--scene-min));padding-block:clamp(72px,10vh,120px)}
@@ -344,16 +357,22 @@
       </div>
       <div class="scene scene--ridge">
         <picture class="scene__image">
-          <source media="(max-aspect-ratio:9/10)" srcset="img/m-ridge-crest-640.webp 640w, img/m-ridge-crest-960.webp 960w, img/m-ridge-crest.webp 1290w" sizes="110vw" width="1290" height="2796">
-          <img src="img/ridge-crest.webp" width="1672" height="941" alt="">
+          <source media="(max-aspect-ratio:9/10)" srcset="img/m-ice-aerial-640.webp 640w, img/m-ice-aerial-960.webp 960w, img/m-ice-aerial.webp 1290w" sizes="110vw" width="1290" height="2796">
+          <img src="img/ice-aerial.webp" width="1672" height="941" alt="">
         </picture>
         <div class="scene__shade"></div>
       </div>
       <div class="scene scene--valley">
-        <picture class="scene__image">
-          <source media="(max-aspect-ratio:9/10)" srcset="img/m-eden-valley-640.webp 640w, img/m-eden-valley-960.webp 960w, img/m-eden-valley.webp 1290w" sizes="110vw" width="1290" height="2796">
-          <img src="img/eden-valley.webp" width="1672" height="941" alt="">
-        </picture>
+        <div class="scene__reveal"><div class="scene__image">
+          <picture>
+            <source media="(max-aspect-ratio:9/10)" srcset="img/m-eden-valley-640.webp 640w, img/m-eden-valley-960.webp 960w, img/m-eden-valley.webp 1290w" sizes="110vw" width="1290" height="2796">
+            <img src="img/eden-valley.webp" width="1672" height="941" alt="">
+          </picture>
+          <picture class="scene__frost">
+            <source media="(max-aspect-ratio:9/10)" srcset="img/m-eden-valley-640.webp 640w, img/m-eden-valley-960.webp 960w, img/m-eden-valley.webp 1290w" sizes="110vw" width="1290" height="2796">
+            <img src="img/eden-valley.webp" width="1672" height="941" alt="">
+          </picture>
+        </div></div>
         <div class="scene__shade"></div>
       </div>
       <div class="scene scene--forest">
@@ -532,7 +551,7 @@
   const smooth = t => t * t * (3 - 2 * t);
   const flight = root.classList.contains('flight');
   // design.md motion: one curve and three durations, for the motion JS times itself.
-  const RESPOND = 200, CHANGE = 480, EASE = 'cubic-bezier(.2,.75,.25,1)';
+  const RESPOND = 200, CHANGE = 480, BEAT = 960, EASE = 'cubic-bezier(.2,.75,.25,1)';
   const bez = (a, b) => t => 3 * (1 - t) * (1 - t) * t * a + 3 * (1 - t) * t * t * b + t * t * t;
   const bx = bez(.2, .25), by = bez(.75, 1);
   const settle = x => {
@@ -560,8 +579,10 @@
   const ariaHide = (el, on) => on ? el.setAttribute('aria-hidden', 'true') : el.removeAttribute('aria-hidden');
 
   let sorted = sorter.classList.contains('is-sorted');
+  let onSort = () => {};
   const setSorted = (on, how) => {
     sorted = on;
+    onSort(on, how);
     if (how !== 'animate') sorter.classList.add('no-anim');
     sorter.classList.toggle('is-sorted', on);
     toggleText.textContent = on ? 'Show the inbox' : 'Sort it';
@@ -585,8 +606,12 @@
   } else {
     const steps = document.querySelector('.world__steps');
     const track = document.querySelector('.world__track');
-    const scenes = [...track.querySelectorAll('.scene')];
+    // The landscape: the ice (hero and ridge), the valley (frozen until the slips are sorted), the forest, the offer's rest.
+    const scenes = ['ice', 'valley', 'forest', 'rest'].map(name => track.querySelector('.scene--' + name));
+    const depth = [0, 2, 3, 4];
     const images = scenes.map(scene => scene.querySelector('.scene__image'));
+    const frost = scenes[1].querySelector('.scene__frost'), reveal = scenes[1].querySelector('.scene__reveal');
+    let sceneH = 0;
     const services = document.querySelector('.services');
     // Two copies of the six slips ride between the panels: one under the panels, one in front of them.
     const layer = cls => {
@@ -614,7 +639,7 @@
     const emptyCut = () => glass.h - glass.head;
 
     const pin = { start: 0, end: 1 };
-    let leave = 0, land = 1, keys = [[0, 0], [1, 1], [2, 2], [3, 3]], restFrom = 4, restTo = 5, frame = 0;
+    let leave = 0, land = 1, thawFrom = 0, thaw = 0, keys = [[0, 0], [1, 1], [2, 2], [3, 3]], restFrom = 4, restTo = 5, frame = 0;
     let from = [], to = [];
 
     const measure = () => {
@@ -651,6 +676,9 @@
       glass.head = ridge.querySelector('h2').getBoundingClientRect().bottom - cap.top + pad;
       glass.bottom = pileSlots.map(li => li.getBoundingClientRect().bottom - cap.top + pad);
       glass.slot = pileSlots.map(li => li.offsetHeight);
+      // Where the week goes keeps the ice while any of its glass is on screen; the valley thaws in behind the slips after that.
+      thawFrom = clamp(pin.end + t + glass.head + 8, leave, land - 1);
+      sceneH = scenes[1].offsetHeight;
       // The landscape holds the ridge through the pin and arrives in the valley as the slips land.
       const offer = top(services);
       keys = [[0, 0], [pin.start, 1], [pin.end, 1], [land, 2], [Math.max(land + 1, offer - vh * .55), 3]];
@@ -664,6 +692,30 @@
         if (y <= y1) return y1 > y0 ? a + (b - a) * (y - y0) / (y1 - y0) : b;
       }
       return keys[keys.length - 1][1];
+    };
+
+    /* The thaw: the valley comes in frozen as the slips cross into it, and turns green and sunny as they are sorted,
+       in the sort's own beat; unsorted (folding back, or "Show the inbox"), it freezes again. */
+    const bloom = { from: +sorted, to: +sorted, at: 0, dur: 0, ticking: false };
+    const bloomNow = () => bloom.dur ? bloom.from + (bloom.to - bloom.from) * settle((performance.now() - bloom.at) / bloom.dur) : bloom.to;
+    const paintFrost = () => {
+      const green = Math.max(.12 * smooth(clamp((thaw - .55) / .45, 0, 1)), bloomNow());
+      frost.style.opacity = (1 - green).toFixed(3);
+      frost.style.visibility = green >= 1 ? 'hidden' : '';
+    };
+    const bloomTick = () => {
+      if (bloom.dur && performance.now() - bloom.at >= bloom.dur) bloom.dur = 0;
+      paintFrost();
+      bloom.ticking = bloom.dur > 0;
+      if (bloom.ticking) requestAnimationFrame(bloomTick);
+    };
+    onSort = (on, how) => {
+      bloom.from = bloomNow();
+      bloom.to = on ? 1 : 0;
+      bloom.at = performance.now();
+      bloom.dur = how === 'animate' && bloom.from !== bloom.to ? (on ? BEAT : CHANGE) : 0;
+      paintFrost();
+      if (bloom.dur && !bloom.ticking) { bloom.ticking = true; requestAnimationFrame(bloomTick); }
     };
 
     /* Ridge: your scroll tosses the slips onto a crooked pile; each landing jolts the pile 2px. */
@@ -787,19 +839,23 @@
       frame = 0;
       const y = scrollY, vh = innerHeight;
       const idx = sceneAt(y);
-      const alpha = [1];
-      for (let i = 1; i < 4; i++) alpha[i] = smooth(clamp((idx - (i - 1) - .2) / .6, 0, 1));
-      alpha[4] = smooth(clamp((y - restFrom) / Math.max(1, restTo - restFrom), 0, 1));
+      thaw = clamp((y - thawFrom) / Math.max(1, land - thawFrom), 0, 1);
+      // The thaw line rises from below the screen to above it over the first 70% of the thaw.
+      const rise = smooth(clamp(thaw / .7, 0, 1)), low = ((1 - rise) * 1.6 * sceneH).toFixed(1);
+      reveal.style.transform = 'translate3d(0,' + low + 'px,0)';
+      const alpha = [1, thaw > 0 ? 1 : 0, smooth(clamp((idx - 2.2) / .6, 0, 1)), smooth(clamp((y - restFrom) / Math.max(1, restTo - restFrom), 0, 1))];
+      const full = [true, rise >= 1, alpha[2] >= 1, alpha[3] >= 1];
       scenes.forEach((scene, i) => {
-        const covered = alpha.slice(i + 1).some(a => a >= 1);
+        const covered = full.slice(i + 1).some(Boolean);
         scene.style.opacity = alpha[i].toFixed(3);
         scene.style.visibility = covered || alpha[i] <= 0 ? 'hidden' : '';
         scene.style.zIndex = String(i + 1);
-        const local = clamp(idx - i + 1, 0, 2) / 2;
+        const local = clamp(idx - depth[i] + 1, 0, 2) / 2;
         const drift = i === 0 ? -local * 1.6 : (local - .5) * 1.6;
-        images[i].style.transform = 'translate3d(0,' + drift.toFixed(2) + '%,0) scale(' + (1 + .04 * local).toFixed(3) + ')';
+        images[i].style.transform = (i === 1 ? 'translate3d(0,-' + low + 'px,0) ' : '') + 'translate3d(0,' + drift.toFixed(2) + '%,0) scale(' + (1 + .04 * local).toFixed(3) + ')';
       });
       track.style.transform = 'translate3d(' + (-.35 * idx).toFixed(2) + '%,' + (-.45 * idx).toFixed(2) + '%,0) scale(' + (1.02 + .055 * idx).toFixed(3) + ')';
+      paintFrost();
       toss(y, vh);
       cross(y);
     };
