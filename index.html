@@ -71,8 +71,8 @@
   .scene__image > picture{position:absolute;inset:0}
   .scene__shade{pointer-events:none;z-index:1}
   .scene--ice .scene__image img{object-position:50% 50%}
-  /* Where the week goes is still the visitor's ice: without the flight it gets its own, closer view of the hero's glacier. */
-  .scene--ridge .scene__image{transform:scale(1.16);transform-origin:40% 72%}
+  /* Where the week goes is the visitor's valley in deep winter: the same camera and ground as the valley plate, so the
+     thaw lands on the place that was frozen. */
   .scene--valley .scene__image img,.scene--forest .scene__image img,.scene--rest .scene__image img{object-position:50% 50%}
   .scene--ice .scene__shade{background:linear-gradient(90deg,rgba(7,11,13,.5) 0%,rgba(7,11,13,.22) 42%,rgba(7,11,13,0) 78%),linear-gradient(0deg,rgba(7,11,13,.55) 0%,rgba(7,11,13,.1) 48%,rgba(7,11,13,.2) 100%)}
   .scene--ridge .scene__shade{background:linear-gradient(0deg,rgba(7,11,13,.22),transparent 56%)}
@@ -249,7 +249,6 @@
   .flight .scene{position:absolute;inset:0;min-height:0;opacity:0;will-change:opacity}
   .flight .scene--ice{opacity:1}
   .flight .scene--forest,.flight .scene--rest{display:block}
-  .flight .scene--ridge{display:none}
   .flight .scene--valley{background:none}
   .flight .scene__frost{display:block;will-change:opacity}
   .flight .scene__reveal{top:-60%;-webkit-mask-image:linear-gradient(180deg,transparent,#000 37.5%);mask-image:linear-gradient(180deg,transparent,#000 37.5%);will-change:transform}
@@ -357,8 +356,8 @@
       </div>
       <div class="scene scene--ridge">
         <picture class="scene__image">
-          <source media="(max-aspect-ratio:9/10)" srcset="img/m-ice-aerial-640.webp 640w, img/m-ice-aerial-960.webp 960w, img/m-ice-aerial.webp 1290w" sizes="110vw" width="1290" height="2796">
-          <img src="img/ice-aerial.webp" width="1672" height="941" alt="">
+          <source media="(max-aspect-ratio:9/10)" srcset="img/m-frozen-valley-640.webp 640w, img/m-frozen-valley-960.webp 960w, img/m-frozen-valley.webp 1290w" sizes="110vw" width="1290" height="2796">
+          <img src="img/frozen-valley.webp" width="1672" height="941" alt="">
         </picture>
         <div class="scene__shade"></div>
       </div>
@@ -606,11 +605,14 @@
   } else {
     const steps = document.querySelector('.world__steps');
     const track = document.querySelector('.world__track');
-    // The landscape: the ice (hero and ridge), the valley (frozen until the slips are sorted), the forest, the offer's rest.
-    const scenes = ['ice', 'valley', 'forest', 'rest'].map(name => track.querySelector('.scene--' + name));
-    const depth = [0, 2, 3, 4];
+    // The landscape: the hero's ice, the valley in winter (Where the week goes), the valley (it thaws in as the slips cross
+    // and greens as they are sorted), the forest, the offer's rest. The winter valley shares the valley's depth, so the
+    // two plates stay registered while one thaws into the other.
+    const scenes = ['ice', 'ridge', 'valley', 'forest', 'rest'].map(name => track.querySelector('.scene--' + name));
+    const depth = [0, 2, 2, 3, 4];
+    const V = 2;
     const images = scenes.map(scene => scene.querySelector('.scene__image'));
-    const frost = scenes[1].querySelector('.scene__frost'), reveal = scenes[1].querySelector('.scene__reveal');
+    const frost = scenes[V].querySelector('.scene__frost'), reveal = scenes[V].querySelector('.scene__reveal');
     let sceneH = 0;
     const services = document.querySelector('.services');
     // Two copies of the six slips ride between the panels: one under the panels, one in front of them.
@@ -676,9 +678,9 @@
       glass.head = ridge.querySelector('h2').getBoundingClientRect().bottom - cap.top + pad;
       glass.bottom = pileSlots.map(li => li.getBoundingClientRect().bottom - cap.top + pad);
       glass.slot = pileSlots.map(li => li.offsetHeight);
-      // Where the week goes keeps the ice while any of its glass is on screen; the valley thaws in behind the slips after that.
+      // Where the week goes keeps its frozen valley while any of its glass is on screen; the thaw starts behind the slips after that.
       thawFrom = clamp(pin.end + t + glass.head + 8, leave, land - 1);
-      sceneH = scenes[1].offsetHeight;
+      sceneH = scenes[V].offsetHeight;
       // The landscape holds the ridge through the pin and arrives in the valley as the slips land.
       const offer = top(services);
       keys = [[0, 0], [pin.start, 1], [pin.end, 1], [land, 2], [Math.max(land + 1, offer - vh * .55), 3]];
@@ -843,8 +845,9 @@
       // The thaw line rises from below the screen to above it over the first 70% of the thaw.
       const rise = smooth(clamp(thaw / .7, 0, 1)), low = ((1 - rise) * 1.6 * sceneH).toFixed(1);
       reveal.style.transform = 'translate3d(0,' + low + 'px,0)';
-      const alpha = [1, thaw > 0 ? 1 : 0, smooth(clamp((idx - 2.2) / .6, 0, 1)), smooth(clamp((y - restFrom) / Math.max(1, restTo - restFrom), 0, 1))];
-      const full = [true, rise >= 1, alpha[2] >= 1, alpha[3] >= 1];
+      // The camera pushes in off the hero's glacier and settles over the valley in winter before the ridge panel pins.
+      const alpha = [1, smooth(clamp((idx - .3) / .6, 0, 1)), thaw > 0 ? 1 : 0, smooth(clamp((idx - 2.2) / .6, 0, 1)), smooth(clamp((y - restFrom) / Math.max(1, restTo - restFrom), 0, 1))];
+      const full = [true, alpha[1] >= 1, rise >= 1, alpha[3] >= 1, alpha[4] >= 1];
       scenes.forEach((scene, i) => {
         const covered = full.slice(i + 1).some(Boolean);
         scene.style.opacity = alpha[i].toFixed(3);
@@ -852,7 +855,7 @@
         scene.style.zIndex = String(i + 1);
         const local = clamp(idx - depth[i] + 1, 0, 2) / 2;
         const drift = i === 0 ? -local * 1.6 : (local - .5) * 1.6;
-        images[i].style.transform = (i === 1 ? 'translate3d(0,-' + low + 'px,0) ' : '') + 'translate3d(0,' + drift.toFixed(2) + '%,0) scale(' + (1 + .04 * local).toFixed(3) + ')';
+        images[i].style.transform = (i === V ? 'translate3d(0,-' + low + 'px,0) ' : '') + 'translate3d(0,' + drift.toFixed(2) + '%,0) scale(' + (1 + .04 * local).toFixed(3) + ')';
       });
       track.style.transform = 'translate3d(' + (-.35 * idx).toFixed(2) + '%,' + (-.45 * idx).toFixed(2) + '%,0) scale(' + (1.02 + .055 * idx).toFixed(3) + ')';
       paintFrost();
