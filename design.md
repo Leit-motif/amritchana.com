@@ -4,7 +4,8 @@ Extracted from `index.html` as published at `d96a257` ("The Crossing v4"). Nothi
 it names what the page already does so new sections can match it. Where the page breaks its own rule,
 the rule wins and the break is listed at the end.
 
-The page in one line: a pinned landscape (ice → ridge → valley → forest) with words on glass scrolling over
+The page in one line: a pinned landscape (the winter valley at dawn under the hero and the ridge, one plate → it thaws
+into the green valley → forest) with words on glass scrolling over
 it, then a conventional offer screen of cream cards.
 
 ## 1. Tokens
@@ -83,7 +84,7 @@ Text over photos gets a soft text-shadow (`0 1px 8–12px rgba(0,0,0,.45–.55)`
 | Panel | `rgba(7,15,10,.72)` | 6px | none | 10px |
 | Note | `rgba(7,15,10,.66)` | 4px | none | 6px |
 | Bar (header, footer) | `rgba(7,15,10,.62)` | 4px | none | 8px |
-| Hero scrim | horizontal `rgba(6,10,13,0→.5→.44→0)` gradient, masked top and bottom | none | none | none |
+| Hero fade | bottom-up `rgba(4,9,24,.66→.62→0)` behind the hero words, weighted left on wide screens; scrolls with the words (2026-10-10) | none | none | none |
 | Scene shade | bottom-up `rgba(7,11,13,.22–.55)` gradient | none | none | none |
 
 The landscape must stay visible around and through every surface. Never darken a plate to near-black.
