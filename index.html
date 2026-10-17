@@ -664,18 +664,23 @@
     /* The pager is the browser's own scroll snap (as on the Johnny Products site): the page follows the finger,
        keeps the flick's speed and settles on the next stop. One invisible marker per stop; the last one spans
        everything below the offer, so that part scrolls freely. */
-    const snaps = stops.map(() => {
-      const m = document.createElement('div');
-      m.className = 'snap'; m.setAttribute('aria-hidden', 'true');
-      document.body.appendChild(m);
-      return m;
-    });
+    // Markers are made on the first real measurement, so the browser never latches onto a placeholder stop
+    // and follows it down the page when the stops move.
+    let snaps = null;
     const placeSnaps = () => {
+      const first = !snaps;
+      if (first) snaps = stops.map(() => {
+        const m = document.createElement('div');
+        m.className = 'snap'; m.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(m);
+        return m;
+      });
       const end = document.documentElement.scrollHeight;
       snaps.forEach((m, i) => {
         m.style.top = stops[i] + 'px';
         m.style.height = (i === snaps.length - 1 ? Math.max(1, end - stops[i] - 2) : 1) + 'px';
       });
+      if (first && !location.hash && scrollY < innerHeight) scrollTo({ top: 0, behavior: 'instant' });
     };
     // Two copies of the six slips ride between the panels: one under the panels, one in front of them.
     const layer = cls => {
