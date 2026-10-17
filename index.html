@@ -657,6 +657,9 @@
     const frost = scenes[V].querySelector('.scene__frost'), reveal = scenes[V].querySelector('.scene__reveal');
     let sceneH = 0;
     const services = document.querySelector('.services');
+    // Paged story: four stops (the hero, the pile once all six slips are on it, the valley as the slips land, the offer).
+    // A flick travels to the next stop at a set pace, and each scene's own animation plays while the page rests.
+    const stops = [0, 1, 2, 3];
     // Two copies of the six slips ride between the panels: one under the panels, one in front of them.
     const layer = cls => {
       const el = document.createElement('div');
@@ -727,6 +730,10 @@
       const offer = top(services);
       keys = [[0, 0], [pin.start, 1], [pin.end, 1], [land, 2], [Math.max(land + 1, offer - vh * .55), 3]];
       restFrom = offer - vh * .55; restTo = offer - vh * .08;
+      // The pile stop sits where the last slip has landed (toss() finishes at about 96% of its run), inside the pin.
+      const tossA = pin.start - vh * .75, tossB = pin.start + (pin.end - pin.start) * .85;
+      const pileStop = clamp(tossA + (tossB - tossA) * .97, pin.start, pin.end - 1);
+      stops[0] = 0; stops[1] = Math.round(pileStop); stops[2] = Math.ceil(land) + 1; stops[3] = Math.round(offer);
       placeChips();
     };
     const sceneAt = y => {
@@ -920,6 +927,60 @@
     });
     // Tabbing to the toggle mid-crossing would leave a slip over it: land the slips first.
     toggle.addEventListener('focus', () => { if (zone !== 'valley' && toggle.matches(':focus-visible')) bringIn(); });
+    /* The pager. Inside the story, a wheel flick, a swipe or a paging key moves one stop; past the offer the page
+       scrolls normally. Trackpad momentum after a flick is swallowed, so one gesture is one stop. */
+    const travel = [1300, 1100, 800];
+    let busy = false, quietUntil = 0;
+    const inOut = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const go = (target, dur) => {
+      busy = true;
+      const y0 = scrollY, t0 = performance.now();
+      const step = now => {
+        const k = clamp((now - t0) / dur, 0, 1);
+        scrollTo({ top: y0 + (target - y0) * inOut(k), behavior: 'instant' });
+        if (k < 1) requestAnimationFrame(step);
+        else { busy = false; quietUntil = performance.now() + 350; }
+      };
+      requestAnimationFrame(step);
+    };
+    // Is this gesture the pager's? Down: anywhere above the offer. Up: from the offer's top or above it.
+    const ours = dir => dir > 0 ? scrollY < stops[3] - 2 : scrollY > 2 && scrollY <= stops[3] + 2;
+    const move = dir => {
+      const y = scrollY;
+      const i = dir > 0 ? stops.findIndex(s => s > y + 2) : stops.length - 1 - [...stops].reverse().findIndex(s => s < y - 2);
+      if (i < 0 || i >= stops.length) return;
+      const leg = dir > 0 ? i - 1 : i;
+      go(stops[i], dir > 0 ? travel[clamp(leg, 0, 2)] : 800);
+    };
+    const gesture = (dir, event) => {
+      if (!dir || !ours(dir)) return;
+      if (event && event.cancelable) event.preventDefault();
+      const now = performance.now();
+      if (busy || now < quietUntil) { if (!busy) quietUntil = now + 180; return; }
+      move(dir);
+    };
+    addEventListener('wheel', e => {
+      if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      gesture(Math.sign(e.deltaY), e);
+    }, { passive: false });
+    let touchY = null;
+    addEventListener('touchstart', e => { touchY = e.touches.length === 1 ? e.touches[0].clientY : null; }, { passive: true });
+    addEventListener('touchmove', e => {
+      if (touchY === null) return;
+      const dy = touchY - e.touches[0].clientY;
+      if (Math.abs(dy) > 6 && ours(Math.sign(dy)) && e.cancelable) e.preventDefault();
+    }, { passive: false });
+    addEventListener('touchend', e => {
+      if (touchY === null) return;
+      const dy = touchY - e.changedTouches[0].clientY;
+      touchY = null;
+      if (Math.abs(dy) > 30) gesture(Math.sign(dy), null);
+    }, { passive: true });
+    addEventListener('keydown', e => {
+      if (e.altKey || e.ctrlKey || e.metaKey || /^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(document.activeElement && document.activeElement.tagName)) return;
+      const dir = { ArrowDown: 1, PageDown: 1, ' ': e.shiftKey ? -1 : 1, ArrowUp: -1, PageUp: -1 }[e.key];
+      if (dir) gesture(dir, e);
+    });
     measure();
     render();
   }
