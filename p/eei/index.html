@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EEI answers | Free preview</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #15191f; --muted: #5a6370; --paper: #fbfaf7; --card: #ffffff; --line: rgba(20,25,31,.10);
+  --brand: #1f4e4a; --accent: #b8a37e;
+  --accent-text: color-mix(in srgb, var(--accent) 65%, #000);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font: 16px/1.6 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; color: var(--ink); background: var(--paper); }
+a { color: var(--brand); }
+.wrap { width: min(1040px, 100% - 32px); margin-inline: auto; }
+.ribbon { background: #111; color: #ddd; font-size: 13px; text-align: center; padding: 8px 16px; }
+.ribbon b { color: #fff; font-weight: 600; }
+h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; letter-spacing: -.015em; line-height: 1.12; margin: 0; }
+h1 { font-size: clamp(34px, 5.4vw, 58px); max-width: 17ch; }
+h2 { font-size: clamp(26px, 3.4vw, 38px); max-width: 24ch; }
+.eyebrow { font-size: 12.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--brand); margin: 0 0 14px; }
+.lede { font-size: clamp(17px, 2vw, 19px); color: var(--muted); max-width: 60ch; margin: 18px 0 0; }
+header.hero { padding: 64px 0 56px; background:
+  radial-gradient(900px 360px at 90% -20%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 65%),
+  linear-gradient(180deg, color-mix(in srgb, var(--brand) 7%, var(--paper)), var(--paper)); }
+.firm { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 10px; margin-bottom: 36px; }
+.firm span { width: 30px; height: 30px; border-radius: 8px; background: var(--brand); color: #fff; display: grid; place-items: center; font-family: 'Fraunces', serif; }
+.ask { margin-top: 34px; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px; box-shadow: 0 22px 60px rgba(0,0,0,.08); max-width: 760px; }
+.ask form { display: flex; gap: 10px; }
+.ask input { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 14px 16px; border: 1.5px solid var(--line); border-radius: 12px; background: #fff; }
+.ask input:focus { outline: none; border-color: var(--brand); }
+.ask button[type=submit] { font: 600 15px 'Inter', sans-serif; padding: 0 20px; border: 0; border-radius: 12px; background: var(--brand); color: #fff; cursor: pointer; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.chip { font: inherit; font-size: 13.5px; padding: 7px 12px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--brand) 40%, transparent); color: var(--brand); background: #fff; cursor: pointer; }
+.chip:hover { background: color-mix(in srgb, var(--brand) 7%, #fff); }
+.answer { margin-top: 16px; display: none; border-top: 1px solid var(--line); padding-top: 16px; }
+.answer.show { display: block; }
+.answer p { margin: 0 0 10px; }
+.answer .miss { color: #9a3412; font-weight: 600; }
+blockquote { margin: 10px 0 0; padding: 12px 16px; border-left: 3px solid var(--accent); background: color-mix(in srgb, var(--accent) 8%, #fff); border-radius: 0 10px 10px 0; font-size: 15px; color: #2b313a; }
+cite { display: block; margin-top: 8px; font-style: normal; font-size: 13px; color: var(--muted); }
+section { padding: 72px 0; }
+.section-head { margin-bottom: 30px; }
+.section-head p { color: var(--muted); max-width: 60ch; margin: 12px 0 0; }
+.qa { background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 10px; }
+.qa summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 16px; padding: 16px 20px; font-weight: 600; }
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary i { font-style: normal; color: var(--brand); font-size: 20px; line-height: 1; transition: transform .2s; }
+.qa[open] summary i { transform: rotate(45deg); }
+.qa-body { padding: 0 20px 18px; }
+.qa-body p { margin: 0; color: #2b313a; }
+.gaps { background: #111; color: #eee; }
+.gaps .eyebrow { color: color-mix(in srgb, var(--accent) 75%, #fff); }
+.gaps .section-head p { color: #b9b9b9; }
+.gaps ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.gaps li { border: 1px solid rgba(255,255,255,.14); border-radius: 14px; padding: 18px 20px; }
+.gaps li b { display: block; color: #fff; margin-bottom: 6px; }
+.gaps li span { color: #b9b9b9; font-size: 15px; }
+.pilot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 8px; }
+.wk { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+.wk small { font-weight: 600; color: var(--accent-text); letter-spacing: .1em; text-transform: uppercase; font-size: 12px; }
+.wk h3 { font-size: 19px; margin: 8px 0 6px; }
+.wk p { margin: 0; color: var(--muted); font-size: 15px; }
+.terms { margin-top: 22px; padding: 18px 20px; border-radius: 14px; background: color-mix(in srgb, var(--brand) 7%, #fff); border: 1px solid color-mix(in srgb, var(--brand) 20%, transparent); }
+.terms b { color: var(--brand); }
+footer { border-top: 1px solid var(--line); padding: 28px 0 40px; font-size: 14px; color: var(--muted); }
+@media (max-width: 640px) {
+  .ask form { flex-direction: column; }
+  .ask button[type=submit] { padding: 13px; }
+  section { padding: 52px 0; }
+}
+</style>
+</head>
+<body>
+<div class="ribbon">A free preview built for <b>Engineering Enterprises, Inc.</b> by Buy the Floor from your public website. Not your official site.</div>
+
+<header class="hero"><div class="wrap">
+  <div class="firm"><span>E</span>Engineering Enterprises, Inc.</div>
+  <p class="eyebrow">Your site, answering municipalities</p>
+  <h1>Your next village board can get answers before the first call.</h1>
+  <p class="lede">This is eeiweb.com turned into an answer desk: the questions village managers, public works directors and developers ask before hiring a municipal engineer, answered only with sentences already on your site.</p>
+  <div class="ask">
+    <form id="askf" autocomplete="off">
+      <input id="askq" type="text" placeholder="Can you help us find grant funding?" aria-label="Ask a question">
+      <button type="submit">Ask</button>
+    </form>
+    <div class="chips"><button class="chip" type="button">Do you serve as a village engineer?</button><button class="chip" type="button">Can you help with grant funding?</button><button class="chip" type="button">Have you done utility rate studies?</button><button class="chip" type="button">Do clients come back to you?</button><button class="chip" type="button">Where are your offices?</button></div>
+    <div class="answer" id="ans" aria-live="polite"></div>
+  </div>
+</div></header>
+
+<main>
+<section><div class="wrap">
+  <div class="section-head">
+    <p class="eyebrow">Answered from your site</p>
+    <h2>12 questions municipalities ask, answered with your own words.</h2>
+    <p>Every answer quotes a page on eeiweb.com. If a quote couldn't be found on the site, the answer didn't make the cut.</p>
+  </div>
+  <details class="qa" id="q0"><summary><span>How long has EEI been around?</span><i>+</i></summary><div class="qa-body"><p>Since 1974, when founder James K. Michels opened the firm in Elburn with four employees.</p><blockquote>&ldquo;In 1974, James K. Michels, late founder, opened the doors of EEI in Elburn, Illinois with four employees.&rdquo;<cite>From <a href="https://eeiweb.com/home/about-us/" target="_blank" rel="noopener">About Us page</a></cite></blockquote></div></details>
+<details class="qa" id="q1"><summary><span>Do you serve as a full-time village or city engineer?</span><i>+</i></summary><div class="qa-body"><p>Yes. With a staff of over 80, EEI serves several municipalities as their full-time Municipal Engineering Consultant.</p><blockquote>&ldquo;Today, EEI has a staff of over 80 and has the privilege of representing several municipalities as full-time Municipal Engineering Consultants and performing engineering projects in many other communities as well.&rdquo;<cite>From <a href="https://eeiweb.com/home/about-us/" target="_blank" rel="noopener">About Us page</a></cite></blockquote></div></details>
+<details class="qa" id="q2"><summary><span>Do you have an office near the northwest suburbs?</span><i>+</i></summary><div class="qa-body"><p>Yes. EEI opened a branch in Itasca in 2022, in addition to Sugar Grove and Yorkville.</p><blockquote>&ldquo;In 2022, another branch office was opened in Itasca, Illinois in an effort to grow our existing relationships with our clients and develop new ones with the surrounding communities.&rdquo;<cite>From <a href="https://eeiweb.com/home/about-us/" target="_blank" rel="noopener">About Us page</a></cite></blockquote></div></details>
+<details class="qa" id="q3"><summary><span>Do you work for both public agencies and private clients?</span><i>+</i></summary><div class="qa-body"><p>Yes. EEI does civil engineering and land surveying for public and private clients across northeastern Illinois.</p><blockquote>&ldquo;Since our founding in 1974, Engineering Enterprises, Inc. has been committed to quality, service and value as we perform civil engineering and land surveying services for both public and private sector clients in northeastern Illinois.&rdquo;<cite>From <a href="https://eeiweb.com/home/services/" target="_blank" rel="noopener">Services page</a></cite></blockquote></div></details>
+<details class="qa" id="q4"><summary><span>Can you help us find grant funding for a project?</span><i>+</i></summary><div class="qa-body"><p>Yes. EEI covers planning, design and construction of infrastructure, plus grant and funding assistance.</p><blockquote>&ldquo;EEI provides a full range of services for planning, design, and construction of infrastructure projects, plus grant and funding assistance.&rdquo;<cite>From <a href="https://eeiweb.com/home/services/" target="_blank" rel="noopener">Services page</a></cite></blockquote></div></details>
+<details class="qa" id="q5"><summary><span>Will you look for cost-effective solutions?</span><i>+</i></summary><div class="qa-body"><p>That is how EEI describes its approach: team-based and focused on cost-effective solutions to complex projects.</p><blockquote>&ldquo;We work as a team as we approach each project, taking pride in developing innovative, cost-effective solutions to your complex projects.&rdquo;<cite>From <a href="https://eeiweb.com/home/services/" target="_blank" rel="noopener">Services page</a></cite></blockquote></div></details>
+<details class="qa" id="q6"><summary><span>Will your engineers work like part of our staff?</span><i>+</i></summary><div class="qa-body"><p>Yes. EEI says its staff sees itself as an extension of the community&#x27;s own staff.</p><blockquote>&ldquo;Our staff believes that we are an extension of your community’s staff.&rdquo;<cite>From <a href="https://eeiweb.com/home/services/municipal-consulting/" target="_blank" rel="noopener">Municipal Consulting page</a></cite></blockquote></div></details>
+<details class="qa" id="q7"><summary><span>Will you follow our direction, or push your own agenda?</span><i>+</i></summary><div class="qa-body"><p>EEI commits to listen, follow the community&#x27;s direction, and lead when needed.</p><blockquote>&ldquo;We will listen to your needs, follow your direction, and provide insight and leadership when needed knowing that the end goal is to have a successful project that makes your Community a better place to live.&rdquo;<cite>From <a href="https://eeiweb.com/home/services/municipal-consulting/" target="_blank" rel="noopener">Municipal Consulting page</a></cite></blockquote></div></details>
+<details class="qa" id="q8"><summary><span>Do clients come back to you?</span><i>+</i></summary><div class="qa-body"><p>Yes. EEI says more than 90% of its work comes from repeat clients.</p><blockquote>&ldquo;Our ability to meet deadlines and budget requirements is reflected in the fact that over 90% of our work is repeat clients.&rdquo;<cite>From <a href="https://eeiweb.com/resources/testimonials/" target="_blank" rel="noopener">Testimonials page</a></cite></blockquote></div></details>
+<details class="qa" id="q9"><summary><span>Have you done utility rate studies that a village board actually approved?</span><i>+</i></summary><div class="qa-body"><p>Yes. Schaumburg&#x27;s village manager credits EEI with a 5-year plan of modest 3% rate increases that the board approved unanimously.</p><blockquote>&ldquo;For the Utility Capital Improvement Planning and Revenue Study project, EEI was able to develop a 5-year plan that implemented modest 3% rate increases and secured unanimous approval from the Schaumburg Village Board.&rdquo;<cite>From <a href="https://eeiweb.com/resources/testimonials/" target="_blank" rel="noopener">Testimonials page</a></cite></blockquote></div></details>
+<details class="qa" id="q10"><summary><span>Will you tailor the solution to our village, or bring a template?</span><i>+</i></summary><div class="qa-body"><p>A former Elk Grove Village public works director says EEI avoids one-size-fits-all answers.</p><blockquote>&ldquo;EEI does not show up with a one size fits all solution; they provide the best communication and the most thorough solutions that best fits our needs.&rdquo;<cite>From <a href="https://eeiweb.com/resources/testimonials/" target="_blank" rel="noopener">Testimonials page</a></cite></blockquote></div></details>
+<details class="qa" id="q11"><summary><span>Do you prepare water system master plans?</span><i>+</i></summary><div class="qa-body"><p>Yes. Batavia&#x27;s assistant public works director calls EEI&#x27;s Water Works System Master Plan a work of art they use almost daily.</p><blockquote>&ldquo;The Water Works System Master Plan is really a work of art. I refer to it almost daily. This was worth its weight in gold.&rdquo;<cite>From <a href="https://eeiweb.com/resources/testimonials/" target="_blank" rel="noopener">Testimonials page</a></cite></blockquote></div></details>
+</div></section>
+
+<section class="gaps"><div class="wrap">
+  <div class="section-head">
+    <p class="eyebrow">Not on your site yet</p>
+    <h2>6 questions your site can't answer today.</h2>
+    <p>These answers live in EEI&#x27;s proposals, project files and inboxes, not on the site.</p>
+  </div>
+  <ul><li><b>How do you bill for ongoing village engineer services: retainer, hourly, or per project?</b><span>Village budgets are set a year ahead, so this decides whether EEI fits the line item.</span></li>
+<li><b>How fast do you turn around a developer&#x27;s plan review for our village?</b><span>Slow reviews stall development, and staff hear about it from the board and from developers.</span></li>
+<li><b>What does a utility rate study cost, and how long does it take?</b><span>The Schaumburg story makes buyers ask, and the next step is a budget number.</span></li>
+<li><b>Which communities do you currently serve as municipal engineer?</b><span>The site says &#x27;several municipalities&#x27; without naming them, and buyers want peers to call.</span></li>
+<li><b>Which grants have you won for clients, and how much did they bring in?</b><span>Grant assistance is promised but no results are shown, and results are what a board compares.</span></li>
+<li><b>Who would be our day-to-day engineer, and how many communities do they cover?</b><span>Municipal buyers hire the person who will attend their meetings, not the firm in general.</span></li></ul>
+</div></section>
+
+<section><div class="wrap">
+  <div class="section-head">
+    <p class="eyebrow">Making it real</p>
+    <h2>Three weeks to proposal answers in minutes, not days.</h2>
+    <p>We&#x27;d turn EEI&#x27;s past proposals, municipal reports and project records into one searchable brain, so the team can answer a village&#x27;s scope, fee and precedent questions from work it has already done.</p>
+  </div>
+  <div class="pilot-grid">
+    <div class="wk"><small>Week 1</small><h3>Pick one workflow</h3><p>We&#x27;d start with municipal proposal and RFQ responses: the fee, schedule, staffing and past-project questions your principals answer by hand for each community. We measure how it runs today and agree 20 to 30 tests it has to pass.</p></div>
+    <div class="wk"><small>Week 2</small><h3>Build your company brain</h3><p>Your documents, with sources and permissions, wired into that one workflow and the handoff to your people.</p></div>
+    <div class="wk"><small>Week 3</small><h3>Train and measure</h3><p>Your team uses it for real. You get a before and after scorecard against the baseline.</p></div>
+  </div>
+  <div class="terms"><b>$2,500 fixed.</b> Half up front, half when the tests pass. If they still fail after a 10 business day fix window, you don't owe the second half and you keep the work. Then 30 days of fixes included.</div>
+</div></section>
+</main>
+
+<footer><div class="wrap">Built by Amrit Chana, Buy the Floor, Chicago. Questions: <a href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>. Content quoted from eeiweb.com as published in October 2026. This preview is yours to keep.</div></footer>
+
+<script>
+const DATA = {"qa": [{"q": "How long has EEI been around?", "a": "Since 1974, when founder James K. Michels opened the firm in Elburn with four employees.", "quote": "In 1974, James K. Michels, late founder, opened the doors of EEI in Elburn, Illinois with four employees.", "source_url": "https://eeiweb.com/home/about-us/", "source_label": "About Us page", "keys": "history founded founder 1974 age"}, {"q": "Do you serve as a full-time village or city engineer?", "a": "Yes. With a staff of over 80, EEI serves several municipalities as their full-time Municipal Engineering Consultant.", "quote": "Today, EEI has a staff of over 80 and has the privilege of representing several municipalities as full-time Municipal Engineering Consultants and performing engineering projects in many other communities as well.", "source_url": "https://eeiweb.com/home/about-us/", "source_label": "About Us page", "keys": "village engineer city engineer municipal consultant staff size employees"}, {"q": "Do you have an office near the northwest suburbs?", "a": "Yes. EEI opened a branch in Itasca in 2022, in addition to Sugar Grove and Yorkville.", "quote": "In 2022, another branch office was opened in Itasca, Illinois in an effort to grow our existing relationships with our clients and develop new ones with the surrounding communities.", "source_url": "https://eeiweb.com/home/about-us/", "source_label": "About Us page", "keys": "offices location Itasca Sugar Grove Yorkville near"}, {"q": "Do you work for both public agencies and private clients?", "a": "Yes. EEI does civil engineering and land surveying for public and private clients across northeastern Illinois.", "quote": "Since our founding in 1974, Engineering Enterprises, Inc. has been committed to quality, service and value as we perform civil engineering and land surveying services for both public and private sector clients in northeastern Illinois.", "source_url": "https://eeiweb.com/home/services/", "source_label": "Services page", "keys": "clients public private developers region northeastern Illinois survey"}, {"q": "Can you help us find grant funding for a project?", "a": "Yes. EEI covers planning, design and construction of infrastructure, plus grant and funding assistance.", "quote": "EEI provides a full range of services for planning, design, and construction of infrastructure projects, plus grant and funding assistance.", "source_url": "https://eeiweb.com/home/services/", "source_label": "Services page", "keys": "grant funding money financing loans assistance"}, {"q": "Will you look for cost-effective solutions?", "a": "That is how EEI describes its approach: team-based and focused on cost-effective solutions to complex projects.", "quote": "We work as a team as we approach each project, taking pride in developing innovative, cost-effective solutions to your complex projects.", "source_url": "https://eeiweb.com/home/services/", "source_label": "Services page", "keys": "cost budget value innovative team"}, {"q": "Will your engineers work like part of our staff?", "a": "Yes. EEI says its staff sees itself as an extension of the community's own staff.", "quote": "Our staff believes that we are an extension of your community’s staff.", "source_url": "https://eeiweb.com/home/services/municipal-consulting/", "source_label": "Municipal Consulting page", "keys": "extension staff partnership village team"}, {"q": "Will you follow our direction, or push your own agenda?", "a": "EEI commits to listen, follow the community's direction, and lead when needed.", "quote": "We will listen to your needs, follow your direction, and provide insight and leadership when needed knowing that the end goal is to have a successful project that makes your Community a better place to live.", "source_url": "https://eeiweb.com/home/services/municipal-consulting/", "source_label": "Municipal Consulting page", "keys": "listen direction leadership approach community"}, {"q": "Do clients come back to you?", "a": "Yes. EEI says more than 90% of its work comes from repeat clients.", "quote": "Our ability to meet deadlines and budget requirements is reflected in the fact that over 90% of our work is repeat clients.", "source_url": "https://eeiweb.com/resources/testimonials/", "source_label": "Testimonials page", "keys": "repeat clients deadlines budget references"}, {"q": "Have you done utility rate studies that a village board actually approved?", "a": "Yes. Schaumburg's village manager credits EEI with a 5-year plan of modest 3% rate increases that the board approved unanimously.", "quote": "For the Utility Capital Improvement Planning and Revenue Study project, EEI was able to develop a 5-year plan that implemented modest 3% rate increases and secured unanimous approval from the Schaumburg Village Board.", "source_url": "https://eeiweb.com/resources/testimonials/", "source_label": "Testimonials page", "keys": "rate study water rates utility capital plan revenue board approval"}, {"q": "Will you tailor the solution to our village, or bring a template?", "a": "A former Elk Grove Village public works director says EEI avoids one-size-fits-all answers.", "quote": "EEI does not show up with a one size fits all solution; they provide the best communication and the most thorough solutions that best fits our needs.", "source_url": "https://eeiweb.com/resources/testimonials/", "source_label": "Testimonials page", "keys": "tailored custom communication approach"}, {"q": "Do you prepare water system master plans?", "a": "Yes. Batavia's assistant public works director calls EEI's Water Works System Master Plan a work of art they use almost daily.", "quote": "The Water Works System Master Plan is really a work of art. I refer to it almost daily. This was worth its weight in gold.", "source_url": "https://eeiweb.com/resources/testimonials/", "source_label": "Testimonials page", "keys": "water master plan water works system planning"}], "gaps": ["How do you bill for ongoing village engineer services: retainer, hourly, or per project?", "How fast do you turn around a developer's plan review for our village?", "What does a utility rate study cost, and how long does it take?", "Which communities do you currently serve as municipal engineer?", "Which grants have you won for clients, and how much did they bring in?", "Who would be our day-to-day engineer, and how many communities do they cover?"]};
+const STOP = new Set("a an the and or of to in on for with do does did you your we our is are can how what when where who which i my me it its be at by from about have has any there this that if as will would".split(" "));
+const toks = s => s.toLowerCase().replace(/[^a-z0-9$ ]/g, " ").split(/\s+/).filter(w => w.length > 1 && !STOP.has(w)).map(w => w.replace(/(ies|es|s)$/, ""));
+const idx = DATA.qa.map(x => ({x, t: new Set(toks(x.q + " " + x.a + " " + (x.keys || "")))}));
+const gidx = DATA.gaps.map(q => new Set(toks(q)));
+const esc = s => s.replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"})[c]);
+function ask(q) {
+  const qt = toks(q); const box = document.getElementById("ans");
+  let best = null, score = 0;
+  for (const it of idx) { let s = 0; for (const w of qt) if (it.t.has(w)) s++; const r = qt.length ? s / qt.length : 0; if (r > score) { score = r; best = it.x; } }
+  let gscore = 0;
+  for (const g of gidx) { let s = 0; for (const w of qt) if (g.has(w)) s++; const r = qt.length ? s / qt.length : 0; if (r > gscore) gscore = r; }
+  if (best && score >= 0.34 && score >= gscore) {
+    box.innerHTML = `<p>${esc(best.a)}</p><blockquote>&ldquo;${esc(best.quote)}&rdquo;<cite>From <a href="${esc(best.source_url)}" target="_blank" rel="noopener">${esc(best.source_label)}</a></cite></blockquote>`;
+  } else {
+    box.innerHTML = `<p class="miss">Your site doesn't answer that yet.</p><p>That's the gap the pilot closes: answers from your own documents, not just your web pages.</p>`;
+  }
+  box.classList.add("show");
+}
+document.getElementById("askf").addEventListener("submit", ev => { ev.preventDefault(); const v = document.getElementById("askq").value.trim(); if (v) ask(v); });
+document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => { document.getElementById("askq").value = b.textContent; ask(b.textContent); }));
+</script>
+</body>
+</html>
