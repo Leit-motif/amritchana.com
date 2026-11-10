@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Amrit Chana: the agent systems I build and run</title>
-<meta name="description" content="Noesis, the multi-agent system I built and run every day on OpenClaw: orchestrator and sub-agents, scheduled workers, memory over MCP, model routing, and a gate that holds anything public until it passes review. Plus client work at Kraft Heinz and SC Johnson.">
+<meta name="description" content="Noesis, the multi-agent system I built and run every day on OpenClaw: orchestrator and sub-agents, scheduled workers, memory over MCP, model routing, and a gate that holds anything public until it passes review. Plus my work at Kraft Heinz and SC Johnson.">
 <meta name="theme-color" content="#101711">
 <link rel="canonical" href="https://amritchana.com/work/">
 <meta property="og:title" content="Amrit Chana: the agent systems I build and run">
-<meta property="og:description" content="How Noesis is built, captures from the machine it runs on, and the client work behind it.">
+<meta property="og:description" content="How Noesis is built, captures from the machine it runs on, and where I've worked before.">
 <meta property="og:url" content="https://amritchana.com/work/">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:,">
@@ -107,12 +107,14 @@
   .cap figcaption .src{margin-top:12px;font:400 13px/1.45 var(--mono);color:var(--dim)}
   .note{margin-top:clamp(28px,4vw,40px);font-size:14px;color:var(--dim);max-width:640px}
 
-  /* Client work and tools: cream cards */
+  /* Experience and tools: cream cards */
   .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
   .card{position:relative;padding:26px 26px 28px;border-radius:8px;background:var(--cream);color:var(--card-ink);box-shadow:0 8px 22px rgba(4,12,7,.16)}
   .card .who{font:500 12px/1.3 var(--mono);letter-spacing:.06em;color:var(--card-muted)}
   .card h3{margin-top:10px;font-size:clamp(22px,2vw,28px);line-height:1.08;font-weight:700;letter-spacing:-.035em}
   .card p{margin-top:12px;font-size:16px;line-height:1.5;color:#2c3f34}
+  .card .thumb{display:block;margin:-26px -26px 20px;aspect-ratio:16/9;overflow:hidden;border-radius:8px 8px 0 0;background:#1b1b1b}
+  .card .thumb img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
   .card a.repo{display:inline-block;margin-top:16px;font-size:15px;font-weight:600;color:var(--card-ink)}
   .group{margin:0 0 14px;font:500 12px/1.3 var(--mono);letter-spacing:.06em;color:var(--dim)}
   .group + .grid{margin-bottom:34px}
@@ -145,6 +147,7 @@
     .cta{min-height:52px}
     .grid{grid-template-columns:1fr}
     .card{padding:22px 20px 24px}
+    .card .thumb{margin:-22px -20px 18px}
     .diagram{padding:10px}
     .diagram .scroller svg{width:520px;max-width:none}
     .cap__img.scroller img{width:640px;max-width:none}
@@ -176,7 +179,7 @@
     <div class="wrap hero__words">
       <p class="eyebrow">Work · Agent systems</p>
       <h1 id="hero-title">The agent system I run every day, and the gate that stops it.</h1>
-      <p class="lede">I'm Amrit Chana, an agent engineer in Chicago. Noesis is the multi-agent system I built on OpenClaw and use daily. Below is how it's put together, captures from the Mac mini it runs on, and the client work that came before it.</p>
+      <p class="lede">I'm Amrit Chana, an agent engineer in Chicago. Noesis is the multi-agent system I built on OpenClaw and use daily. Below is how it's put together, captures from the Mac mini it runs on, and where I worked before it.</p>
       <div class="actions">
         <a class="cta" href="mailto:amrit@amritchana.com?subject=Agent%20build">Email me about your build</a>
         <a class="quiet" href="#built">See how it's built</a>
@@ -348,30 +351,32 @@
     <div class="wrap">
       <div class="head">
         <p class="eyebrow">Before Noesis, and beside it</p>
-        <h2 id="work-title">Client work and tools</h2>
+        <h2 id="work-title">Where I've worked, and what I've built</h2>
       </div>
-      <p class="group">Client work</p>
+      <p class="group">Where I've worked</p>
       <div class="grid">
         <article class="card">
-          <p class="who">Kraft Heinz · 2026 contract</p>
+          <p class="who">Kraft Heinz · Contract AI Engineer, HR AI, 2026</p>
           <h3>Technical lead, KHAI HR</h3>
           <p>Technical lead on KHAI HR, the company's HR employee assistant: a multi-agent orchestration used by about 3,000 employees. I took over its technical direction from the integration partner that built it.</p>
         </article>
         <article class="card">
-          <p class="who">SC Johnson</p>
+          <p class="who">SC Johnson · Domain Data Steward</p>
           <h3>Production agents and the evals that gate them</h3>
           <p>Agents in production, including a compliance agent with human review, and the evaluation pipelines each release had to pass before it shipped.</p>
         </article>
       </div>
-      <p class="group">Open-source tools for agent builders</p>
+      <p class="group">What I've built: open-source tools for agent builders</p>
       <div class="grid">
         <article class="card">
+          <a class="thumb" href="https://github.com/Leit-motif/claude-vantage-point"><img src="img/vantage-point.jpg" width="1200" height="675" loading="lazy" alt="Vantage Point: a panel above the Claude Code prompt asking 'Which comes first?', with the agent's and your answers side by side."></a>
           <p class="who">Claude Code plugin</p>
           <h3>claude-vantage-point</h3>
           <p>A heads-up display above the Claude Code prompt. It shows what every agent, sub-agent and background task is doing, and gives you one queue for answering what they ask you.</p>
           <a class="repo" href="https://github.com/Leit-motif/claude-vantage-point">github.com/Leit-motif/claude-vantage-point</a>
         </article>
         <article class="card">
+          <a class="thumb" href="https://github.com/Leit-motif/agent-atlas"><img src="img/agent-atlas.jpg" width="1200" height="716" loading="lazy" alt="Agent Atlas: a map of what a Claude Code session loads, with skills, hooks, subagents, settings, plugins, instructions and MCP servers around one centre."></a>
           <p class="who">Claude Code plugin</p>
           <h3>agent-atlas</h3>
           <p>One map of everything Claude Code loads before it reads your first message: instructions and their imports, settings, hooks, skills, plugins and MCP servers.</p>
