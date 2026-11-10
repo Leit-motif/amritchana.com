@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amrit Chana: the agent systems I build and run</title>
+<meta name="description" content="Noesis, the multi-agent system I built and run every day on OpenClaw: orchestrator and sub-agents, scheduled workers, memory over MCP, model routing, and a gate that holds anything public until it passes review. Plus client work at Kraft Heinz and SC Johnson.">
+<meta name="theme-color" content="#101711">
+<link rel="canonical" href="https://amritchana.com/work/">
+<meta property="og:title" content="Amrit Chana: the agent systems I build and run">
+<meta property="og:description" content="How Noesis is built, captures from the machine it runs on, and the client work behind it.">
+<meta property="og:url" content="https://amritchana.com/work/">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#f4f3ed;
+    --body:#e3e6df;
+    --dim:#a9b4aa;
+    --card-ink:#203329;
+    --card-muted:#43574a;
+    --gold:#e8cf83;
+    --gold-text:#f1d77d;
+    --gold-ink:#1e2a20;
+    --gold-rule:#c9ad55;
+    --cream:rgba(244,243,234,.97);
+    --forest:#101711;
+    --panel:rgba(244,243,237,.045);
+    --line:rgba(244,243,237,.14);
+    --sans:"Schibsted Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --gutter:clamp(20px,4.5vw,68px);
+    --maxw:1180px;
+    --ease:cubic-bezier(.2,.75,.25,1);
+    --dur-respond:200ms;
+    --dur-change:480ms;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--forest);color-scheme:dark;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--forest);color:var(--ink);font:400 17px/1.55 var(--sans);letter-spacing:.002em;overflow-x:clip}
+  img{display:block;max-width:100%;height:auto}
+  a{color:inherit;text-decoration-thickness:1px;text-underline-offset:4px}
+  :focus-visible{outline:3px solid #f2d779;outline-offset:4px;border-radius:4px}
+  ::selection{background:#ead687;color:#182219}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
+  .eyebrow{margin:0 0 14px;font:500 12px/1.3 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:#d7ddd5}
+  h1,h2,h3{margin:0;text-wrap:balance}
+  p{margin:0;text-wrap:pretty}
+
+  /* Header */
+  .site-header{position:absolute;z-index:5;top:0;left:0;right:0}
+  .site-header__inner{display:flex;justify-content:space-between;align-items:center;gap:18px;padding-block:24px;border-bottom:1px solid rgba(244,243,237,.24)}
+  .brand{font-size:15px;font-weight:600;letter-spacing:.01em;text-decoration:none;text-shadow:0 1px 8px rgba(0,0,0,.45)}
+  .header-mail{font:400 13px/1.3 var(--mono);letter-spacing:.02em;text-decoration:none;color:var(--ink);text-shadow:0 1px 8px rgba(0,0,0,.55)}
+
+  /* Hero: the green valley plate, words on a bottom-up fade */
+  .hero{position:relative;min-height:min(92svh,860px);display:flex;align-items:flex-end;isolation:isolate;overflow:hidden}
+  .hero__plate{position:absolute;inset:0;z-index:-2}
+  .hero__plate img{width:100%;height:100%;object-fit:cover;object-position:50% 62%}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:
+    linear-gradient(180deg,rgba(6,10,12,.55) 0%,rgba(6,10,12,0) 22%),
+    linear-gradient(0deg,rgba(16,23,17,1) 0%,rgba(10,16,12,.86) 26%,rgba(8,14,11,.5) 52%,rgba(8,14,11,0) 78%)}
+  .hero__words{padding-block:120px clamp(56px,9vh,104px)}
+  .hero__words > *{max-width:980px}
+  .hero .lede{max-width:640px}
+  .hero h1{font-size:clamp(44px,6.4vw,86px);line-height:.99;font-weight:700;letter-spacing:-.05em;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+  .hero .lede{margin-top:24px;max-width:640px;font-size:19px;line-height:1.5;color:#eceee8;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+  .actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;margin-top:30px}
+  .cta{display:inline-flex;align-items:center;min-height:50px;padding:0 22px;border-radius:6px;background:var(--gold);color:var(--gold-ink);font-weight:650;font-size:16px;text-decoration:none;box-shadow:0 7px 18px rgba(5,12,7,.2);transition:transform var(--dur-respond) var(--ease),box-shadow var(--dur-respond) var(--ease)}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(5,12,7,.28)}
+  .cta:focus-visible{outline-color:#fff4c5}
+  .quiet{font-size:16px;color:#eceee8}
+
+  /* Sections */
+  section{padding-block:clamp(64px,10vw,128px)}
+  .head{max-width:760px;margin-bottom:clamp(34px,5vw,56px)}
+  .head h2{font-size:clamp(32px,3.6vw,48px);line-height:1;font-weight:700;letter-spacing:-.045em}
+  .head p{margin-top:18px;color:var(--body);max-width:640px}
+
+  /* Architecture */
+  .arch{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:start}
+  .diagram{position:sticky;top:24px;margin:0;padding:clamp(14px,2vw,22px);border-radius:10px;background:rgba(7,15,10,.72);border:1px solid var(--line)}
+  .diagram svg{display:block;width:100%;height:auto}
+  .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+  .hint{display:none;margin-top:10px;font:400 12px/1.4 var(--mono);color:var(--dim)}
+  .diagram figcaption{margin-top:12px;font-size:14px;line-height:1.45;color:var(--dim)}
+  .parts{margin:0;display:grid;gap:0}
+  .part{padding:22px 0 24px;border-top:1px solid var(--line)}
+  .part:first-child{border-top:0;padding-top:4px}
+  .part dt{font-size:clamp(21px,1.8vw,25px);line-height:1.1;font-weight:700;letter-spacing:-.03em}
+  .part dd{margin:10px 0 0;color:var(--body);max-width:60ch}
+  .part dd + dd{margin-top:10px}
+  code,.tag{font:400 .86em/1.4 var(--mono);letter-spacing:0}
+  .part code{color:#eef0e9;background:rgba(244,243,237,.07);padding:1px 5px;border-radius:4px;white-space:nowrap}
+  .gate-word{color:var(--gold-text)}
+
+  /* Captures */
+  .caps{display:grid;gap:clamp(40px,6vw,72px)}
+  .cap{margin:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:clamp(18px,3vw,40px);align-items:start}
+  .cap__img{border-radius:8px;overflow:hidden;border:1px solid var(--line);box-shadow:0 18px 44px rgba(0,0,0,.28);background:#0d1410}
+  .cap__img img{width:100%}
+  .cap figcaption h3{font-size:clamp(21px,1.8vw,25px);line-height:1.1;font-weight:700;letter-spacing:-.03em}
+  .cap figcaption p{margin-top:10px;color:var(--body);font-size:16px;line-height:1.5}
+  .cap figcaption .src{margin-top:12px;font:400 13px/1.45 var(--mono);color:var(--dim)}
+  .note{margin-top:clamp(28px,4vw,40px);font-size:14px;color:var(--dim);max-width:640px}
+
+  /* Client work and tools: cream cards */
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+  .card{position:relative;padding:26px 26px 28px;border-radius:8px;background:var(--cream);color:var(--card-ink);box-shadow:0 8px 22px rgba(4,12,7,.16)}
+  .card .who{font:500 12px/1.3 var(--mono);letter-spacing:.06em;color:var(--card-muted)}
+  .card h3{margin-top:10px;font-size:clamp(22px,2vw,28px);line-height:1.08;font-weight:700;letter-spacing:-.035em}
+  .card p{margin-top:12px;font-size:16px;line-height:1.5;color:#2c3f34}
+  .card a.repo{display:inline-block;margin-top:16px;font-size:15px;font-weight:600;color:var(--card-ink)}
+  .group{margin:0 0 14px;font:500 12px/1.3 var(--mono);letter-spacing:.06em;color:var(--dim)}
+  .group + .grid{margin-bottom:34px}
+
+  /* How I work + CTA */
+  .close{position:relative;isolation:isolate;overflow:hidden}
+  .close__plate{position:absolute;inset:0;z-index:-2}
+  .close__plate img{width:100%;height:100%;object-fit:cover}
+  .close::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(16,23,17,1) 0%,rgba(10,16,12,.7) 30%,rgba(8,14,11,.55) 100%)}
+  .ask{max-width:720px;padding:clamp(24px,4vw,40px);border-radius:10px;background:rgba(8,14,11,.76);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(244,243,237,.17);box-shadow:0 18px 44px rgba(0,0,0,.2)}
+  .ask h2{font-size:clamp(32px,3.6vw,48px);line-height:1;font-weight:700;letter-spacing:-.045em}
+  .ask p{margin-top:18px;color:#eceee8}
+  .ask .actions{margin-top:26px}
+  footer{padding-block:26px 34px;border-top:1px solid var(--line);font-size:14px;color:var(--dim)}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px}
+  footer a{color:#d9ddd6}
+
+  @media (max-width:1000px){
+    .arch{grid-template-columns:minmax(0,1fr)}
+    .diagram{position:static;max-width:600px;min-width:0}
+    .cap{grid-template-columns:minmax(0,1fr)}
+  }
+  @media (max-width:560px){
+    body{font-size:16px}
+    .site-header__inner{padding-block:18px}
+    .header-mail{font-size:12px}
+    .hero{min-height:min(88svh,780px)}
+    .hero h1{font-size:clamp(38px,10.6vw,48px)}
+    .hero .lede{font-size:17px}
+    .cta{min-height:52px}
+    .grid{grid-template-columns:1fr}
+    .card{padding:22px 20px 24px}
+    .diagram{padding:10px}
+    .diagram .scroller svg{width:520px;max-width:none}
+    .cap__img.scroller img{width:640px;max-width:none}
+    .hint{display:block}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .cta{transition:none}
+    .cta:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="/">Amrit Chana</a>
+    <a class="header-mail" href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__plate" aria-hidden="true">
+      <picture>
+        <source media="(max-width:560px)" srcset="../img/m-eden-valley-640.webp 640w, ../img/m-eden-valley-960.webp 960w" sizes="100vw">
+        <img src="../img/eden-valley.webp" alt="" fetchpriority="high">
+      </picture>
+    </div>
+    <div class="wrap hero__words">
+      <p class="eyebrow">Work · Agent systems</p>
+      <h1 id="hero-title">The agent system I run every day, and the gate that stops it.</h1>
+      <p class="lede">I'm Amrit Chana, an agent engineer in Chicago. Noesis is the multi-agent system I built on OpenClaw and use daily. Below is how it's put together, captures from the Mac mini it runs on, and the client work that came before it.</p>
+      <div class="actions">
+        <a class="cta" href="mailto:amrit@amritchana.com?subject=Agent%20build">Email me about your build</a>
+        <a class="quiet" href="#built">See how it's built</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="built" aria-labelledby="built-title">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">How it's built</p>
+        <h2 id="built-title">Noesis, from the inside</h2>
+        <p>Work arrives from chat, from a voice app on my phone and from a scheduler. The orchestrator plans it and hands pieces to sub-agents and coding agents. Anything they would put in front of another person stops at the gate first.</p>
+      </div>
+      <div class="arch">
+        <figure class="diagram">
+          <div class="scroller"><svg viewBox="0 0 540 900" role="img" aria-labelledby="svg-t svg-d" xmlns="http://www.w3.org/2000/svg">
+            <title id="svg-t">Noesis architecture</title>
+            <desc id="svg-d">Chat, a phone voice app and a scheduler feed the OpenClaw Gateway. Inside it, the Noesis orchestrator hands work to sub-agents, the Venture business agent and coding agents over ACP, through Gateway extensions and a model router. Memory over MCP and the eval loops sit beside it. Every outbound email, post or public repo write passes the public-preflight gate, where an adversarial review and the owner's yes are required, before it reaches the outside world.</desc>
+            <defs>
+              <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c7cfc6"/></marker>
+              <marker id="ahg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#e8cf83"/></marker>
+            </defs>
+            <style>
+              .bx{fill:rgba(244,243,237,.05);stroke:rgba(244,243,237,.32);stroke-width:1.2}
+              .bx2{fill:rgba(244,243,237,.09);stroke:rgba(244,243,237,.42);stroke-width:1.2}
+              .gw{fill:none;stroke:rgba(244,243,237,.28);stroke-width:1.2;stroke-dasharray:5 5}
+              .t1{font:700 17px var(--sans);fill:#f4f3ed;letter-spacing:-.02em}
+              .t2{font:400 14px var(--sans);fill:#c9d1c8}
+              .lb{font:500 12px var(--mono);fill:#a9b4aa;letter-spacing:.08em}
+              .ch{font:400 13px var(--mono);fill:#dfe5dc}
+              .chb{fill:rgba(244,243,237,.07);stroke:rgba(244,243,237,.2)}
+              .ln{stroke:#c7cfc6;stroke-width:1.4;fill:none}
+              .gl{stroke:#e8cf83;stroke-width:1.8;fill:none}
+            </style>
+            <!-- inputs -->
+            <rect class="bx" x="10" y="10" width="160" height="62" rx="8"/>
+            <text class="t1" x="24" y="37">Chat</text><text class="t2" x="24" y="58">Discord, Control UI</text>
+            <rect class="bx" x="190" y="10" width="160" height="62" rx="8"/>
+            <text class="t1" x="204" y="37">Voice</text><text class="t2" x="204" y="58">Android app</text>
+            <rect class="bx" x="370" y="10" width="160" height="62" rx="8"/>
+            <text class="t1" x="384" y="37">Scheduler</text><text class="t2" x="384" y="58">56 jobs</text>
+            <path class="ln" d="M90 72V120" marker-end="url(#ah)"/><path class="ln" d="M270 72V120" marker-end="url(#ah)"/><path class="ln" d="M450 72V120" marker-end="url(#ah)"/>
+            <!-- gateway -->
+            <rect class="gw" x="6" y="104" width="528" height="468" rx="12"/>
+            <text class="lb" x="22" y="560">OPENCLAW GATEWAY · MAC MINI</text>
+            <rect class="bx2" x="26" y="126" width="488" height="68" rx="8"/>
+            <text class="t1" x="42" y="154">Noesis orchestrator</text><text class="t2" x="42" y="177">plans, delegates, checks the work, reports back</text>
+            <path class="ln" d="M100 194V226" marker-end="url(#ah)"/><path class="ln" d="M270 194V226" marker-end="url(#ah)"/><path class="ln" d="M440 194V226" marker-end="url(#ah)"/>
+            <rect class="bx" x="26" y="230" width="152" height="84" rx="8"/>
+            <text class="t1" x="40" y="258">Sub-agents</text><text class="t2" x="40" y="280">one task each,</text><text class="t2" x="40" y="298">run in parallel</text>
+            <rect class="bx" x="194" y="230" width="152" height="84" rx="8"/>
+            <text class="t1" x="208" y="258">Venture</text><text class="t2" x="208" y="280">business agent:</text><text class="t2" x="208" y="298">leads, follow-ups</text>
+            <rect class="bx" x="362" y="230" width="152" height="84" rx="8"/>
+            <text class="t1" x="376" y="258">Coding agents</text><text class="t2" x="376" y="280">Claude Code, Codex,</text><text class="t2" x="376" y="298">Cursor over ACP</text>
+            <!-- extensions -->
+            <rect class="bx" x="26" y="330" width="488" height="120" rx="8"/>
+            <text class="t1" x="42" y="357">Gateway extensions I wrote</text>
+            <g>
+              <rect class="chb" x="42" y="372" width="128" height="28" rx="4"/><text class="ch" x="52" y="391">quota-guard</text>
+              <rect class="chb" x="180" y="372" width="150" height="28" rx="4"/><text class="ch" x="190" y="391">blocker-reversal</text>
+              <rect class="chb" x="340" y="372" width="122" height="28" rx="4"/><text class="ch" x="350" y="391">machine-pool</text>
+              <rect class="chb" x="42" y="408" width="88" height="28" rx="4"/><text class="ch" x="52" y="427">ops-heal</text>
+              <rect class="chb" x="140" y="408" width="110" height="28" rx="4"/><text class="ch" x="150" y="427">skill-usage</text>
+              <rect class="chb" x="260" y="408" width="156" height="28" rx="4"/><text class="ch" x="270" y="427">hindsight-memory</text>
+            </g>
+            <!-- models -->
+            <rect class="bx" x="26" y="466" width="488" height="72" rx="8"/>
+            <text class="t1" x="42" y="494">Model routing</text><text class="t2" x="42" y="517">Claude Opus and Sonnet, GPT, Grok as reviewer; set per job</text>
+            <!-- side: memory, evals -->
+            <path class="ln" d="M130 572V606" marker-start="url(#ah)" marker-end="url(#ah)"/>
+            <path class="ln" d="M410 572V606" marker-start="url(#ah)" marker-end="url(#ah)"/>
+            <rect class="bx" x="10" y="610" width="246" height="104" rx="8"/>
+            <text class="t1" x="24" y="638">Memory over MCP</text><text class="t2" x="24" y="661">openclaw-mcp server,</text><text class="t2" x="24" y="680">memory wiki, Hindsight</text><text class="t2" x="24" y="699">search</text>
+            <rect class="bx" x="284" y="610" width="246" height="104" rx="8"/>
+            <text class="t1" x="298" y="638">Evals, hill-climbing</text><text class="t2" x="298" y="661">gate case set, held-out</text><text class="t2" x="298" y="680">labels, one change</text><text class="t2" x="298" y="699">per round</text>
+            <!-- gate -->
+            <path class="gl" d="M270 572V748" marker-end="url(#ahg)"/>
+            <rect x="10" y="752" width="520" height="80" rx="8" fill="#e8cf83"/>
+            <text x="28" y="782" style="font:700 18px var(--sans);fill:#1e2a20;letter-spacing:-.02em">public-preflight gate</text>
+            <text x="28" y="806" style="font:400 14px var(--sans);fill:#2a3a2c">Email, posts, public repo writes wait for an</text>
+            <text x="28" y="823" style="font:400 14px var(--sans);fill:#2a3a2c">adversarial review and my yes on the exact text.</text>
+            <path class="gl" d="M270 832V858" marker-end="url(#ahg)"/>
+            <text class="lb" x="270" y="886" text-anchor="middle">OUTSIDE WORLD</text>
+          </svg></div>
+          <p class="hint">Swipe sideways to see the whole diagram.</p>
+          <figcaption>Gold marks the one place a person decides. Everything above it runs on its own.</figcaption>
+        </figure>
+
+        <dl class="parts">
+          <div class="part">
+            <dt>Orchestrator and sub-agents</dt>
+            <dd>The main agent plans and delegates. Sub-agents each take one task, run in parallel and report back; coding work goes to Claude Code, Codex or Cursor over ACP. Six agents are configured, including Venture, which runs the pipeline for my own business.</dd>
+          </div>
+          <div class="part">
+            <dt>Scheduled workers</dt>
+            <dd>56 scheduled jobs: a 6am digest, memory checks, nightly backup and self-repair, a nightly retro, business follow-ups at 12:30 and 17:30. Some are plain scripts with no model; the rest name the model that fits the job.</dd>
+          </div>
+          <div class="part">
+            <dt>Memory over MCP</dt>
+            <dd><code>openclaw-mcp</code> is an MCP server I wrote. It gives each approved client bounded queries over the memory wiki and active memory, limited to that client's own tool profile. A Hindsight extension adds memory search with a keyword fallback.</dd>
+          </div>
+          <div class="part">
+            <dt>Model routing</dt>
+            <dd>Each job and agent names its model, with fallbacks: Claude Opus or Sonnet for most agent work, GPT for scheduled briefs, Grok as an independent reviewer in the gate. <code>quota-guard</code> asks before a run on a provider with 5% or less of its usage window left.</dd>
+          </div>
+          <div class="part">
+            <dt>Gateway extensions</dt>
+            <dd>Plugins I wrote for the OpenClaw Gateway. <code>blocker-reversal</code> forces one more pass when an agent gives up while it still has routes of its own. <code>machine-pool</code> sends browser work to whichever paired machine has headroom. <code>ops-heal</code> turns failed cron runs into incidents; <code>skill-usage</code> logs which skills get read so unused ones can be cut.</dd>
+          </div>
+          <div class="part">
+            <dt>The <span class="gate-word">public-preflight gate</span></dt>
+            <dd>Anything in my name that leaves the system, an email, a post, a write to a public repo, is held until two things happen: I approve the exact text, and an adversarial review passes it. The agents can draft all day; they can't publish.</dd>
+          </div>
+          <div class="part">
+            <dt>Evals and hill-climbing</dt>
+            <dd>A gate, prompt or skill gets scored before a change ships. The gate has its own case set, scored below. Judges are checked against blind second labellers on held-out sets. Improvement runs change one thing per round and judge it on held-out cases.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="caps-title">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Captures</p>
+        <h2 id="caps-title">From the machine it runs on</h2>
+        <p>Terminal output from the Mac mini on 10 November 2026. Rows are filtered to the ones described, session ids are cut to eight characters and two case names are redacted. Nothing else is changed.</p>
+      </div>
+      <div class="caps">
+        <figure class="cap">
+          <div class="cap__img scroller"><img src="img/gate-refuses.png" width="1800" height="528" loading="lazy" alt="Terminal: public_preflight.py review on an email draft returns verdict owner-approval-required, with the approve command to run after the owner says yes."></div>
+          <figcaption>
+            <h3>The gate refuses a send</h3>
+            <p>An email draft goes to review before anyone has approved it. The verdict is <code>owner-approval-required</code>: no send until I've seen the exact text and said yes. Then the adversarial review still has to pass it.</p>
+            <p class="src">public_preflight.py review</p>
+          </figcaption>
+        </figure>
+        <figure class="cap">
+          <div class="cap__img scroller"><img src="img/cron-list.png" width="1720" height="912" loading="lazy" alt="Terminal: 13 of 56 scheduled jobs with cron schedule, agent, last result, model and name, including Forage cook, Daily digest, Venture follow-up pass and Autonomous retro ladder."></div>
+          <figcaption>
+            <h3>Workers on a schedule</h3>
+            <p>13 of the 56 jobs. Two agents share the scheduler, each job's last run is recorded, and the model column shows where routing happens per job.</p>
+            <p class="src">openclaw cron list</p>
+          </figcaption>
+        </figure>
+        <figure class="cap">
+          <div class="cap__img scroller"><img src="img/subagent-runs.png" width="1720" height="864" loading="lazy" alt="Terminal: sub-agent runs including climb-01 to climb-05 hill-climbing rounds, two held-out labellers on Opus and Sonnet, and restart and update traces, with status and token counts."></div>
+          <figcaption>
+            <h3>Sub-agent runs</h3>
+            <p>Each hill-climb round runs as its own sub-agent. Two labellers on different models score the same held-out set. Killed and interrupted runs stay in the record, and the round that was killed was resumed.</p>
+            <p class="src">openclaw sessions</p>
+          </figcaption>
+        </figure>
+        <figure class="cap">
+          <div class="cap__img scroller"><img src="img/gate-eval.png" width="1720" height="912" loading="lazy" alt="Terminal: the preflight gate's eval scores 10 of 11 cases. Each row shows case, expected verdict, actual verdict, ok or MISS, and the reviewer model. One approved post was killed instead of revised."></div>
+          <figcaption>
+            <h3>The gate's own eval</h3>
+            <p>Eleven cases: posts that must be killed, posts I approved that should pass or come back for revision, and held-out cases. Today it scored 10 of 11. The miss is a post I had approved that it killed: too strict, which is the safer way to be wrong.</p>
+            <p class="src">public_preflight.py eval · two held-out case names redacted</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="work-title">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Before Noesis, and beside it</p>
+        <h2 id="work-title">Client work and tools</h2>
+      </div>
+      <p class="group">Client work</p>
+      <div class="grid">
+        <article class="card">
+          <p class="who">Kraft Heinz · 2026 contract</p>
+          <h3>Technical lead, KHAI HR</h3>
+          <p>Technical lead on KHAI HR, the company's HR employee assistant: a multi-agent orchestration used by about 3,000 employees. I took over its technical direction from the integration partner that built it.</p>
+        </article>
+        <article class="card">
+          <p class="who">SC Johnson</p>
+          <h3>Production agents and the evals that gate them</h3>
+          <p>Agents in production, including a compliance agent with human review, and the evaluation pipelines each release had to pass before it shipped.</p>
+        </article>
+      </div>
+      <p class="group">Open-source tools for agent builders</p>
+      <div class="grid">
+        <article class="card">
+          <p class="who">Claude Code plugin</p>
+          <h3>claude-vantage-point</h3>
+          <p>A heads-up display above the Claude Code prompt. It shows what every agent, sub-agent and background task is doing, and gives you one queue for answering what they ask you.</p>
+          <a class="repo" href="https://github.com/Leit-motif/claude-vantage-point">github.com/Leit-motif/claude-vantage-point</a>
+        </article>
+        <article class="card">
+          <p class="who">Claude Code plugin</p>
+          <h3>agent-atlas</h3>
+          <p>One map of everything Claude Code loads before it reads your first message: instructions and their imports, settings, hooks, skills, plugins and MCP servers.</p>
+          <a class="repo" href="https://github.com/Leit-motif/agent-atlas">github.com/Leit-motif/agent-atlas</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="close" aria-labelledby="ask-title">
+    <div class="close__plate" aria-hidden="true">
+      <picture>
+        <source media="(max-width:560px)" srcset="../img/m-forest-closeup-640.webp 640w, ../img/m-forest-closeup-960.webp 960w" sizes="100vw">
+        <img src="../img/forest-closeup.webp" alt="" loading="lazy">
+      </picture>
+    </div>
+    <div class="wrap">
+      <div class="ask">
+        <p class="eyebrow" style="color:var(--gold-text)">How I work</p>
+        <h2 id="ask-title">Bring me the agent you need built</h2>
+        <p>Contract or subcontract, by the hour or by the build. I write the code myself. Evals before release, and a person signs off on anything that sends, spends or deletes.</p>
+        <p>Tell me what the agent has to do and what it can't get wrong.</p>
+        <div class="actions">
+          <a class="cta" href="mailto:amrit@amritchana.com?subject=Agent%20build">Email me about your build</a>
+          <a class="quiet" href="mailto:amrit@amritchana.com">amrit@amritchana.com</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Amrit Chana, Chicago</span>
+    <span><a href="/">amritchana.com</a> · <a href="mailto:amrit@amritchana.com">amrit@amritchana.com</a></span>
+  </div>
+</footer>
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "0be6210617e24a5f9ace4eb351dc586d"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
