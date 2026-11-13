@@ -127,20 +127,14 @@
   .pile .swap__after,.riders .swap__after{visibility:hidden}
   .flight .pile .slip{opacity:0;will-change:transform,opacity}
   .pile.is-away .slip{visibility:hidden}
-  /* Crossing slips ride in two copies. The front copy is cut out of the valley heading row (eyebrow, heading,
-     toggle), so a slip tucks in under the heading; the copy under the panels shows faintly through its glass. */
+  /* Crossing slips ride in two copies. The front copy is cut out of the valley heading row (eyebrow and
+     heading), so a slip tucks in under the heading; the copy under the panels shows faintly through its glass. */
   .riders{position:absolute;z-index:3;inset:0;pointer-events:none;clip-path:polygon(evenodd,-40px -40px,calc(100% + 40px) -40px,calc(100% + 40px) calc(100% + 40px),-40px calc(100% + 40px),-40px -40px,-50px var(--band-top,0px),calc(100% + 50px) var(--band-top,0px),calc(100% + 50px) var(--band-bottom,0px),-50px var(--band-bottom,0px))}
   .riders--under{z-index:1;clip-path:none;opacity:.4}
   .riders .slip{position:absolute;top:0;left:0;will-change:transform}
   .riders--under .slip{box-shadow:none}
 
-  /* Valley: one panel, two lanes. The toggle is neutral, because sorting is the machine's work. */
-  .sort-toggle{position:absolute;top:14px;right:18px;display:inline-flex;align-items:center;gap:8px;min-height:32px;margin:0;padding:6px 12px 6px 11px;border:1px solid rgba(244,243,237,.5);border-radius:6px;background:rgba(244,243,237,.08);color:#f4f3ed;font:600 14px/1.1 var(--sans);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color var(--dur-respond) var(--ease),border-color var(--dur-respond) var(--ease)}
-  .sort-toggle::before{content:"";position:absolute;inset:-7px -5px}
-  .sort-toggle__icon{display:grid;gap:3px;width:14px}
-  .sort-toggle__icon::before,.sort-toggle__icon::after{content:"";height:2px;border-radius:1px;background:currentColor}
-  .sort-toggle__icon::after{width:9px}
-  @media (hover:hover) and (pointer:fine){.sort-toggle:hover{background:rgba(244,243,237,.18);border-color:rgba(244,243,237,.8)}}
+  /* Valley: one panel, two lanes. It sorts itself under the scroll; there is no control to press. */
   .sorter{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--slip-gap) 14px}
   .lane-title{margin:0;color:#e9ece4;font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase}
   .lane-title--person{margin-top:8px;color:var(--gold-text)}
@@ -330,7 +324,6 @@
     .swap > span,.chip__text{font-size:16px;line-height:1.22}
     .chip{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 10px;padding:7px 12px 8px}
     .chip .tag{margin:0}
-    .sort-toggle{top:8px;right:12px}
     .flight .step--valley{padding-top:clamp(48px,8vh,72px)}
     .services{padding:34px 0 22px}
     .services .site-header{margin-bottom:22px}
@@ -360,7 +353,6 @@
     .site-footer{margin-top:22px;font-size:13px}
   }
   @media (max-width:374px){
-    .sort-toggle{position:relative;top:auto;right:auto;margin:0 0 12px}
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -460,7 +452,6 @@
         <div class="caption caption--valley">
           <p class="eyebrow">Where I take you</p>
           <h2 id="valley-title">What changes</h2>
-          <button class="sort-toggle js-only" type="button" aria-controls="sorter"><span class="sort-toggle__icon" aria-hidden="true"></span><span class="sort-toggle__text">Show the inbox</span></button>
           <div class="sorter is-sorted" id="sorter">
             <h3 class="lane-title lane-title--done" id="lane-done">Handled</h3>
             <ol class="lane lane--done" aria-labelledby="lane-done">
@@ -636,8 +627,6 @@
   const pileSlips = pileSlots.map(li => li.querySelector('.slip'));
   const tilt = pileSlots.map(li => ({ x: parseFloat(li.style.getPropertyValue('--x')) || 0, r: parseFloat(li.style.getPropertyValue('--r')) || 0 }));
   const sorter = valley.querySelector('.sorter');
-  const toggle = valley.querySelector('.sort-toggle');
-  const toggleText = toggle.querySelector('.sort-toggle__text');
   const doneSlots = [...sorter.querySelectorAll('.lane--done > li')];
   const chipSlots = [...sorter.querySelectorAll('.lane--person > li')];
   const befores = [...sorter.querySelectorAll('.swap__before')];
@@ -645,18 +634,6 @@
   const ariaHide = (el, on) => on ? el.setAttribute('aria-hidden', 'true') : el.removeAttribute('aria-hidden');
 
   let sorted = sorter.classList.contains('is-sorted');
-  let onSort = () => {};
-  const setSorted = (on, how) => {
-    sorted = on;
-    onSort(on, how);
-    if (how !== 'animate') sorter.classList.add('no-anim');
-    sorter.classList.toggle('is-sorted', on);
-    toggleText.textContent = on ? 'Show the inbox' : 'Sort it';
-    befores.forEach(el => ariaHide(el, on));
-    afters.forEach(el => ariaHide(el, !on));
-    if (how !== 'animate') { void sorter.offsetWidth; sorter.classList.remove('no-anim'); }
-    if (how === 'fade') sorter.animate([{ opacity: 0 }, { opacity: 1 }], { duration: RESPOND, easing: EASE });
-  };
   // Unsorted, each gold chip waits inside the slip it splits from.
   const placeChips = () => chipSlots.forEach(li => {
     const a = doneSlots[+li.dataset.from].getBoundingClientRect(), b = li.getBoundingClientRect();
@@ -666,10 +643,9 @@
   });
 
   if (!flight) {
-    // Reduced motion (no JS never gets here): the finished screens; the toggle swaps with a short fade.
+    // Reduced motion (no JS never gets here): the finished screens, sorted.
     placeChips();
     addEventListener('resize', placeChips, { passive: true });
-    toggle.addEventListener('click', () => setSorted(!sorted, 'fade'));
   } else {
     const steps = document.querySelector('.world__steps');
     const track = document.querySelector('.world__track');
@@ -683,10 +659,11 @@
     const frost = scenes[V].querySelector('.scene__frost'), reveal = scenes[V].querySelector('.scene__reveal');
     let sceneH = 0;
     const services = document.querySelector('.services');
-    // Paged story: five stops (the hero, the full pile, the inbox as it lands in the valley, the sorted valley, the offer).
+    // Paged story: four stops (the hero, the full pile, the sorted valley, the offer). The valley has no unsorted stop:
+    // one flick from the pile carries the slips across and sorts them, so the section always comes to rest sorted.
     // Every animation between two stops is driven by the scroll itself, so it plays while the page glides and runs
     // backwards on the way up. Nothing waits on a timer.
-    const stops = [0, 1, 2, 3, 4];
+    const stops = [0, 1, 2, 3];
     /* The pager is the browser's own scroll snap (as on the Johnny Products site): the page follows the finger,
        keeps the flick's speed and settles on the next stop. One invisible marker per stop; the last one spans
        everything below the offer, so that part scrolls freely. */
@@ -697,7 +674,7 @@
        off there, so nothing (the address bar showing or hiding, a late image) can pull the reader back up. */
     let free = false;
     const freeCheck = () => {
-      const f = scrollY > stops[4] + 4;
+      const f = scrollY > stops[stops.length - 1] + 4;
       if (f !== free) { free = f; root.classList.toggle('free-scroll', f); }
     };
     const placeSnaps = () => {
@@ -775,8 +752,8 @@
       const base = steps.getBoundingClientRect(), baseY = base.top + scrollY, cap = ridge.getBoundingClientRect();
       from = pileSlots.map(li => { const r = li.getBoundingClientRect(); return { x: r.left - base.left, y: capEnd - baseY + r.top - cap.top, w: r.width }; });
       to = doneSlots.map(li => { const r = li.getBoundingClientRect(); return { x: r.left - base.left, y: r.top - base.top, w: r.width }; });
-      // The valley heading row a crossing slip tucks in under: from the panel's top edge to below the heading and toggle.
-      const head = Math.max(...[valley.querySelector('h2'), toggle].map(el => el.getBoundingClientRect().bottom));
+      // The valley heading row a crossing slip tucks in under: from the panel's top edge to below the heading.
+      const head = valley.querySelector('h2').getBoundingClientRect().bottom;
       const vr = valley.getBoundingClientRect(), vs = getComputedStyle(valley);
       band.top = vr.top - base.top; band.bottom = head - base.top + 8; band.shift = null;
       vglass.top = vr.top - base.top;
@@ -804,7 +781,7 @@
       // The sort runs over the first 80% of the valley pin; its stop is where the last slip and the gold chips settle.
       const sortStop = Math.round(land + (vPin.end - land) * .8);
       sortA = land + 4 + vh * .02; sortB = Math.max(sortA + 1, sortStop - 2);
-      stops[0] = 0; stops[1] = Math.round(pileStop); stops[2] = Math.ceil(land) + 1; stops[3] = sortStop; stops[4] = Math.round(offer);
+      stops[0] = 0; stops[1] = Math.round(pileStop); stops[2] = sortStop; stops[3] = Math.round(offer);
       placeChips();
       valley.style.position = ''; valley.style.top = tv + 'px';
       placeSnaps();
@@ -919,7 +896,6 @@
       if (on === sorted) return;
       sorted = on;
       sorter.classList.toggle('is-sorted', on);
-      toggleText.textContent = on ? 'Show the inbox' : 'Sort it';
       befores.forEach(el => ariaHide(el, on));
       afters.forEach(el => ariaHide(el, !on));
     };
@@ -1000,10 +976,6 @@
     addEventListener('load', remeasure);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
     if ('ResizeObserver' in window) { const ro = new ResizeObserver(remeasure); ro.observe(steps); ro.observe(services); }
-    // The toggle scrolls the story: from the sorted lanes back to the inbox as it arrived, or on to the sort.
-    const goTo = top => scrollTo({ top, behavior: 'smooth' });
-    toggle.addEventListener('click', () => goTo(zone === 'valley' && sorted ? stops[2] : stops[3]));
-    toggle.addEventListener('focus', () => { if (zone !== 'valley' && toggle.matches(':focus-visible')) goTo(stops[3]); });
 
     measure();
     ys = scrollY;
